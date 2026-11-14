@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 38 38% 95%;
+    --foreground: 25 20% 12%;
+    --secondary: 38 30% 90%;
+    --cream: 38 45% 92%;
+    --ink: 25 25% 10%;
+    --sage: 145 45% 38%;
+    --forest: 150 60% 22%;
+    --terracotta: 14 65% 55%;
+    --ochre: 38 75% 58%;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-feature-settings: 'ss01', 'cv11';
+  }
+  h1, h2, h3, h4 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-optical-sizing: auto;
+    letter-spacing: -0.02em;
+  }
+}
+
+@layer utilities {
+  .font-display { font-family: 'Fraunces', Georgia, serif; font-optical-sizing: auto; }
+  .grain { position: relative; }
+  .grain::before {
+    content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0.06; mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+  .underline-wavy {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 8'><path d='M0 4 Q 12.5 0, 25 4 T 50 4 T 75 4 T 100 4' stroke='%23c0633a' stroke-width='2' fill='none'/></svg>");
+    background-repeat: repeat-x; background-position: 0 100%; background-size: 100px 8px; padding-bottom: 0.4em;
+  }
+  .ticker { animation: ticker 38s linear infinite; }
+  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .rotate-tape { transform: rotate(-2deg); }
+  .shimmer { position: relative; overflow: hidden; }
+  .shimmer::after {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(110deg, transparent 30%, hsl(0 0% 100% / 0.45) 50%, transparent 70%);
+    transform: translateX(-120%); animation: shimmer 3.2s ease-in-out infinite;
+  }
+  @keyframes shimmer { 0%, 55% { transform: translateX(-120%); } 100% { transform: translateX(120%); } }
+  .seal-spin { animation: seal-spin 24s linear infinite; }
+  @keyframes seal-spin { to { transform: rotate(360deg); } }
+}
