@@ -430,6 +430,7 @@
   .pc-old{display:inline-block;margin-left:6px;font-size:14px;font-weight:600;letter-spacing:0;color:var(--label3);text-decoration:line-through;vertical-align:baseline;}
   .cd{position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:center;gap:10px;padding:9px 16px;background:linear-gradient(90deg,#6E3FC9,#8A4FE0);color:#fff;font-size:13.5px;font-weight:600;}
   .cd b{font-size:19px;font-weight:800;letter-spacing:.02em;font-variant-numeric:tabular-nums;background:rgba(0,0,0,.25);padding:2px 10px;border-radius:8px;}
+  .app-cel{margin-top:16px;}
   .app-foto{display:block;width:100%;max-width:380px;height:auto;margin:0 auto;border-radius:20px;}
   .app-mock{margin-top:14px;background:var(--card);border-radius:24px;padding:16px;box-shadow:0 18px 36px -26px rgba(0,0,0,.4);text-align:left;}
   .app-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
@@ -554,7 +555,7 @@ const CHECKOUT_URL_BASIC = 'https://pay.cakto.com.br/u2q69xu'; // plano básico 
 const WEBHOOK_URL  = '';    // opcional: URL de automação que recebe os dados do lead
 
 // VSL: cole aqui o embed do seu player (ex.: VTurb). Vazio = mostra um espaço reservado.
-const DEV_SKIP = false;   // botão TEMPORÁRIO "ir direto para a oferta" — coloque false antes de publicar
+const DEV_SKIP = true;    // botão TEMPORÁRIO "ir direto para a oferta" — coloque false antes de publicar
 const COUNTDOWN = { minutes:10, expired:{ full:95, basic:55 } };  // contagem regressiva por visitante; ao zerar, cada plano volta ao valor original
 const CHECKOUT_URL_BASIC_EXPIRED = 'https://pay.cakto.com.br/yipd8o6';  // link do Básico com o valor original, R$ 55 (usado depois que a contagem zera)
 const CHECKOUT_URL_FULL_EXPIRED = 'https://pay.cakto.com.br/dpsvxb4';   // link do Completo com o valor original, R$ 95 (usado depois que a contagem zera)
@@ -1019,10 +1020,10 @@ function sCapture(){
 }
 
 const BONUS = [
-  {icon:'bolt',tint:'orange',name:'Plano de Resgate de 48h',img:'https://i.ibb.co/YB2nPRmf/Plano-de-resgate-de-48h-3-Me-dia.jpg',val:'R$ 37',desc:'O que comer (e o que evitar) quando o inchaço aparece com força. Um roteiro simples, hora a hora, pra atravessar os dias difíceis.'},
-  {icon:'scope',tint:'blue',name:'Roteiro da Consulta + Preparo do Teste Respiratório',img:'https://i.ibb.co/cPfbX2v/Roteiro-da-Consulta-e-Teste-Respirato-rio-4-Me-dia.jpg',val:'R$ 37',desc:'Checklist de preparo do teste e lista de perguntas pra levar ao médico, pra você chegar na consulta com clareza.'},
-  {icon:'cart',tint:'purple',name:'Guia de Mercado, Rótulos e Restaurantes',img:'https://i.ibb.co/vv6bzgDd/Guia-de-mercado-ro-tulos-e-restaurantes-1-Me-dia.jpg',val:'R$ 27',desc:'Lista de compras pronta, como identificar ingredientes escondidos nos rótulos e como pedir fora de casa sem medo.'},
-  {icon:'sun',tint:'teal',name:'Diário de Gatilhos + Hábitos Diários',img:'https://i.ibb.co/k6cYfYpW/Dia-rio-de-gatilhos-e-ha-bitos-dia-rios-2-Me-dia.jpg',val:'R$ 27',desc:'Registre sintomas e refeições pra achar seus gatilhos, e siga hábitos de apoio: intervalo entre refeições, mastigação, sono e estresse.'},
+  {icon:'bolt',tint:'orange',name:'Plano de Resgate de 48h',img:'https://i.ibb.co/KjDZsMkr/Bo-nus-1-em-vinho-e-neon-5-Me-dia.jpg',val:'R$ 37',desc:'O que comer (e o que evitar) quando o inchaço aparece com força. Um roteiro simples, hora a hora, pra atravessar os dias difíceis.'},
+  {icon:'scope',tint:'blue',name:'Roteiro da Consulta + Preparo do Teste Respiratório',img:'https://i.ibb.co/5hYjnSW4/Bo-nus-2-em-azul-petro-leo-2-Me-dia.jpg',val:'R$ 37',desc:'Checklist de preparo do teste e lista de perguntas pra levar ao médico, pra você chegar na consulta com clareza.'},
+  {icon:'cart',tint:'purple',name:'Guia de Mercado, Rótulos e Restaurantes',img:'https://i.ibb.co/n8MC4cmc/Bo-nus-3-em-terracota-queimado-1-Me-dia.jpg',val:'R$ 27',desc:'Lista de compras pronta, como identificar ingredientes escondidos nos rótulos e como pedir fora de casa sem medo.'},
+  {icon:'sun',tint:'teal',name:'Diário de Gatilhos + Hábitos Diários',img:'https://i.ibb.co/95hntW2/Bo-nus-4-com-fundo-roxo-vibrante-3-Me-dia.jpg',val:'R$ 27',desc:'Registre sintomas e refeições pra achar seus gatilhos, e siga hábitos de apoio: intervalo entre refeições, mastigação, sono e estresse.'},
 ];
 const FAQS = [
   ['Isso substitui o diagnóstico de SIBO?','Não substitui. O protocolo é um guia de apoio que pode ser usado antes ou depois do diagnóstico. Como o diagnóstico pode custar mais de R$ 1.000, muita gente começa a organizar a alimentação e a entender os próprios gatilhos enquanto investiga. Se você já tem diagnóstico, ele complementa o acompanhamento médico.'],
@@ -1078,13 +1079,7 @@ function sOffer(){
     <div class="block">
       <h2>Um aplicativo para acompanhar cada fase</h2>
       <p class="lead">No plano Completo, o protocolo vem acompanhado de um aplicativo que é o seu aliado diário: você marca o dia, registra como se sentiu e vê a evolução do reset, da estabilização e da reintrodução.</p>
-      <div class="app-mock">
-        <div class="app-top"><b>Hoje · Dia 9</b><span>Reset</span></div>
-        ${[['Reset','Dias 1 a 14',64,'g'],['Estabilização','Dias 15 a 21',0,'o'],['Reintrodução','Dias 22 a 28',0,'p']].map(f=>`<div class="app-ph"><div><b>${f[0]}</b><small>${f[1]}</small></div><div class="app-bar"><i class="${f[3]}" style="width:${f[2]}%"></i></div></div>`).join('')}
-        <div class="app-chk"><span>${ic('check')}</span>Refeições do dia marcadas</div>
-        <div class="app-chk"><span>${ic('check')}</span>Sintomas registrados</div>
-        <div class="app-chk off"><span></span>Como foi o seu dia?</div>
-      </div>
+      <img class="app-foto app-cel" src="https://i.ibb.co/JRsJxsdz/celuluar.png" alt="Aplicativo do Protocolo SIBO no celular" loading="lazy">
     </div>
 
     <div class="block">
