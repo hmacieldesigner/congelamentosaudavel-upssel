@@ -1043,17 +1043,17 @@ function sOffer(){
     <div class="cd" id="cd"><span>⏳ Seu plano personalizado está reservado por</span><b class="cdT">--:--</b></div>
     <div class="o-hero">
       <span class="chip rise">${ic('check')} Índice ${state.pct}/100 · ${L.label}</span>
-      <h1 class="rise d1">${nm?nm+', seu':'Seu'} plano de 28 dias para um <span>intestino mais leve</span></h1>
-      <p class="sub rise d2">Muito além de receitas: um programa completo pra comer melhor, entender seus gatilhos e manter o resultado.</p>
+      <h1 class="rise d1">${nm?nm+', seu':'Seu'} plano de 28 dias para um <span>intestino livre de bactérias</span></h1>
       <div class="cover-wrap rise d3" style="width:auto;height:auto"><img class="book-img" src="https://i.ibb.co/8tsMBhY/mockup-2.png" alt="Livro O Protocolo SIBO"></div>
-      <div class="mini-row rise d4">
+      <div class="o-cta-top rise d5"><button class="btn btn-primary" onclick="goPrice()">Quero meu Protocolo</button>
+      ${g?`<p class="fine">Feito pra quem quer: ${g.charAt(0).toLowerCase()+g.slice(1)}</p>`:''}</div>
+      <p class="sub rise d4">Muito além de receitas: um programa completo pra comer melhor, entender seus gatilhos e manter o resultado.</p>
+      <div class="mini-row rise d5">
         <div class="mini">${tile('bolt','orange')}Resgate</div>
         <div class="mini">${tile('scope','blue')}Consulta</div>
         <div class="mini">${tile('cart','purple')}Mercado</div>
         <div class="mini">${tile('sun','teal')}Hábitos</div>
       </div>
-      <div class="o-cta-top rise d5"><button class="btn btn-primary" onclick="goPrice()">Quero meu Protocolo</button>
-      ${g?`<p class="fine">Feito pra quem quer: ${g.charAt(0).toLowerCase()+g.slice(1)}</p>`:''}</div>
     </div>
 
     <div class="block">
