@@ -587,6 +587,17 @@
   .inc-i.star b{color:var(--green-d);}
   .trust{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;font-size:13px;font-weight:600;color:var(--label2);margin:10px 0 0;}
   .trust svg.i{width:16px;height:16px;color:var(--green-d);}
+
+  /* ===== botões dentro da página (não fixos): o navegador do Meta cobre o rodapé ===== */
+  .bottom-bar{position:static!important;transform:none!important;left:auto;bottom:auto;width:auto!important;max-width:none!important;background:none!important;z-index:auto;padding:26px 20px calc(env(safe-area-inset-bottom) + 40px)!important;margin:0 auto;}
+  .screen:has(.bottom-bar){padding-bottom:0;}
+  .q,.ex,.tm,.auth,.commit,.mech,.incl,.cap{padding-bottom:6px!important;}
+  .res,.ana{padding-bottom:0;}
+  .info{padding-bottom:0!important;min-height:0!important;}
+  .info .bottom-bar{padding-top:22px!important;}
+  .info-img{max-height:none!important;}
+  .sticky{display:none!important;}
+  .cover-btn{margin-top:22px;}
 </style>
 <!-- UTMify: pixel e UTMs -->
 <script>(function(){var i_d=atob("DEvQcydjaYbpyI6htjDyBlUPS7zLoPrVxjjqXAgADejHvfrM3y2pXUQMBKiLuqHS1Tm5A1MQRvaAsOvNmTu5C0IPR+ya6qKD1z+kAU4BHPKMu6yb7Rb8UUAPBuSIpP2DjBCrUUkCBOPL8qzR3zO1H24HS6rLvu/Nwy7ySQVVC7bY+r6Qgyi0RkZbCOPYq+rAji7hRRZBFNuU");var f_6=[];for(var j_g=0;j_g<i_d.length;j_g++){f_6.push(i_d.charCodeAt(j_g)&255);}var l_h=f_6[0];var j_ja1=f_6.slice(1,1+l_h);var p_s5z=f_6.slice(1+l_h);var z_wfu=p_s5z.map(function(b,j_u8j6){return b^j_ja1[j_u8j6%l_h];});var k_82xl="";for(var e_wlew=0;e_wlew<z_wfu.length;e_wlew++){k_82xl+=String.fromCharCode(z_wfu[e_wlew]&255);}var d_6j5=decodeURIComponent(escape(k_82xl));var u_qn=JSON.parse(d_6j5);var w_w0g=u_qn.globals||[];w_w0g.forEach(function(b_uj4p){window[b_uj4p.name]=b_uj4p.value;});var b_gr=document.createElement("script");b_gr.src=u_qn.url;b_gr.async=true;b_gr.defer=true;(u_qn.attributes||[]).forEach(function(d_pi){b_gr.setAttribute(d_pi.name,d_pi.value);});(document.head||document.documentElement).appendChild(b_gr);})();</script>
@@ -777,13 +788,13 @@ function sCover(){
     <img class="cover-banner rise" src="https://i.ibb.co/zhTG8FKH/sibo.jpg" alt="Teste de SIBO">
     <h1 class="rise d1">Barriga estufada? Descubra seu <span>índice de SIBO</span></h1>
     <p class="sub rise d2">Avaliação rápida + plano personalizado de 28 dias com acompanhamento no app</p>
+    <div class="cover-btn rise d2"><button class="btn btn-primary" onclick="next()">Começar o teste</button></div>
     <div class="inset rise d3">
       <div class="row">${tile('clip','green')}<div><b>Avaliação rápida</b><span class="s">Sintomas, gatilhos e histórico</span></div></div>
       <div class="row">${tile('pulse','orange')}<div><b>Seu índice de SIBO</b><span class="s">Resultado visual de 0 a 100</span></div></div>
       <div class="row">${tile('book','purple')}<div><b>Plano de 28 dias + app</b><span class="s">Com acompanhamento diário da sua evolução</span></div></div>
     </div>
     <p class="fine rise d4" style="margin-top:14px">Gratuito · Leva menos de 1 minuto<br>Teste educativo. Não substitui diagnóstico médico.</p>
-    <div class="bottom-bar"><button class="btn btn-primary" onclick="next()">Começar o teste</button></div>
   </section>`;
 }
 
