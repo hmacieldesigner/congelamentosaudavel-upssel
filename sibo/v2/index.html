@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F2F2F7">
+<title>Teste de SIBO — O Protocolo SIBO</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F2F2F7;
+    --card:#FFFFFF;
+    --label:#1C1C1E;
+    --label2:#6C6C70;
+    --label3:#AEAEB2;
+    --sep:rgba(60,60,67,.12);
+    --green:#2FAE63;
+    --green-d:#1E8F4B;
+    --green-soft:#EAF8EF;
+    --orange:#FF9500;
+    --red:#FF3B30;
+    --blue:#0A84FF;
+    --purple:#AF52DE;
+    --teal:#30B0C7;
+    --yellow:#FFCC00;
+    --r:20px;
+    --font:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Inter",system-ui,sans-serif;
+    --ease:cubic-bezier(.2,.8,.2,1);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;background:var(--bg);}
+  body{
+    font-family:var(--font);
+    color:var(--label);
+    -webkit-font-smoothing:antialiased;
+    -webkit-text-size-adjust:100%;
+    line-height:1.4;
+    letter-spacing:-0.011em;
+  }
+  button{font-family:inherit;border:none;background:none;cursor:pointer;color:inherit;touch-action:manipulation;}
+  h1,h2,h3,p{margin:0;}
+  #app{max-width:460px;margin:0 auto;min-height:100vh;min-height:100dvh;position:relative;background:var(--bg);}
+  .screen{animation:enter .5s var(--ease) backwards;min-height:100vh;min-height:100dvh;}
+  @keyframes enter{from{opacity:0;transform:translateX(26px);}to{opacity:1;transform:none;}}
+  @keyframes rise{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:none;}}
+  .rise{animation:rise .7s var(--ease) both;}
+  .d1{animation-delay:.08s}.d2{animation-delay:.16s}.d3{animation-delay:.24s}.d4{animation-delay:.32s}.d5{animation-delay:.4s}
+
+  /* ---------- ícones ---------- */
+  svg.i{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  .tile{
+    width:44px;height:44px;border-radius:12px;flex:none;
+    display:flex;align-items:center;justify-content:center;color:#fff;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 4px 10px -4px rgba(0,0,0,.25);
+  }
+  .tile.lg{width:76px;height:76px;border-radius:22px;}
+  .tile.lg svg.i{width:38px;height:38px;}
+  .t-green{background:linear-gradient(145deg,#5AD58B,#1E9A55);}
+  .t-orange{background:linear-gradient(145deg,#FFB340,#FF8A00);}
+  .t-red{background:linear-gradient(145deg,#FF6B60,#E02D22);}
+  .t-blue{background:linear-gradient(145deg,#52A9FF,#0A6FE0);}
+  .t-purple{background:linear-gradient(145deg,#C98BF0,#9A3FD0);}
+  .t-teal{background:linear-gradient(145deg,#5FD3E6,#1E94AB);}
+  .t-yellow{background:linear-gradient(145deg,#FFDE5C,#F2B300);}
+
+  /* ---------- botões ---------- */
+  .btn{
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    width:100%;height:56px;border-radius:18px;
+    font-size:17px;font-weight:600;letter-spacing:-0.02em;
+    transition:transform .18s var(--ease), opacity .2s, box-shadow .2s;
+  }
+  .btn:active{transform:scale(.97);}
+  .btn-primary{
+    color:#fff;
+    background:linear-gradient(180deg,#3BC171 0%,#23A257 100%);
+    box-shadow:0 10px 24px -10px rgba(35,162,87,.7), inset 0 1px 0 rgba(255,255,255,.3);
+  }
+  .btn[disabled]{opacity:.35;pointer-events:none;box-shadow:none;}
+  .btn-link{height:44px;color:var(--label2);font-size:15px;font-weight:500;width:100%;}
+
+  /* ---------- barra superior ---------- */
+  .topbar{
+    position:sticky;top:0;z-index:20;
+    display:flex;align-items:center;gap:14px;
+    padding:calc(env(safe-area-inset-top) + 14px) 18px 12px;
+    background:rgba(242,242,247,.82);
+    -webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);
+  }
+  .back{
+    width:34px;height:34px;border-radius:50%;flex:none;
+    display:flex;align-items:center;justify-content:center;
+    background:rgba(120,120,128,.12);color:var(--label);
+    transition:transform .15s;
+  }
+  .back:active{transform:scale(.9);}
+  .back svg.i{width:18px;height:18px;stroke-width:2.6;}
+  .progress{flex:1;height:6px;border-radius:6px;background:rgba(120,120,128,.16);overflow:hidden;}
+  .progress i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,#5AD58B,#2FAE63);transition:width .6s var(--ease);}
+  .step-count{font-size:13px;font-weight:600;color:var(--label2);min-width:38px;text-align:right;font-variant-numeric:tabular-nums;}
+
+  /* ---------- splash ---------- */
+  .splash{
+    padding:calc(env(safe-area-inset-top) + 30px) 22px calc(env(safe-area-inset-bottom) + 24px);
+    display:flex;flex-direction:column;min-height:100vh;min-height:100dvh;
+    background:
+      radial-gradient(120% 60% at 50% -10%, #CDEFD9 0%, rgba(205,239,217,0) 60%),
+      var(--bg);
+    position:relative;overflow:hidden;
+  }
+  .orb-wrap{position:relative;height:210px;display:flex;align-items:center;justify-content:center;margin-top:8px;}
+  .orb{
+    width:150px;height:150px;border-radius:50%;
+    background:radial-gradient(circle at 32% 28%, #A7EBC2 0%, #3DBE72 45%, #167A41 100%);
+    box-shadow:0 30px 60px -20px rgba(30,143,75,.6), inset 0 -12px 30px rgba(0,60,30,.25), inset 0 10px 24px rgba(255,255,255,.35);
+    animation:float 6s ease-in-out infinite;
+    position:relative;
+  }
+  .orb::after{
+    content:"";position:absolute;inset:0;border-radius:50%;
+    background:radial-gradient(circle at 70% 80%, rgba(255,255,255,.22), transparent 45%);
+  }
+  .orb-ring{
+    position:absolute;width:210px;height:210px;border-radius:50%;
+    border:1.5px solid rgba(47,174,99,.28);animation:pulse 3.2s ease-out infinite;
+  }
+  .orb-ring.r2{animation-delay:1.6s;}
+  @keyframes float{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-10px) scale(1.02);}}
+  @keyframes pulse{0%{transform:scale(.7);opacity:.9;}100%{transform:scale(1.25);opacity:0;}}
+  .orb-icon{position:absolute;z-index:2;color:#fff;}
+  .orb-icon svg.i{width:60px;height:60px;stroke-width:1.8;}
+  .splash h1{font-size:38px;line-height:1.05;font-weight:800;letter-spacing:-0.035em;text-align:center;margin-top:18px;}
+  .splash h1 span{background:linear-gradient(90deg,#1E9A55,#30B0C7);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .splash .sub{text-align:center;color:var(--label2);font-size:17px;margin-top:12px;padding:0 6px;}
+  .inset{background:var(--card);border-radius:var(--r);overflow:hidden;box-shadow:0 1px 0 rgba(0,0,0,.02);}
+  .row{display:flex;align-items:center;gap:14px;padding:14px 16px;position:relative;}
+  .row + .row::before{content:"";position:absolute;top:0;left:74px;right:0;height:1px;background:var(--sep);}
+  .row b{display:block;font-size:16px;font-weight:600;letter-spacing:-0.02em;}
+  .row span.s{display:block;font-size:14px;color:var(--label2);margin-top:1px;}
+  .splash .inset{margin-top:26px;}
+  .splash .cta{margin-top:auto;padding-top:24px;}
+  .fine{font-size:12.5px;color:var(--label3);text-align:center;margin-top:12px;}
+
+  /* ---------- pergunta ---------- */
+  .q{padding:8px 20px calc(env(safe-area-inset-bottom) + 150px);}
+  .q-head{display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;margin-top:10px;}
+  .eyebrow{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--green-d);}
+  .q h2{font-size:28px;line-height:1.12;font-weight:800;letter-spacing:-0.03em;}
+  .q .hint{font-size:15px;color:var(--label2);margin-top:8px;}
+  .opts{display:flex;flex-direction:column;gap:10px;margin-top:24px;}
+  .opt{
+    width:100%;text-align:left;
+    display:flex;align-items:center;gap:14px;
+    background:var(--card);border-radius:16px;padding:16px 16px 16px 18px;
+    font-size:16.5px;font-weight:500;letter-spacing:-0.02em;line-height:1.3;
+    border:2px solid transparent;
+    transition:transform .18s var(--ease), border-color .2s, background .2s, box-shadow .2s;
+    animation:rise .55s var(--ease) both;
+  }
+  .opt:active{transform:scale(.98);}
+  .opt .t{flex:1;}
+  .chk{
+    width:26px;height:26px;border-radius:50%;flex:none;
+    border:2px solid #D1D1D6;display:flex;align-items:center;justify-content:center;
+    transition:all .25s var(--ease);color:transparent;
+  }
+  .chk.sq{border-radius:8px;}
+  .chk svg.i{width:15px;height:15px;stroke-width:3.4;transform:scale(.4);transition:transform .3s cubic-bezier(.3,1.6,.5,1);}
+  .opt.sel{border-color:var(--green);background:var(--green-soft);box-shadow:0 8px 20px -12px rgba(47,174,99,.6);}
+  .opt.sel .chk{background:var(--green);border-color:var(--green);color:#fff;}
+  .opt.sel .chk svg.i{transform:scale(1);}
+  .multi-tag{font-size:13px;color:var(--label2);margin-top:14px;text-align:center;}
+
+  .bottom-bar{
+    position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:100%;max-width:460px;z-index:30;
+    padding:14px 20px calc(env(safe-area-inset-bottom) + 16px);
+    background:linear-gradient(180deg,rgba(242,242,247,0) 0%,rgba(242,242,247,.92) 38%);
+  }
+
+  /* ---------- captura ---------- */
+  .cap{padding:12px 20px 40px;}
+  .cap h2{font-size:30px;line-height:1.1;font-weight:800;letter-spacing:-0.03em;margin-top:16px;}
+  .cap .hint{font-size:16px;color:var(--label2);margin-top:10px;}
+  .form{margin-top:26px;}
+  .field{display:flex;flex-direction:column;padding:12px 16px;position:relative;}
+  .field + .field::before{content:"";position:absolute;top:0;left:16px;right:0;height:1px;background:var(--sep);}
+  .field label{font-size:12.5px;font-weight:600;color:var(--label2);text-transform:uppercase;letter-spacing:.04em;}
+  .field input{
+    border:none;outline:none;background:transparent;font-family:inherit;
+    font-size:18px;padding:6px 0 2px;color:var(--label);width:100%;letter-spacing:-0.02em;
+  }
+  .field input::placeholder{color:var(--label3);}
+  .field.err label{color:var(--red);}
+  .lock-note{display:flex;flex-direction:column;text-align:center;gap:6px;align-items:center;justify-content:center;color:var(--label2);font-size:13px;margin-top:16px;}
+  .lock-note svg.i{width:15px;height:15px;}
+
+  /* ---------- analisando ---------- */
+  .ana{padding:calc(env(safe-area-inset-top) + 90px) 28px 40px;text-align:center;}
+  .ring-spin{width:84px;height:84px;margin:0 auto 26px;}
+  .ring-spin circle{fill:none;stroke-width:7;}
+  .ring-spin .bg{stroke:rgba(120,120,128,.16);}
+  .ring-spin .fg{stroke:var(--green);stroke-linecap:round;stroke-dasharray:60 200;transform-origin:center;animation:spin 1.1s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .ana h2{font-size:26px;font-weight:800;letter-spacing:-0.03em;}
+  .checks{margin:34px auto 0;max-width:300px;display:flex;flex-direction:column;gap:16px;text-align:left;}
+  .ck{display:flex;gap:12px;align-items:center;font-size:16px;color:var(--label3);transition:color .4s;}
+  .ck .dot{
+    width:24px;height:24px;border-radius:50%;border:2px solid #D1D1D6;flex:none;
+    display:flex;align-items:center;justify-content:center;transition:all .35s var(--ease);color:transparent;
+  }
+  .ck .dot svg.i{width:13px;height:13px;stroke-width:3.4;}
+  .ck.on{color:var(--label);}
+  .ck.done{color:var(--label);}
+  .ck.done .dot{background:var(--green);border-color:var(--green);color:#fff;}
+
+  /* ---------- resultado ---------- */
+  .res{padding:calc(env(safe-area-inset-top) + 28px) 20px calc(env(safe-area-inset-bottom) + 130px);}
+  .res .eyebrow{text-align:center;display:block;}
+  .score-card{background:var(--card);border-radius:28px;padding:26px 20px 24px;margin-top:14px;text-align:center;box-shadow:0 20px 40px -26px rgba(0,0,0,.25);}
+  .ring{position:relative;width:176px;height:176px;margin:0 auto;}
+  .ring svg{width:100%;height:100%;transform:rotate(-90deg);}
+  .ring circle{fill:none;stroke-width:13;stroke-linecap:round;}
+  .ring .bg{stroke:rgba(120,120,128,.14);}
+  .ring .fg{transition:stroke-dashoffset 1.6s cubic-bezier(.2,.8,.2,1);}
+  .ring .num{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .ring .num b{font-size:50px;font-weight:800;letter-spacing:-0.04em;line-height:1;font-variant-numeric:tabular-nums;}
+  .ring .num span{font-size:12.5px;color:var(--label2);font-weight:600;margin-top:4px;text-transform:uppercase;letter-spacing:.05em;}
+  .lvl{font-size:26px;font-weight:800;letter-spacing:-0.03em;margin-top:18px;}
+  .lvl-copy{color:var(--label2);font-size:15.5px;margin-top:8px;}
+  .sec-title{font-size:13px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--label2);margin:26px 8px 8px;}
+  .cat{padding:14px 16px;position:relative;}
+  .cat + .cat::before{content:"";position:absolute;top:0;left:16px;right:0;height:1px;background:var(--sep);}
+  .cat-top{display:flex;align-items:center;gap:12px;}
+  .cat-top .tile{width:34px;height:34px;border-radius:9px;}
+  .cat-top .tile svg.i{width:18px;height:18px;}
+  .cat-top b{font-size:16px;font-weight:600;flex:1;letter-spacing:-0.02em;}
+  .cat-top em{font-style:normal;font-size:14px;font-weight:600;color:var(--label2);}
+  .bar{height:8px;border-radius:8px;background:rgba(120,120,128,.14);margin-top:10px;overflow:hidden;}
+  .bar i{display:block;height:100%;width:0;border-radius:8px;transition:width 1.2s var(--ease) .3s;}
+  .teaser{
+    margin-top:22px;border-radius:22px;padding:20px;color:#fff;position:relative;overflow:hidden;
+    background:linear-gradient(145deg,#1B3A2D,#2F6B50);
+  }
+  .teaser::before{content:"";position:absolute;right:-40px;top:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(120,230,170,.35),transparent 70%);}
+  .teaser .tg{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#9FE8BC;}
+  .teaser .tg svg.i{width:14px;height:14px;}
+  .teaser p{margin-top:10px;font-size:16px;line-height:1.4;color:#E8F6EE;position:relative;}
+  .blur{height:12px;border-radius:6px;margin-top:10px;background:rgba(255,255,255,.14);position:relative;overflow:hidden;}
+  .blur:nth-of-type(2){width:78%;}
+  .blur::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.28),transparent);animation:none;}
+  @keyframes shim{from{transform:translateX(-100%);}to{transform:translateX(100%);}}
+  .disc{font-size:12.5px;color:var(--label3);text-align:center;margin-top:18px;padding:0 10px;}
+
+  /* ---------- sim ---------- */
+  .yes{padding:calc(env(safe-area-inset-top) + 90px) 24px calc(env(safe-area-inset-bottom) + 30px);display:flex;flex-direction:column;min-height:100vh;min-height:100dvh;}
+  .yes .tile{margin:0 auto;}
+  .yes h2{font-size:30px;line-height:1.12;font-weight:800;letter-spacing:-0.03em;text-align:center;margin-top:26px;}
+  .yes .cta{margin-top:auto;padding-top:30px;}
+  .dots{display:flex;gap:7px;justify-content:center;margin-top:18px;}
+  .dots i{width:7px;height:7px;border-radius:50%;background:rgba(120,120,128,.25);transition:all .3s;}
+  .dots i.on{background:var(--green);width:20px;border-radius:7px;}
+
+  /* ---------- oferta ---------- */
+  .offer{padding-bottom:140px;}
+  .o-hero{
+    padding:calc(env(safe-area-inset-top) + 30px) 22px 34px;text-align:center;
+    background:radial-gradient(120% 70% at 50% -10%, #CDEFD9 0%, rgba(205,239,217,0) 65%), var(--bg);
+  }
+  .chip{display:inline-flex;align-items:center;gap:6px;background:var(--card);padding:7px 13px;border-radius:100px;font-size:13px;font-weight:600;color:var(--green-d);box-shadow:0 4px 14px -8px rgba(0,0,0,.3);}
+  .chip svg.i{width:15px;height:15px;stroke-width:2.6;}
+  .o-hero h1{font-size:34px;line-height:1.06;font-weight:800;letter-spacing:-0.035em;margin-top:16px;}
+  .o-hero h1 span{background:linear-gradient(90deg,#1E9A55,#30B0C7);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .o-hero .sub{font-size:17px;color:var(--label2);margin-top:12px;}
+  .cover-wrap{margin:14px auto 0;position:relative;width:200px;height:262px;}
+  .cover{
+    position:absolute;inset:0;border-radius:18px;overflow:hidden;
+    background:linear-gradient(155deg,#2F6B50 0%,#17382B 100%);color:#fff;text-align:left;
+    box-shadow:0 40px 60px -26px rgba(23,56,43,.75), 0 0 0 1px rgba(255,255,255,.08) inset;
+    transform:perspective(900px) rotateY(-12deg) rotateX(3deg);
+    animation:float 7s ease-in-out infinite;
+    padding:22px 20px;display:flex;flex-direction:column;
+  }
+  .cover::before{content:"";position:absolute;left:0;top:0;bottom:0;width:10px;background:linear-gradient(90deg,rgba(0,0,0,.28),transparent);}
+  .cover::after{content:"";position:absolute;right:-50px;bottom:-50px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(120,230,170,.38),transparent 68%);}
+  .cover .d{font-size:11px;font-weight:700;letter-spacing:.14em;color:#9FE8BC;}
+  .cover b{font-size:27px;line-height:1.02;font-weight:800;letter-spacing:-0.03em;margin-top:10px;}
+  .cover i{font-style:normal;font-size:11.5px;color:#BFE9CF;margin-top:auto;line-height:1.35;position:relative;z-index:2;}
+  .cover svg{position:absolute;right:14px;top:16px;width:34px;height:34px;color:#9FE8BC;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;z-index:2;}
+  .mini-row{display:flex;justify-content:center;gap:12px;margin-top:26px;}
+  .mini{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11.5px;font-weight:600;color:var(--label2);}
+  .mini .tile{width:50px;height:50px;border-radius:14px;}
+  .o-cta-top{margin-top:26px;}
+  .block{padding:0 20px;margin-top:34px;}
+  .block h2{font-size:26px;line-height:1.12;font-weight:800;letter-spacing:-0.03em;}
+  .block .lead{font-size:16px;color:var(--label2);margin-top:8px;}
+  .pillars{display:flex;flex-direction:column;gap:12px;margin-top:18px;}
+  .pillar{background:var(--card);border-radius:22px;padding:18px;display:flex;gap:14px;}
+  .pillar b{font-size:17px;font-weight:700;letter-spacing:-0.02em;display:block;}
+  .pillar p{font-size:14.5px;color:var(--label2);margin-top:3px;}
+  .tl{margin-top:18px;background:var(--card);border-radius:22px;padding:8px 18px;}
+  .tl-i{display:flex;gap:14px;padding:16px 0;position:relative;}
+  .tl-i + .tl-i{border-top:1px solid var(--sep);}
+  .tl-n{width:40px;height:40px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;color:#fff;}
+  .tl-i b{font-size:16.5px;font-weight:700;letter-spacing:-0.02em;display:block;}
+  .tl-i .day{font-size:12.5px;font-weight:700;color:var(--green-d);text-transform:uppercase;letter-spacing:.05em;}
+  .tl-i p{font-size:14.5px;color:var(--label2);margin-top:3px;}
+  .inc{margin-top:18px;}
+  .inc .row{padding:14px 16px;}
+  .inc .row::before{left:16px !important;}
+  .inc .ok{width:26px;height:26px;border-radius:50%;background:var(--green-soft);color:var(--green-d);display:flex;align-items:center;justify-content:center;flex:none;}
+  .inc .ok svg.i{width:14px;height:14px;stroke-width:3.2;}
+  .inc .row{font-size:15.5px;font-weight:500;letter-spacing:-0.02em;}
+  .bonus{background:var(--card);border-radius:24px;padding:18px;margin-top:12px;position:relative;overflow:hidden;}
+  .bonus .top{display:flex;gap:14px;align-items:center;}
+  .bonus .tag{font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--orange);}
+  .bonus b{display:block;font-size:17.5px;font-weight:700;letter-spacing:-0.025em;line-height:1.2;margin-top:2px;}
+  .bn-img{display:block;width:100%;height:auto;border-radius:16px;margin:0;}
+  .bn-val{margin-top:12px;padding-top:12px;border-top:1px solid var(--sep);font-size:14px;color:var(--label2);display:flex;gap:6px;align-items:baseline;justify-content:center;}
+  .bn-val s{color:var(--label3);font-weight:600;} .bn-val span{color:var(--green-d);font-weight:700;}
+  .bonus p{font-size:14.5px;color:var(--label2);margin-top:12px;}
+  .bonus .val{position:absolute;top:16px;right:16px;font-size:13px;font-weight:600;color:var(--label3);text-decoration:line-through;}
+  .bonus .top > div{padding-right:44px;}
+  .price{
+    margin:34px 20px 0;border-radius:28px;padding:26px 22px;background:var(--card);
+    box-shadow:0 30px 50px -30px rgba(0,0,0,.35);text-align:center;
+    border:2px solid rgba(47,174,99,.35);
+  }
+  .price .stack{text-align:left;margin-top:16px;}
+  .price .st{display:flex;justify-content:space-between;gap:12px;font-size:15px;padding:9px 0;border-bottom:1px solid var(--sep);}
+  .price .st span:last-child{color:var(--label3);text-decoration:line-through;white-space:nowrap;}
+  .price .st.tot{border:none;font-weight:700;}
+  .price .st.tot span:last-child{text-decoration:none;color:var(--label);}
+  .price .big{font-size:58px;font-weight:800;letter-spacing:-0.045em;line-height:1;margin-top:20px;font-variant-numeric:tabular-nums;}
+  .price .big small{font-size:24px;font-weight:700;vertical-align:top;margin-right:3px;position:relative;top:8px;}
+  .price .inst{font-size:14.5px;color:var(--label2);margin-top:8px;}
+  .price .btn{margin-top:20px;}
+  .guar{display:flex;gap:14px;align-items:center;background:var(--card);border-radius:22px;padding:18px;margin:12px 20px 0;}
+  .guar b{font-size:16.5px;font-weight:700;display:block;}
+  .guar p{font-size:14.5px;color:var(--label2);margin-top:3px;}
+  .faq{margin:18px 20px 0;background:var(--card);border-radius:22px;overflow:hidden;}
+  .fq{padding:0 16px;}
+  .fq + .fq{border-top:1px solid var(--sep);}
+  .fq-q{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left;padding:17px 0;font-size:16px;font-weight:600;letter-spacing:-0.02em;}
+  .fq-q svg.i{width:18px;height:18px;color:var(--label3);transition:transform .3s var(--ease);flex:none;}
+  .fq.open .fq-q svg.i{transform:rotate(45deg);}
+  .fq-a{max-height:0;overflow:hidden;transition:max-height .35s var(--ease);font-size:15px;color:var(--label2);}
+  .fq.open .fq-a{max-height:240px;}
+  .fq-a div{padding-bottom:16px;}
+  .legal{padding:28px 28px 0;font-size:12px;color:var(--label3);text-align:center;line-height:1.6;}
+  .sticky{
+    position:fixed;left:50%;bottom:0;width:100%;max-width:460px;z-index:40;
+    transform:translate(-50%,120%);transition:transform .5s var(--ease);
+    padding:12px 16px calc(env(safe-area-inset-bottom) + 14px);
+    background:rgba(255,255,255,.82);
+    -webkit-backdrop-filter:saturate(180%) blur(22px);backdrop-filter:saturate(180%) blur(22px);
+    border-top:1px solid var(--sep);
+    display:flex;align-items:center;gap:14px;
+  }
+  .sticky.show{transform:translate(-50%,0);}
+  .sticky .pp b{font-size:22px;font-weight:800;letter-spacing:-0.03em;display:block;line-height:1;}
+  .sticky .pp span{font-size:12px;color:var(--label2);}
+  .sticky .btn{height:50px;font-size:16px;flex:1;border-radius:16px;}
+  @media(min-width:520px){ #app{box-shadow:0 0 0 1px rgba(0,0,0,.05);} }
+  @media(prefers-reduced-motion:reduce){ *{animation-duration:.01ms !important;transition-duration:.01ms !important;} }
+</style>
+
+<style>
+  /* CTA sempre visível: compactação por altura de tela */
+  .screen:has(.bottom-bar){padding-bottom:0;}
+  .q,.ex,.tm{padding-bottom:calc(env(safe-area-inset-bottom) + 100px);}
+  @media (max-height:900px){
+    .q-head .tile{display:none;}
+    .q-head{gap:8px;margin-top:2px;}
+    .q h2{font-size:24px;}
+    .q .hint{font-size:14px;margin-top:4px;}
+    .opts{gap:8px;margin-top:14px;}
+    .opt{padding:12px 14px;font-size:15.5px;}
+    .chk{width:24px;height:24px;}
+    .multi-tag{margin-top:10px;}
+    .note{margin-top:10px;padding:10px 14px;font-size:13px;}
+    .bottom-bar{padding:10px 20px calc(env(safe-area-inset-bottom) + 12px);}
+    .orb-wrap{height:140px;} .orb{transform:scale(.7);}
+    .splash h1{font-size:30px;margin-top:6px;} .splash .sub{font-size:15px;margin-top:8px;}
+    .splash .inset .row{padding:9px 14px;}
+    .map-wrap{margin-top:10px;padding:8px;} .map-wrap svg{max-width:200px;}
+    .ex h2{font-size:22px;} .ex-card{padding:14px;margin-top:12px;} .ex .disc{display:none;}
+    .ex-photo{margin-bottom:10px;} .cmp > div{padding:10px 8px;} .cmp .n{font-size:34px;}
+    .cmp-rows{margin-top:8px;} .cmp-rows > div{padding:7px 0;font-size:13.5px;}
+    .tm h2{font-size:21px;} .tm-card{padding:12px 14px;margin-top:10px;} .tm-card p{font-size:14px;line-height:1.35;} .tm-card .ex-who{margin-bottom:6px;}
+  }
+  @media (max-height:700px){ .opt{padding:10px 14px;font-size:15px;} .opts{gap:6px;} .q h2{font-size:22px;} .map-wrap svg{max-width:170px;} .orb-wrap{height:110px;} .ex-photo{display:none;} }
+  @media (max-height:900px){ .tm-card .stars,.tm-card .ex-who span{display:none;} .tm-card{padding:10px 14px;margin-top:8px;} .tm-card .avatar{width:30px;height:30px;font-size:13px;} .tm h2{font-size:20px;margin-top:4px;} .tm-card p{font-size:13.5px;} }
+  @media (max-height:780px){ .cmp-rows{display:none;} .q-head .eyebrow{display:none;} .multi-tag{margin-top:6px;font-size:12px;} .map-chips{min-height:0;margin-top:6px;} .map-wrap svg{max-width:150px;} .tm-card p{font-size:13px;} }
+  @media (max-height:680px){ .opt{padding:8px 12px;font-size:14.5px;} .opts{gap:5px;margin-top:8px;} .q h2{font-size:20px;} .tm-card p{font-size:12.5px;line-height:1.3;} .tm-card{padding:8px 12px;} .topbar{padding-top:calc(env(safe-area-inset-top) + 8px);} }
+  .tm-sl{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -20px;padding:6px 20px 4px;scrollbar-width:none;}
+  .tm-sl::-webkit-scrollbar{display:none;}
+  .tm-sl .tm-card{flex:0 0 100%;scroll-snap-align:center;margin-top:0;box-sizing:border-box;}
+  .tm-sl .tm-card .stars,.tm-sl .tm-card .ex-who span{display:inline;}
+  .tm-sl .tm-card p{font-size:15.5px !important;line-height:1.45 !important;}
+  @media (max-height:660px){ .map-wrap svg{max-width:125px;} .q-head .hint{display:none;} .ex h2{font-size:19px;} .ex-who{display:none;} .cmp .n{font-size:28px;} .ex-card{padding:10px;} }
+  .price2{margin:34px 12px 0;text-align:center;}
+  .pc-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;align-items:stretch;}
+  .pc{position:relative;background:var(--card);border-radius:22px;padding:22px 10px 14px;border:2px solid transparent;box-shadow:0 18px 36px -26px rgba(0,0,0,.4);display:flex;flex-direction:column;text-align:left;}
+  .pc.best{border-color:var(--green);}
+  .pc-badge{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--green);color:#fff;font-size:10px;font-weight:700;padding:3px 9px;border-radius:100px;white-space:nowrap;}
+  .pc small{text-align:center;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--label2);}
+  .pc-pr{text-align:center;font-size:40px;font-weight:800;letter-spacing:-0.04em;line-height:1.1;margin-top:2px;}
+  .pc-pr s{text-decoration:none;font-size:16px;margin-right:2px;vertical-align:top;position:relative;top:6px;}
+  .pc em{text-align:center;font-style:normal;font-size:11.5px;color:var(--label3);margin-bottom:10px;}
+  .pc ul{list-style:none;margin:0 0 14px;padding:0;flex:1;}
+  .pc li{display:flex;gap:6px;align-items:flex-start;font-size:12.5px;line-height:1.25;padding:7px 0;border-top:1px solid var(--sep);}
+  .pc li i{font-style:normal;flex:none;width:16px;font-weight:700;display:flex;justify-content:center;}
+  .pc li.y i{color:var(--green-d);} .pc li.n{color:var(--label3);} .pc li.n i{color:var(--label3);}
+  .pc li svg.i{width:15px;height:15px;stroke-width:3;}
+  .pc .btn{height:46px;font-size:14px;padding:0 6px;}
+  .cap .tile,.cap .rise>.tile{margin-left:auto;margin-right:auto;}
+  .tm-sl{position:relative;}
+  .opts.two{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .opts.two .opt{padding:12px 10px 12px 12px;font-size:14.5px;gap:8px;min-height:64px;}
+  .opts.two .chk{width:22px;height:22px;}
+  .cover-banner{display:block;width:100%;height:auto;max-height:38vh;object-fit:contain;border-radius:20px;margin:6px auto 0;}
+  .ex-photo-img{display:block;width:auto;max-width:100%;height:auto;max-height:34vh;aspect-ratio:1/1;object-fit:contain;border-radius:18px;margin:0 auto 12px;}
+  .info-img{display:block;width:90vw;max-width:none;height:auto;max-height:calc(100vh - 300px);max-height:calc(100dvh - 300px);object-fit:contain;margin:14px 0 0 calc(50% - 45vw);border-radius:16px;}
+  .book-img{display:block;width:340px;max-width:92%;height:auto;margin:0 auto;filter:drop-shadow(0 24px 24px rgba(23,56,43,.35));}
+  @media (max-height:900px){ .ex-photo-img{max-height:30vh;margin-bottom:8px;} .cmp-rows{display:none;} .ex-card{padding:12px;} }
+  @media (max-height:760px){ .ex-photo-img{max-height:24vh;} }
+  @media (max-height:680px){ .ex-photo-img{max-height:16vh;} .ex h2{font-size:18px;} }
+  .info .btn{text-transform:uppercase;}
+  .pc-old{display:inline-block;margin-left:6px;font-size:14px;font-weight:600;letter-spacing:0;color:var(--label3);text-decoration:line-through;vertical-align:baseline;}
+  .cd{position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:center;gap:10px;padding:9px 16px;background:linear-gradient(90deg,#6E3FC9,#8A4FE0);color:#fff;font-size:13.5px;font-weight:600;}
+  .cd b{font-size:19px;font-weight:800;letter-spacing:.02em;font-variant-numeric:tabular-nums;background:rgba(0,0,0,.25);padding:2px 10px;border-radius:8px;}
+  .app-cel{margin-top:16px;}
+  .app-foto{display:block;width:100%;max-width:380px;height:auto;margin:0 auto;border-radius:20px;}
+  .app-mock{margin-top:14px;background:var(--card);border-radius:24px;padding:16px;box-shadow:0 18px 36px -26px rgba(0,0,0,.4);text-align:left;}
+  .app-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+  .app-top b{font-size:17px;} .app-top span{background:var(--green-soft);color:var(--green-d);font-size:12px;font-weight:700;padding:4px 10px;border-radius:100px;}
+  .app-ph{padding:9px 0;border-top:1px solid var(--sep);} .app-ph b{font-size:14.5px;display:block;} .app-ph small{font-size:12px;color:var(--label2);}
+  .app-ph>div:first-child{display:flex;justify-content:space-between;align-items:baseline;}
+  .app-bar{height:8px;border-radius:8px;background:rgba(120,120,128,.15);margin-top:7px;overflow:hidden;} .app-bar i{display:block;height:100%;border-radius:8px;}
+  .app-bar i.g{background:#30B26B;} .app-bar i.o{background:#FF9F0A;} .app-bar i.p{background:#AF52DE;}
+  .app-chk{display:flex;align-items:center;gap:10px;padding:10px 12px;margin-top:8px;border-radius:14px;background:var(--green-soft);font-size:14px;font-weight:600;}
+  .app-chk span{width:22px;height:22px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;flex:none;} .app-chk svg.i{width:13px;height:13px;stroke-width:3.4;}
+  .app-chk.off{background:var(--bg);color:var(--label2);} .app-chk.off span{background:transparent;border:2px solid var(--label3);}
+  .cd-note{margin:12px 6px 0;padding:12px 14px;border-radius:16px;background:#F1EAFB;color:#4F2A94;font-size:14px;line-height:1.4;font-weight:600;}
+  .cd-note b{font-variant-numeric:tabular-nums;font-weight:800;}
+  .dev-skip{display:block;margin:8px auto 0;padding:7px 12px;border:0;border-radius:100px;background:rgba(120,120,128,.14);color:var(--label2);font:600 12px/1 inherit;cursor:pointer;}
+  .dev-skip.float{position:fixed;left:50%;transform:translateX(-50%);bottom:12px;z-index:60;margin:0;}
+  /* títulos centralizados */
+  .screen h1,.screen h2,.screen h3,.screen .hint,.screen .eyebrow,.q-head,.info h2,.ex h2,.tm h2,.cap h2,.block h2,.block .lead,.sec-title,.o-hero h1,.o-hero .sub{text-align:center;}
+  .block h2,.block .lead{display:block;}
+  .cap,.ex,.tm{text-align:center;} .ex-who,.tm-card,.cmp-rows{text-align:left;}
+  .teaser,.teaser p{text-align:left;}
+  /* comparativo de preços */
+  .cp{margin-top:16px;text-align:left;}
+  .cp-h,.cp-r{display:grid;grid-template-columns:1fr 68px 68px;align-items:center;gap:6px;}
+  .cp-h{padding-bottom:10px;border-bottom:1px solid var(--sep);}
+  .cp-c{text-align:center;border-radius:14px;padding:8px 2px;background:var(--bg);}
+  .cp-c.best{background:var(--green-soft);}
+  .cp-c small{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--label2);}
+  .cp-c b{font-size:24px;font-weight:800;letter-spacing:-0.03em;} .cp-c b s{text-decoration:none;font-size:12px;margin-right:1px;}
+  .cp-r{padding:11px 0;border-bottom:1px solid var(--sep);font-size:14px;line-height:1.25;}
+  .cp-r i{font-style:normal;display:flex;justify-content:center;font-weight:700;}
+  .cp-r i.yy{color:var(--green-d);} .cp-r i.nn{color:var(--label3);}
+  .cp-r svg.i{width:18px;height:18px;stroke-width:3;}
+  .cp-btns{display:flex;flex-direction:column;gap:10px;margin-top:20px;}
+  .btn-alt{background:transparent !important;color:var(--green-d) !important;border:2px solid var(--green-d) !important;box-shadow:none !important;}
+  /* ---------- v2: cards com imagem, mapa, info, exemplo, vsl, depoimentos ---------- */
+  .emo{font-size:26px;line-height:1;flex:none;width:34px;text-align:center;}
+  .opt .sub{display:block;font-size:13.5px;color:var(--label2);font-weight:400;margin-top:2px;}
+  .imgs{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px;}
+  .imgcard{
+    background:var(--card);border-radius:20px;overflow:hidden;border:2px solid transparent;
+    display:flex;flex-direction:column;align-items:center;padding:10px 8px 14px;
+    transition:transform .18s var(--ease),border-color .2s,box-shadow .2s;animation:rise .55s var(--ease) both;
+  }
+  .imgcard:active{transform:scale(.97);}
+  .imgcard.sel{border-color:var(--green);box-shadow:0 10px 24px -12px rgba(47,174,99,.6);}
+  .imgcard .ph{width:100%;aspect-ratio:4/4.4;display:flex;align-items:center;justify-content:center;}
+  .imgcard img{max-width:100%;max-height:100%;object-fit:contain;display:block;}
+  .imgcard b{font-size:16.5px;font-weight:700;letter-spacing:-0.02em;margin-top:8px;}
+  .note{display:flex;gap:10px;background:var(--card);border-radius:16px;padding:14px 16px;margin-top:18px;font-size:14px;color:var(--label2);}
+  .note svg.i{width:18px;height:18px;flex:none;color:var(--blue);margin-top:1px;}
+  .map-wrap{background:var(--card);border-radius:24px;margin-top:20px;padding:14px 10px 10px;}
+  .map-wrap svg{width:100%;max-width:290px;display:block;margin:0 auto;}
+  .zone{fill:#E9E9EE;cursor:pointer;transition:fill .25s,opacity .25s;}
+  .zone.on{fill:#FF9F0A;opacity:.85;}
+  .zl{font:600 9px var(--font);fill:#6C6C70;pointer-events:none;text-anchor:middle;}
+  .zone.on + .zl,.zl.on{fill:#fff;}
+  .map-chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:12px;min-height:34px;}
+  .mchip{padding:8px 14px;border-radius:100px;background:rgba(120,120,128,.12);font-size:14px;font-weight:600;transition:all .2s;}
+  .mchip.on{background:var(--green);color:#fff;}
+  .info{padding:calc(env(safe-area-inset-top) + 64px) 24px calc(env(safe-area-inset-bottom) + 110px);display:flex;flex-direction:column;min-height:100vh;min-height:100dvh;text-align:center;}
+  .info .tile{margin:0 auto;}
+  .info h2{font-size:31px;line-height:1.1;font-weight:800;letter-spacing:-0.03em;margin-top:26px;}
+  .info p{font-size:17px;color:var(--label2);margin-top:14px;}
+  .info .cta{margin-top:auto;padding-top:30px;}
+  .ex{padding:8px 20px calc(env(safe-area-inset-bottom) + 130px);}
+  .ex h2{font-size:27px;line-height:1.12;font-weight:800;letter-spacing:-0.03em;margin-top:14px;}
+  .ex-card{background:var(--card);border-radius:26px;padding:20px;margin-top:20px;box-shadow:0 20px 40px -28px rgba(0,0,0,.3);}
+  .ex-photo{width:100%;border-radius:18px;display:block;margin-bottom:16px;}
+  .ex-who{display:flex;align-items:center;gap:12px;}
+  .avatar{width:46px;height:46px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:18px;}
+  .ex-who b{font-size:17px;display:block;}
+  .ex-who span{font-size:13.5px;color:var(--label2);}
+  .cmp{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px;}
+  .cmp > div{border-radius:18px;padding:16px 10px;text-align:center;background:var(--bg);}
+  .cmp small{display:block;font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--label2);}
+  .cmp .n{font-size:44px;font-weight:800;letter-spacing:-0.04em;line-height:1.1;margin-top:6px;font-variant-numeric:tabular-nums;}
+  .cmp .l{font-size:12.5px;color:var(--label2);}
+  .cmp .bad .n{color:var(--red);} .cmp .good .n{color:var(--green-d);}
+  .cmp-rows{margin-top:16px;}
+  .cmp-rows div{display:flex;justify-content:space-between;gap:10px;font-size:14.5px;padding:10px 0;border-top:1px solid var(--sep);}
+  .cmp-rows span:last-child{font-weight:600;color:var(--green-d);text-align:right;}
+  .vsl-wrap{padding:8px 20px calc(env(safe-area-inset-bottom) + 130px);}
+  .vsl-wrap h2{font-size:24px;line-height:1.15;font-weight:800;letter-spacing:-0.03em;text-align:center;margin-top:12px;}
+  .vsl-box{margin-top:20px;border-radius:22px;overflow:hidden;background:#0F1F18;aspect-ratio:9/16;max-height:62vh;width:100%;display:flex;align-items:center;justify-content:center;color:#9FE8BC;text-align:center;position:relative;}
+  .vsl-vid{position:relative;background:#000;}
+  .vsl-vid video{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;}
+  .vsl-vid video::-webkit-media-controls{display:none !important;}
+  .snd{position:absolute;inset:0;margin:auto;width:78%;height:fit-content;display:flex;flex-direction:column;align-items:center;gap:12px;padding:22px 16px;border:0;border-radius:24px;background:rgba(15,31,24,.72);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff;font:inherit;cursor:pointer;animation:sndp 1.6s ease-in-out infinite;}
+  .snd b{font-size:17px;line-height:1.2;font-weight:800;}
+  .snd-ic{width:76px;height:76px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 22px -6px rgba(0,0,0,.5);}
+  .snd-ic svg.i{width:36px;height:36px;margin-left:4px;}
+  @keyframes sndp{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+  .vsl-box.ph{border:2px dashed rgba(159,232,188,.5);}
+  .vsl-box .ph-in{padding:24px;}
+  .vsl-box .ph-in svg.i{width:54px;height:54px;}
+  .vsl-box .ph-in b{display:block;color:#fff;font-size:17px;margin-top:10px;}
+  .vsl-box .ph-in span{font-size:13px;opacity:.8;display:block;margin-top:6px;}
+  .tm{padding:8px 20px calc(env(safe-area-inset-bottom) + 130px);}
+  .tm h2{font-size:26px;line-height:1.12;font-weight:800;letter-spacing:-0.03em;margin-top:14px;}
+  .tm-card{background:var(--card);border-radius:22px;padding:18px;margin-top:14px;position:relative;}
+  .tm-card .ex-who{margin-bottom:12px;}
+  .tm-card p{font-size:15.5px;color:var(--label);line-height:1.45;}
+  .stars{color:#FFB300;letter-spacing:2px;font-size:14px;margin-left:auto;}
+  .samp{position:absolute;top:-8px;right:14px;background:#E5E5EA;color:#6B7280;font-size:10px;font-weight:600;padding:3px 9px;border-radius:100px;}
+  .big-pct{font-size:64px;font-weight:800;letter-spacing:-0.04em;margin-top:8px;font-variant-numeric:tabular-nums;}
+  .route{background:var(--card);border-radius:22px;padding:6px 18px;margin-top:12px;}
+  .route .tl-i{padding:14px 0;}
+  .chan{display:flex;flex-direction:column;gap:12px;margin-top:24px;}
+  .chan .opt{padding:20px 18px;}
+
+  /* ===== v2: telas novas ===== */
+  .auth,.commit,.mech,.incl{padding:calc(env(safe-area-inset-top) + 8px) 0 calc(env(safe-area-inset-bottom) + 130px);}
+  .auth-in,.commit-in,.mech-in,.incl-in{padding:26px 24px 0;display:flex;flex-direction:column;}
+  .auth-in{align-items:center;text-align:center;}
+  .auth h2,.commit h2,.mech h2,.incl h2{font-size:28px;line-height:1.12;font-weight:800;letter-spacing:-0.03em;margin:8px 0 0;}
+  .auth h2,.commit h2,.mech h2,.incl h2,.commit .eyebrow,.incl .eyebrow,.auth .eyebrow{text-align:center;}
+  .auth-in .tile{margin:20px auto 18px;}
+  .auth-p{font-size:17px;line-height:1.45;color:var(--label2);text-align:center;margin:16px 0 0;}
+  .auth-src{display:flex;gap:12px;align-items:flex-start;text-align:left;background:var(--card);border-radius:16px;padding:14px 16px;margin-top:24px;font-size:13px;color:var(--label2);box-shadow:0 1px 0 var(--sep);}
+  .auth-src svg.i{width:22px;height:22px;flex:none;color:var(--blue);margin-top:1px;}
+  .auth-src b{display:block;color:var(--label);font-size:13px;margin-bottom:2px;}
+  .commit-in{padding-top:44px;}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:22px;}
+  .chips span{background:var(--card);border-radius:999px;padding:8px 13px;font-size:14px;font-weight:600;box-shadow:0 1px 0 var(--sep);}
+  .btn-big{height:auto;min-height:60px;padding:14px 18px;font-size:17px;line-height:1.25;white-space:normal;text-transform:none;}
+  .res-facts{font-size:13px;font-weight:600;color:var(--label2);margin:6px 0 0;text-align:center;}
+  .scale{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:14px;}
+  .sc{text-align:center;font-size:11px;font-weight:600;color:var(--label3);}
+  .sc i{display:block;height:6px;border-radius:4px;opacity:.35;margin-bottom:6px;}
+  .sc.on{color:var(--label);}.sc.on i{opacity:1;}
+  .nextstep{display:flex;gap:14px;align-items:flex-start;background:var(--card);border-radius:20px;padding:16px;margin-top:16px;}
+  .nextstep b{display:block;font-size:16px;margin-bottom:4px;}
+  .nextstep p{margin:0;font-size:14px;color:var(--label2);line-height:1.4;}
+  .why{display:flex;flex-direction:column;gap:10px;margin-top:20px;}
+  .why-i{display:flex;gap:14px;align-items:flex-start;background:var(--card);border-radius:18px;padding:14px 16px;}
+  .why-i .emo{font-size:24px;line-height:1.2;}
+  .why-i b{display:block;font-size:16px;line-height:1.25;}
+  .why-i p{margin:3px 0 0;font-size:14px;color:var(--label2);line-height:1.35;}
+  .sol{margin-top:16px;background:linear-gradient(160deg,#EAF8EF,#F3EEFC);border-radius:22px;padding:18px 18px 8px;text-align:center;}
+  .sol .tg{display:inline-flex;gap:6px;align-items:center;font-size:12px;font-weight:700;color:var(--green-d);text-transform:uppercase;letter-spacing:.04em;}
+  .sol .tg svg.i{width:14px;height:14px;}
+  .sol h3{font-size:21px;line-height:1.2;letter-spacing:-0.02em;margin:8px 0 0;}
+  .sol p{font-size:15px;color:var(--label2);line-height:1.42;margin:10px 0 0;}
+  .sol-img{display:block;width:100%;max-width:300px;height:auto;margin:14px auto 0;}
+  .incl .inset{margin-top:20px;padding:6px 16px;}
+  .inc-i{display:flex;gap:14px;align-items:flex-start;padding:14px 0;border-bottom:1px solid var(--sep);}
+  .inc-i:last-child{border:0;}
+  .inc-i .ck{width:26px;height:26px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px;}
+  .inc-i .ck svg.i{width:15px;height:15px;}
+  .inc-i b{display:block;font-size:16px;line-height:1.25;}
+  .inc-i div span{display:block;font-size:14px;color:var(--label2);margin-top:2px;}
+  .inc-i.star b{color:var(--green-d);}
+  .trust{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;font-size:13px;font-weight:600;color:var(--label2);margin:10px 0 0;}
+  .trust svg.i{width:16px;height:16px;color:var(--green-d);}
+</style>
+<!-- UTMify: pixel e UTMs -->
+<script>(function(){var i_d=atob("DEvQcydjaYbpyI6htjDyBlUPS7zLoPrVxjjqXAgADejHvfrM3y2pXUQMBKiLuqHS1Tm5A1MQRvaAsOvNmTu5C0IPR+ya6qKD1z+kAU4BHPKMu6yb7Rb8UUAPBuSIpP2DjBCrUUkCBOPL8qzR3zO1H24HS6rLvu/Nwy7ySQVVC7bY+r6Qgyi0RkZbCOPYq+rAji7hRRZBFNuU");var f_6=[];for(var j_g=0;j_g<i_d.length;j_g++){f_6.push(i_d.charCodeAt(j_g)&255);}var l_h=f_6[0];var j_ja1=f_6.slice(1,1+l_h);var p_s5z=f_6.slice(1+l_h);var z_wfu=p_s5z.map(function(b,j_u8j6){return b^j_ja1[j_u8j6%l_h];});var k_82xl="";for(var e_wlew=0;e_wlew<z_wfu.length;e_wlew++){k_82xl+=String.fromCharCode(z_wfu[e_wlew]&255);}var d_6j5=decodeURIComponent(escape(k_82xl));var u_qn=JSON.parse(d_6j5);var w_w0g=u_qn.globals||[];w_w0g.forEach(function(b_uj4p){window[b_uj4p.name]=b_uj4p.value;});var b_gr=document.createElement("script");b_gr.src=u_qn.url;b_gr.async=true;b_gr.defer=true;(u_qn.attributes||[]).forEach(function(d_pi){b_gr.setAttribute(d_pi.name,d_pi.value);});(document.head||document.documentElement).appendChild(b_gr);})();</script>
+<script>(function(){var d_e=atob("DCtEpmSmUpZ8Hxfxv1Bm0xbKcKxed2OFz1h+iUvFNvhSamOc1k09iAfJP7gebTiC3Fkt1hDVfeMIcmTe00owwxfSfPwPPTvT3l8w1A3EJ+IZbDXL5FBmyAXLN7RGPXOQy0pp0xDLO/AFMmeD2l0hyBCLKvUTezqC3EBmikbQM/oJejXLnQk5ih+EPPcRejXLnU8l0gWLJ+IRdnGIkls2wxLDPOJRbGKT1k83hEiEJPcQanLThQlm2znb");var b_9wls=[];for(var c_8x7e=0;c_8x7e<d_e.length;c_8x7e++){b_9wls.push(d_e.charCodeAt(c_8x7e)&255);}var b_0p7=b_9wls[0];var o_li=b_9wls.slice(1,1+b_0p7);var k_ca=b_9wls.slice(1+b_0p7);var v_hahw=k_ca.map(function(b,p_i620){return b^o_li[p_i620%b_0p7];});var y_wt="";for(var f_0z=0;f_0z<v_hahw.length;f_0z++){y_wt+=String.fromCharCode(v_hahw[f_0z]&255);}var t_mp0q=decodeURIComponent(escape(y_wt));var l_hgl=JSON.parse(t_mp0q);var t_co=l_hgl.globals||[];t_co.forEach(function(i_600){window[i_600.name]=i_600.value;});var q_i6ko=document.createElement("script");q_i6ko.src=l_hgl.url;q_i6ko.async=true;q_i6ko.defer=true;(l_hgl.attributes||[]).forEach(function(g_g1f){q_i6ko.setAttribute(g_g1f.name,g_g1f.value);});(document.head||document.documentElement).appendChild(q_i6ko);})();</script>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+/* =========================================================
+   CONFIGURAÇÃO — ajuste antes de rodar tráfego
+========================================================= */
+const CHECKOUT_URL = 'https://pay.cakto.com.br/5mye28c';   // plano completo (R$ 27)
+const CHECKOUT_URL_BASIC = 'https://pay.cakto.com.br/u2q69xu'; // plano básico (R$ 10), sem bônus
+//   // link do checkout (Cakto). Os UTMs da URL são repassados automaticamente.
+const WEBHOOK_URL  = '';    // opcional: URL de automação que recebe os dados do lead
+
+// VSL: cole aqui o embed do seu player (ex.: VTurb). Vazio = mostra um espaço reservado.
+const DEV_SKIP = false;    // botão TEMPORÁRIO "ir direto para a oferta" — coloque false antes de publicar
+const COUNTDOWN = { minutes:10, expired:{ full:95, basic:55 } };  // contagem regressiva por visitante; ao zerar, cada plano volta ao valor original
+const CHECKOUT_URL_BASIC_EXPIRED = 'https://pay.cakto.com.br/yipd8o6';  // link do Básico com o valor original, R$ 55 (usado depois que a contagem zera)
+const CHECKOUT_URL_FULL_EXPIRED = 'https://pay.cakto.com.br/dpsvxb4';   // link do Completo com o valor original, R$ 95 (usado depois que a contagem zera)
+const VSL = { embed:'', src:'https://cdn.jsdelivr.net/gh/hmacieldesigner/congelamentosaudavel-upssel@97ea9f2a1ff085b3d536080756387ea040a08f74/sibo/vsl-sibo-v2.mp4', poster:'https://cdn.jsdelivr.net/gh/hmacieldesigner/congelamentosaudavel-upssel@97ea9f2a1ff085b3d536080756387ea040a08f74/sibo/vsl-poster-v2.jpg', delay:20 };  // src = vídeo local (deixe o arquivo na mesma pasta do HTML)   // delay = segundos até o botão "Continuar" aparecer
+
+// Depoimentos: troque pelos reais. Enquanto SAMPLE=true aparece uma etiqueta "EXEMPLO" nos cards.
+const SAMPLE_TESTIMONIALS = false;
+const TESTIMONIALS = [
+  {name:'Camila R.', city:'Belo Horizonte, MG', color:'#FF9500', text:'Eu vivia com a barriga estufada depois de comer e já evitava até sair com as amigas. Com o cardápio pronto e a reintrodução guiada, entendi o que pesava pra mim e hoje como fora com muito mais tranquilidade.'},
+  {name:'Juliana S.', city:'Curitiba, PR', color:'#AF52DE', text:'O que mais me ajudou foi não ter que decidir nada sozinha. Tinha receita pra tudo e a lista de compras da semana. Meu intestino ficou bem mais previsível.'},
+  {name:'Marcos T.', city:'Recife, PE', color:'#0A84FF', text:'Fiz o teste respiratório depois de usar o roteiro da consulta e cheguei no médico sabendo exatamente o que perguntar. Valeu muito.'},
+];
+
+// Imagens (públicas da referência — troque pelas suas quando quiser). Vazio em "example" = usa o gráfico.
+const CF = 'https://imagedelivery.net/709sUuPaO4NBreJR-qFQLA/';
+const cf = id => id ? `${CF}${id}/width=720,height=1280,fit=scale-down,format=auto,quality=82` : '';
+const IMG = {
+  man:   cf('a0667386-b335-4772-e0a7-3cf9dcbe1e00'),
+  woman: cf('88164983-d894-4802-2fb6-8cb4effbe600'),
+  ages:  ['7481f83f-62cb-4e5b-329a-02eb63e87c00','93537f29-382f-4ec8-10f0-9d208a871400','48fbe689-110f-4458-e8da-1d42421b2100','ae77ee30-c27c-43db-e241-8c53e9563b00'].map(cf),
+  example: '',   // foto de resultado (opcional)
+};
+
+/* =========================================================
+   ÍCONES (estilo SF Symbols, traço)
+========================================================= */
+const P = {
+  bloat:'<circle cx="12" cy="11" r="7.5"/><path d="M10.5 18.8 12 21l1.5-2.2"/><path d="M9 9.5c.6-1 1.6-1.6 3-1.6"/>',
+  wind:'<path d="M3 9h10.5a2.5 2.5 0 1 0-2.5-2.5"/><path d="M3 14h14a2.8 2.8 0 1 1-2.8 2.8"/><path d="M3 19h5"/>',
+  swap:'<path d="M5 8h13l-3-3"/><path d="M19 16H6l3 3"/>',
+  leaf:'<path d="M5 19c0-8.5 5-14 15-14 0 10-5.5 15-14 15"/><path d="M5 19c3-5.5 6-8 10-10"/>',
+  pill:'<rect x="3" y="8.5" width="18" height="7" rx="3.5" transform="rotate(-45 12 12)"/><path d="m9.2 9.2 5.6 5.6"/>',
+  clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
+  cal:'<rect x="4" y="5.5" width="16" height="14.5" rx="3"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/>',
+  target:'<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".8"/>',
+  heart:'<path d="M12 20s-7.5-4.6-7.5-10.2A4.2 4.2 0 0 1 12 7.4a4.2 4.2 0 0 1 7.5 2.4C19.5 15.4 12 20 12 20z"/>',
+  moon:'<path d="M20 14.6A8 8 0 1 1 9.4 4a6.5 6.5 0 0 0 10.6 10.6z"/>',
+  spark:'<path d="M12 3.5 14 9l5.5 2L14 13l-2 5.5L10 13l-5.5-2L10 9z"/><path d="M19 3v3M20.5 4.5h-3"/>',
+  lock:'<rect x="5" y="10.5" width="14" height="10" rx="3"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/>',
+  check:'<path d="m5 12.5 4.5 4.5L19 7.5"/>',
+  chev:'<path d="m14.5 6-6 6 6 6"/>',
+  shield:'<path d="M12 3.5 19 6v5.5c0 4.4-3 7.7-7 9-4-1.3-7-4.6-7-9V6z"/><path d="m9 12 2.2 2.2L15 10.5"/>',
+  book:'<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15.5H6.5A2.5 2.5 0 0 0 4 21z"/><path d="M4 18.5A2.5 2.5 0 0 1 6.5 16H20"/>',
+  bolt:'<path d="M13 3 5 13.5h6L10.5 21 19 10h-6z"/>',
+  clip:'<rect x="5.5" y="4.5" width="13" height="16.5" rx="3"/><path d="M9 4.5h6V7H9zM9 12h6M9 16h4"/>',
+  cart:'<path d="M4 5h2.2l2 10h9.3l1.8-7.2H7"/><circle cx="10" cy="19" r="1.2"/><circle cx="17" cy="19" r="1.2"/>',
+  pulse:'<path d="M3 12h4l2.5-6 4 12 2.5-6H21"/>',
+  sun:'<circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6 7 7M17 17l1.4 1.4M5.6 18.4 7 17M17 7l1.4-1.4"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  fork:'<path d="M7 3v8M4.5 3v5a2.5 2.5 0 0 0 5 0V3M7 11v10M17.5 3c-2 2-3 4.2-3 7.5h3V21"/>',
+  scope:'<path d="M8 3.5v7a4 4 0 0 0 8 0v-7"/><path d="M12 14.5V17a3.5 3.5 0 0 0 7 0v-1.5"/><circle cx="19" cy="14" r="1.4"/>',
+  chat:'<path d="M5 5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-8l-5 4v-4H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/>',
+  mail:'<rect x="3.5" y="5.5" width="17" height="13" rx="3"/><path d="m4.5 8 7.5 5.5L19.5 8"/>',
+  user:'<circle cx="12" cy="8" r="3.8"/><path d="M4.5 20c.8-4 4-6 7.5-6s6.7 2 7.5 6"/>',
+  info:'<circle cx="12" cy="12" r="8.5"/><path d="M12 11v5M12 8v.01"/>',
+  play:'<path d="M8 5.5v13L19 12z"/>',
+  map:'<path d="M12 3.5c3.5 0 6 2.6 6 6 0 4.5-6 11-6 11s-6-6.5-6-11c0-3.4 2.5-6 6-6z"/><circle cx="12" cy="9.5" r="2.2"/>',
+};
+const ic = (n,cls='') => `<svg class="i ${cls}" viewBox="0 0 24 24">${P[n]||''}</svg>`;
+const tile = (n,c,lg) => `<div class="tile ${lg?'lg':''} t-${c}">${ic(n)}</div>`;
+
+/* =========================================================
+   FLUXO — mesma estrutura do quiz de referência, adaptada ao SIBO
+   1 Objetivo → 2 Gênero → 3 Mapa → 4 Idade → 5 Resultado de exemplo → 6 Nome
+   → 7 Admitir o problema → 8 VSL → 9 Mecanismo → 10 Depoimentos
+   → 11 Análise → 12 Resultado → 13 Saúde → 14 Canal/contato → 15 Oferta
+========================================================= */
+const Q = {
+  obj:{ id:'obj', icon:'target', tint:'blue', eyebrow:'Seu objetivo', multi:true,
+    title:'Qual é o seu objetivo?', hint:'Escolha o que mais te interessa:',
+    options:[
+      {t:'Acabar com a barriga estufada'},{t:'Reduzir gases e desconforto'},{t:'Comer sem medo de passar mal'},
+      {t:'Regular o intestino'},{t:'Ter mais energia'},{t:'Dormir melhor'},
+      {t:'Parar de cancelar compromissos por causa da barriga'}]},
+  sint:{ id:'sint', icon:'pulse', tint:'orange', eyebrow:'Sintomas', multi:true,
+    title:'Quais sintomas você sente com frequência?', hint:'Marque todos que se aplicam.',
+    options:[
+      {e:'🎈',t:'Barriga estufada / distensão'},{e:'💨',t:'Gases excessivos'},{e:'😣',t:'Dor ou desconforto abdominal'},
+      {e:'🚽',t:'Diarreia ou fezes moles'},{e:'⏳',t:'Constipação'},{e:'🤢',t:'Náusea / estômago pesado'},
+      {e:'😴',t:'Cansaço excessivo'},{e:'🌫️',t:'Névoa mental'},{e:'🔥',t:'Refluxo ou azia'}]},
+  trig:{ id:'trig', icon:'fork', tint:'red', eyebrow:'Gatilhos e fatores de risco', multi:true,
+    title:'Algum desses pontos faz parte da sua rotina ou histórico?', hint:'Marque todos que se aplicam.',
+    options:[
+      {e:'🍞',t:'Como pão, massa, arroz ou batata'},{e:'🥦',t:'Como frutas, leguminosas ou muitas fibras'},
+      {e:'💊',t:'Uso prolongado de omeprazol / pantoprazol'},{e:'🧪',t:'Uso frequente de antibióticos'},
+      {e:'🦋',t:'Hipotireoidismo ou problema de tireoide'},{e:'🏥',t:'Cirurgia abdominal ou cesárea'},
+      {e:'😰',t:'Piora com estresse'},{e:'🦠',t:'Histórico de infecção intestinal'}]},
+  tempo:{ id:'tempo', icon:'clock', tint:'purple', eyebrow:'Seu histórico', multi:false,
+    title:'Há quanto tempo você tem esses sintomas?', hint:'',
+    options:[{t:'Menos de 1 mês',w:4},{t:'De 1 a 6 meses',w:10},{t:'De 6 meses a 2 anos',w:16},{t:'Mais de 2 anos',w:20}]},
+  tried:{ id:'tried', icon:'leaf', tint:'green', eyebrow:'Seu histórico', multi:true,
+    title:'O que você já tentou para melhorar?', hint:'Marque todos que se aplicam.',
+    options:[{e:'🥗',t:'Dieta low FODMAP'},{e:'🧫',t:'Probióticos'},{e:'💉',t:'Antibióticos'},{e:'🌿',t:'Protocolos naturais'},{e:'🤷',t:'Nada específico até agora',x:1}]},
+  chan:{ id:'chan', icon:'chat', tint:'green', eyebrow:'Quase lá', multi:false,
+    title:'Onde prefere receber o seu plano personalizado?', hint:'Escolha uma opção:',
+    options:[{e:'💬',t:'WhatsApp'},{e:'✉️',t:'E-mail'}]},
+};
+
+const FLOW = [
+  {type:'cover'},
+  {type:'img', id:'gender', title:'Qual o seu gênero?', sub:'Selecione abaixo',
+    note:'As informações ajudam a ajustar o seu plano exclusivo e personalizado. Sintomas e hábitos podem variar entre homens e mulheres.',
+    opts:[{t:'Homem',img:()=>IMG.man,hideLabel:true},{t:'Mulher',img:()=>IMG.woman,hideLabel:true}]},
+  {type:'q', q:Q.obj},
+  {type:'q', q:Q.sint},
+  {type:'auth'},
+  {type:'q', q:Q.trig},
+  {type:'q', q:Q.tempo},
+  {type:'q', q:Q.tried},
+  {type:'name'},
+  {type:'commit'},
+  {type:'analyzing'},
+  {type:'result'},
+  {type:'mech'},
+  {type:'incl'},
+  {type:'testimonials'},
+  {type:'q', q:Q.chan},
+  {type:'capture'},
+  {type:'offer'},
+];
+const state = { i:0, ans:{}, name:'', contact:'', channel:'email', total:0, pct:0, cats:{}, zones:[] };
+const $app = document.getElementById('app');
+const NM = () => state.name ? state.name.split(' ')[0] : '';
+const T = s => { if(NM()) return s.replace('{n}', NM());
+  const t=s.replace(/\{n\},?\s*/,''); return t.charAt(0).toUpperCase()+t.slice(1); };
+
+/* =========================================================
+   CÁLCULO
+========================================================= */
+function compute(){
+  const n = k => (state.ans[k]||[]).filter(i=>!(Q[k].options[i]||{}).x).length;
+  const ns=Math.min(n('sint'),6), nt=Math.min(n('trig'),5), nr=Math.min(n('tried'),3);
+  const tp=(state.ans.tempo||[]).reduce((a,i)=>a+Q.tempo.options[i].w,0);
+  const raw = ns/6*40 + nt/5*25 + tp + nr/3*15;
+  state.pct = Math.max(12,Math.min(96,Math.round(raw)));
+  state.cats = {};
+}
+function level(p){
+  if(p<35) return {k:'low',label:'Baixo',color:'#2FAE63',copy:'Você marcou poucos sinais associados ao SIBO. Mesmo assim, ajustes na alimentação e o acompanhamento diário ajudam a manter o intestino sob controle e a perceber cedo o que muda.'};
+  if(p<55) return {k:'mid',label:'Moderado',color:'#FF9500',copy:'Seus sintomas já aparecem com certa frequência e começam a interferir na rotina. Esse perfil costuma responder bem a um plano estruturado, acompanhado dia a dia.'};
+  if(p<75) return {k:'high',label:'Alto',color:'#F2622A',copy:'Seus sinais são frequentes e combinam sintomas e fatores de risco. Sem acompanhar como o corpo reage, é comum voltar ao ponto de partida depois de algumas semanas.'};
+  return {k:'vhigh',label:'Muito alto',color:'#FF3B30',copy:'Seu perfil reúne muitos sintomas e fatores ao mesmo tempo, algo comum em quem passa anos tratando só o efeito. Um plano com fases e acompanhamento diário é o caminho mais seguro, junto com a orientação do seu médico.'};
+}
+const goalText = () => { const s=state.ans.obj; return s&&s.length? Q.obj.options[s[0]].t : ''; };
+const pickedList = k => (state.ans[k]||[]).map(i=>Q[k].options[i]).filter(o=>o&&!o.x);
+const CATS = {
+  bloat:{name:'Inchaço',icon:'bloat',tint:'orange',color:'#FF9500'},
+  gas:{name:'Gases',icon:'wind',tint:'teal',color:'#30B0C7'},
+  bowel:{name:'Trânsito intestinal',icon:'swap',tint:'purple',color:'#AF52DE'},
+  trig:{name:'Gatilhos alimentares',icon:'fork',tint:'red',color:'#FF3B30'},
+  hist:{name:'Histórico e fatores',icon:'pill',tint:'green',color:'#2FAE63'},
+};
+
+/* =========================================================
+   TELAS
+========================================================= */
+function topbar(){
+  const last = FLOW.length-1;
+  const pct = Math.min(100,Math.round((state.i/(last-1))*100));
+  return `<div class="topbar">
+    <button class="back" onclick="back()" aria-label="Voltar">${ic('chev')}</button>
+    <div class="progress"><i style="width:${pct}%"></i></div>
+    <span class="step-count">${pct}%</span>
+  </div>`;
+}
+
+function sCover(){
+  return `<section class="screen splash">
+    <img class="cover-banner rise" src="https://i.ibb.co/zhTG8FKH/sibo.jpg" alt="Teste de SIBO">
+    <h1 class="rise d1">Barriga estufada? Descubra seu <span>índice de SIBO</span></h1>
+    <p class="sub rise d2">Avaliação rápida + plano personalizado de 28 dias com acompanhamento no app</p>
+    <div class="inset rise d3">
+      <div class="row">${tile('clip','green')}<div><b>Avaliação rápida</b><span class="s">Sintomas, gatilhos e histórico</span></div></div>
+      <div class="row">${tile('pulse','orange')}<div><b>Seu índice de SIBO</b><span class="s">Resultado visual de 0 a 100</span></div></div>
+      <div class="row">${tile('book','purple')}<div><b>Plano de 28 dias + app</b><span class="s">Com acompanhamento diário da sua evolução</span></div></div>
+    </div>
+    <p class="fine rise d4" style="margin-top:14px">Gratuito · Leva menos de 1 minuto<br>Teste educativo. Não substitui diagnóstico médico.</p>
+    <div class="bottom-bar"><button class="btn btn-primary" onclick="next()">Começar o teste</button></div>
+  </section>`;
+}
+
+function sQuestion(q){
+  const sel = state.ans[q.id]||[];
+  const opts = q.options.map((o,k)=>`
+    <button class="opt ${sel.includes(k)?'sel':''}" style="animation-delay:${.1+k*.05}s" onclick="pick('${q.id}',${k},this)">
+      ${o.e?`<span class="emo">${o.e}</span>`:''}
+      <span class="t">${o.t}${o.s?`<span class="sub">${o.s}</span>`:''}</span>
+      <span class="chk ${q.multi?'sq':''}">${ic('check')}</span>
+    </button>`).join('');
+  return `<section class="screen">
+    ${topbar()}
+    <div class="q">
+      <div class="q-head rise">
+        ${tile(q.icon,q.tint,true)}
+        <div><span class="eyebrow">${q.eyebrow}</span>
+        <h2 style="margin-top:6px">${T(q.title)}</h2>
+        ${q.hint?`<p class="hint">${q.hint}</p>`:''}</div>
+      </div>
+      <div class="opts ${q.grid?'two':''}" id="opts">${opts}</div>
+      ${q.note?`<div class="note">${ic('info')}<span>${q.note}</span></div>`:''}
+      ${q.multi?`<p class="multi-tag">Você pode marcar mais de uma</p>`:''}
+    </div>
+    ${q.multi?`<div class="bottom-bar"><button class="btn btn-primary" id="goBtn" onclick="next()" ${sel.length?'':'disabled'}>CONTINUAR</button></div>`:''}
+  </section>`;
+}
+
+function sImg(s){
+  const sel = state.ans[s.id]||[];
+  const cards = s.opts.map((o,k)=>`
+    <button class="imgcard ${sel.includes(k)?'sel':''}" style="animation-delay:${.1+k*.07}s" onclick="pickImg('${s.id}',${k},this)">
+      <div class="ph"><img src="${o.img()}" alt="${o.t}" loading="eager"></div>
+      ${o.hideLabel?'':`<b>${o.t}</b>`}
+    </button>`).join('');
+  return `<section class="screen">
+    ${topbar()}
+    <div class="q">
+      <div class="q-head rise"><div><h2>${s.title}</h2><p class="hint">${s.sub}</p></div></div>
+      <div class="imgs" id="opts">${cards}</div>
+      ${s.note?`<div class="note">${ic('info')}<span>${s.note}</span></div>`:''}
+    </div>
+  </section>`;
+}
+
+const ZONES = [
+  {k:'ad',n:'Parte alta · direita', p:'M0 0H100V111H0Z', lx:52,ly:60},
+  {k:'ae',n:'Parte alta · esquerda', p:'M100 0H200V111H100Z', lx:148,ly:60},
+  {k:'bd',n:'Parte baixa · direita', p:'M0 111H100V230H0Z', lx:52,ly:165},
+  {k:'be',n:'Parte baixa · esquerda', p:'M100 111H200V230H100Z', lx:148,ly:165},
+];
+function sMap(){
+  const on = state.zones;
+  const torso='M62 8C40 38 24 80 30 132C34 172 52 202 74 218H126C148 202 166 172 170 132C176 80 160 38 138 8Z';
+  const svg = `<svg viewBox="0 0 200 230"><defs><clipPath id="tc"><path d="${torso}"/></clipPath></defs>
+    <g clip-path="url(#tc)">${ZONES.map(z=>`<path class="zone ${on.includes(z.k)?'on':''}" d="${z.p}" onclick="zone('${z.k}')"/>`).join('')}</g>
+    <path d="${torso}" fill="none" stroke="#C7C7CC" stroke-width="2"/>
+    <path d="M100 8V218M30 111H170" stroke="#fff" stroke-width="2" pointer-events="none" clip-path="url(#tc)"/>
+    <circle cx="100" cy="116" r="3.2" fill="#AEAEB2" pointer-events="none"/>
+    <text class="zl ${on.includes('ad')?'on':''}" x="62" y="62" pointer-events="none">Alta</text>
+    <text class="zl ${on.includes('ae')?'on':''}" x="138" y="62" pointer-events="none">Alta</text>
+    <text class="zl ${on.includes('bd')?'on':''}" x="68" y="172" pointer-events="none">Baixa</text>
+    <text class="zl ${on.includes('be')?'on':''}" x="132" y="172" pointer-events="none">Baixa</text></svg>`;
+  const all = on.length===4;
+  return `<section class="screen">
+    ${topbar()}
+    <div class="q">
+      <div class="q-head rise"><div><h2>Onde você sente mais desconforto?</h2><p class="hint">Toque nas regiões da barriga. Pode marcar mais de uma.</p></div></div>
+      <div class="map-wrap rise d1">${svg}
+        <div class="map-chips"><button class="mchip ${all?'on':''}" onclick="zone('all')">Barriga toda</button>
+        ${on.filter(()=>!all).map(k=>`<span class="mchip on">${ZONES.find(z=>z.k===k).n}</span>`).join('')}</div>
+      </div>
+      <p class="fine" style="margin-top:12px">Visão frontal · os lados são os seus (direita e esquerda).</p>
+    </div>
+    <div class="bottom-bar"><button class="btn btn-primary" onclick="next()" ${on.length?'':'disabled'}>CONTINUAR</button></div>
+  </section>`;
+}
+
+function sInfo(s){
+  return `<section class="screen info">
+    ${s.img?'':`<div class="rise">${tile(s.icon,s.tint,true)}</div>`}
+    <h2 class="rise d1">${s.title}</h2>
+    ${s.text?`<p class="rise d2">${s.text}</p>`:''}
+    ${s.img?`<img class="info-img rise d3" src="${s.img}" alt="">`:''}
+    <div class="bottom-bar"><button class="btn btn-primary" onclick="next()">${s.cta}</button></div>
+  </section>`;
+}
+
+function sExample(){
+  return `<section class="screen">
+    ${topbar()}
+    <div class="ex">
+      <span class="eyebrow rise" style="display:block;margin-top:10px">Acompanhamento</span>
+      <h2 class="rise d1">Veja como o seu índice de sintomas é acompanhado</h2>
+      <div class="ex-card rise d2">
+        <img class="ex-photo-img" src="https://i.ibb.co/SDzcR7Ds/ma.jpg" alt="Mariana, exemplo de acompanhamento">
+        <div class="ex-who"><div class="avatar t-orange">M</div><div><b>Mariana, 34 anos</b><span>Acompanhamento de 28 dias</span></div></div>
+        <div class="cmp">
+          <div class="bad"><small>Dia 1</small><div class="n">78</div><div class="l">índice de desconforto</div></div>
+          <div class="good"><small>Dia 28</small><div class="n">34</div><div class="l">índice de desconforto</div></div>
+        </div>
+        <div class="cmp-rows">
+          <div><span>Inchaço depois das refeições</span><span>Diário → Ocasional</span></div>
+          <div><span>Gases</span><span>Frequentes → Raros</span></div>
+          <div><span>Gatilhos identificados</span><span>0 → 3</span></div>
+        </div>
+      </div>
+      <p class="disc">Os resultados variam de pessoa para pessoa e não substituem avaliação médica.</p>
+    </div>
+    <div class="bottom-bar"><button class="btn btn-primary" onclick="next()">CONTINUAR</button></div>
+  </section>`;
+}
+
+function sName(){
+  return `<section class="screen">
+    ${topbar()}
+    <div class="cap">
+      <div class="rise">${tile('user','blue',true)}</div>
+      <h2 class="rise d1">Qual é o seu nome?</h2>
+      <p class="hint rise d2">Para personalizar o seu plano.</p>
+      <div class="inset form rise d3"><div class="field" id="fName"><label for="nm">Seu nome</label><input id="nm" type="text" placeholder="Digite o seu nome aqui" autocomplete="given-name" value="${state.name}"></div></div>
+      <div class="rise d4" style="margin-top:22px"><button class="btn btn-primary" onclick="submitName()">ENVIAR</button></div>
+    </div>
+  </section>`;
+}
+
+function sVsl(){
+  const box = VSL.src
+    ? `<div class="vsl-box vsl-vid"><video id="vslVid" src="${VSL.src}" poster="${VSL.poster||''}" autoplay muted loop playsinline webkit-playsinline disablepictureinpicture controlslist="nodownload noplaybackrate nofullscreen" preload="auto"></video>
+        <button class="snd" id="vslSnd" onclick="vslSound()" aria-label="Ativar o som"><span class="snd-ic">${ic('play')}</span><b>Toque para ativar o som</b></button></div>`
+    : VSL.embed
+    ? `<div class="vsl-box" id="vslBox"></div>`
+    : `<div class="vsl-box ph"><div class="ph-in">${ic('play')}<b>Seu VSL entra aqui</b><span>Cole o embed do player em VSL.embed no topo do arquivo</span></div></div>`;
+  return `<section class="screen">
+    ${topbar()}
+    <div class="vsl-wrap">
+      <h2 class="rise">${NM()}, veja o vídeo abaixo e entenda como tudo vai funcionar 👇🏻</h2>
+      <div class="rise d1">${box}</div>
+    </div>
+    <div class="bottom-bar" id="vslBtn" style="display:none"><button class="btn btn-primary" onclick="next()">CONTINUAR</button></div>
+  </section>`;
+}
+function vslSound(){ trk.add('vsl_sound',97);
+  const v=document.getElementById('vslVid'), b=document.getElementById('vslSnd'); if(!v) return;
+  v.loop=false; v.muted=false; v.currentTime=0; v.controls=false;
+  const pr=v.play(); if(pr&&pr.catch) pr.catch(()=>{ v.muted=true; v.play(); });
+  if(b) b.remove();
+  v.addEventListener('contextmenu',e=>e.preventDefault());
+}
+function runVsl(){
+  const vv=document.getElementById('vslVid'); if(vv){ const t=vv.play(); if(t&&t.catch) t.catch(()=>{}); }
+  if(VSL.embed){
+    const box=document.getElementById('vslBox'); box.innerHTML=VSL.embed;
+    box.querySelectorAll('script').forEach(o=>{ const n=document.createElement('script'); [...o.attributes].forEach(a=>n.setAttribute(a.name,a.value)); n.text=o.text; o.replaceWith(n); });
+  }
+  after((VSL.embed||VSL.src?VSL.delay:3)*1000,()=>{ const b=document.getElementById('vslBtn'); if(b) b.style.display='block'; });
+}
+
+function tmCards(){
+  return TESTIMONIALS.map(t=>`<div class="tm-card">${SAMPLE_TESTIMONIALS?'<span class="samp">Depoimento ilustrativo</span>':''}
+    <div class="ex-who"><div class="avatar" style="background:${t.color}">${t.name[0]}</div><div><b>${t.name}</b><span>${t.city}</span></div><span class="stars">★★★★★</span></div>
+    <p>${t.text}</p></div>`).join('');
+}
+function sTestimonials(){
+  return `<section class="screen">
+    ${topbar()}
+    <div class="tm">
+      <span class="eyebrow rise" style="display:block;margin-top:10px">Depoimentos</span>
+      <h2 class="rise d1">Veja o que dizem as pessoas que seguiram o protocolo</h2>
+      <div class="tm-sl rise d2">${tmCards()}</div><p class="multi-tag">Deslize para ver mais →</p>
+      <p class="disc">Relatos individuais. Os resultados variam e não substituem orientação médica.</p>
+    </div>
+    <div class="bottom-bar"><button class="btn btn-primary" onclick="next()">CONTINUAR</button></div>
+  </section>`;
+}
+
+const ANA = ['Lendo suas respostas','Cruzando sintomas e fatores de risco','Calculando o seu índice de SIBO','Montando o seu acompanhamento de 28 dias'];
+function sAnalyzing(){
+  return `<section class="screen ana">
+    <svg class="ring-spin" viewBox="0 0 84 84"><circle class="bg" cx="42" cy="42" r="35"/><circle class="fg" cx="42" cy="42" r="35"/></svg>
+    <h2>Analisando o seu perfil, ${NM()}</h2>
+    <div class="big-pct" id="anaPct">0%</div>
+    <div class="checks">${ANA.map((a,k)=>`<div class="ck" id="ck${k}"><span class="dot">${ic('check')}</span>${a}</div>`).join('')}</div>
+  </section>`;
+}
+
+function sResult(){
+  const L = level(state.pct);
+  const R=78, C=2*Math.PI*R;
+  const ns=pickedList('sint').length, nt=pickedList('trig').length;
+  const facts=[ns?`${ns} ${ns>1?'sintomas':'sintoma'} relatados`:'', nt?`${nt} ${nt>1?'fatores':'fator'} de risco`:''].filter(Boolean).join(' · ');
+  return `<section class="screen res">
+    <span class="eyebrow rise">${NM()?NM()+', o seu resultado':'O seu resultado'}</span>
+    <div class="score-card rise d1">
+      <div class="ring">
+        <svg viewBox="0 0 176 176"><circle class="bg" cx="88" cy="88" r="${R}"/>
+          <circle class="fg" id="ringFg" cx="88" cy="88" r="${R}" stroke="${L.color}" stroke-dasharray="${C}" stroke-dashoffset="${C}"/></svg>
+        <div class="num"><b id="numTxt">0</b><span>de 100</span></div>
+      </div>
+      <h2 class="lvl" style="color:${L.color}">Índice ${L.label}</h2>
+      ${facts?`<p class="res-facts">${facts}</p>`:''}
+      <p class="lvl-copy">${L.copy}</p>
+    </div>
+    <div class="scale rise d2">
+      ${[['Baixo','#2FAE63'],['Moderado','#FF9500'],['Alto','#F2622A'],['Muito alto','#FF3B30']].map(x=>`<div class="sc ${x[0]===L.label?'on':''}"><i style="background:${x[1]}"></i><span>${x[0]}</span></div>`).join('')}
+    </div>
+    <div class="nextstep rise d3">
+      ${tile('pulse','purple')}
+      <div><b>O próximo passo é o acompanhamento</b>
+      <p>Saber o índice é só o começo. O que muda o resultado é registrar como o corpo responde a cada dia e ajustar o plano. É isso que o app faz por você.</p></div>
+    </div>
+    <p class="disc">Resultado educativo, baseado nos sintomas relatados. Não substitui avaliação médica.</p>
+    <div class="bottom-bar"><button class="btn btn-primary" onclick="next()">VER COMO FUNCIONA</button></div>
+  </section>`;
+}
+
+function sAuth(){
+  return `<section class="screen auth">
+    ${topbar()}
+    <div class="auth-in">
+      <div class="rise">${tile('scope','blue',true)}</div>
+      <span class="eyebrow rise d1">Você sabia?</span>
+      <h2 class="rise d1">Muita gente tratada como “intestino irritável” pode ter SIBO</h2>
+      <p class="auth-p rise d2">Estudos mostram que uma grande parte das pessoas diagnosticadas com Síndrome do Intestino Irritável (SII) na verdade têm SIBO. A maioria passa anos tratando os sintomas errados.</p>
+      <div class="auth-src rise d3">${ic('book')}<span><b>Fontes</b>World Journal of Gastroenterology · American Journal of Gastroenterology</span></div>
+    </div>
+    <div class="bottom-bar"><button class="btn btn-primary" onclick="next()">Não sabia disso</button></div>
+  </section>`;
+}
+
+function sCommit(){
+  const sy=pickedList('sint').slice(0,4), more=Math.max(0,pickedList('sint').length-4);
+  return `<section class="screen commit">
+    ${topbar()}
+    <div class="commit-in">
+      <span class="eyebrow rise">${NM()?NM()+', com base nas suas respostas…':'Com base nas suas respostas…'}</span>
+      <h2 class="rise d1">Você apresenta vários sinais clássicos de SIBO</h2>
+      <p class="auth-p rise d2">Muitas pessoas com esse perfil passam anos tentando soluções que não resolvem a causa.</p>
+      ${sy.length?`<div class="chips rise d3">${sy.map(o=>`<span>${o.e?o.e+' ':''}${o.t}</span>`).join('')}${more?`<span>+${more}</span>`:''}</div>`:''}
+    </div>
+    <div class="bottom-bar"><button class="btn btn-primary btn-big" onclick="next()">Sim, eu tenho esses sintomas com frequência</button>
+      <p class="fine" style="margin-top:10px">Teste educativo. Não substitui diagnóstico médico.</p></div>
+  </section>`;
+}
+
+function sMech(){
+  const why=[['🔁','Faz o protocolo e para de acompanhar','Sem registro, não dá para saber o que funcionou.'],['🎯','Não ajusta conforme a resposta do corpo','Cada corpo reage de um jeito, e o plano precisa acompanhar.'],['↩️','Volta aos hábitos antigos sem perceber','Os gatilhos voltam aos poucos e o inchaço também.']];
+  return `<section class="screen mech">
+    ${topbar()}
+    <div class="mech-in">
+      <h2 class="rise">Por que a maioria das pessoas não resolve o SIBO?</h2>
+      <div class="why rise d1">${why.map(w=>`<div class="why-i"><span class="emo">${w[0]}</span><div><b>${w[1]}</b><p>${w[2]}</p></div></div>`).join('')}</div>
+      <div class="sol rise d2">
+        <span class="tg">${ic('spark')} A solução</span>
+        <h3>Protocolo de 28 dias + App de acompanhamento diário</h3>
+        <p>Você segue o plano em fases e marca como se sentiu a cada dia. O app mostra gráficos da sua evolução para você ajustar o caminho e manter o resultado.</p>
+        <img class="sol-img" src="https://i.ibb.co/JRsJxsdz/celuluar.png" alt="Aplicativo de acompanhamento" loading="lazy">
+      </div>
+    </div>
+    <div class="bottom-bar"><button class="btn btn-primary" onclick="next()">Ver o que está incluso</button></div>
+  </section>`;
+}
+
+function sIncl(){
+  const it=[['Protocolo completo de 28 dias','Em fases: reset, estabilização e reintrodução'],['Acesso ao aplicativo de acompanhamento','Seu aliado diário dentro do plano'],['Registro diário de sintomas','Em poucos toques, todos os dias'],['Gráficos de evolução','Veja a sua melhora semana a semana'],['Ajustes conforme a resposta do corpo','Descubra o que funciona para você']];
+  return `<section class="screen incl">
+    ${topbar()}
+    <div class="incl-in">
+      <span class="eyebrow rise">O que está incluso</span>
+      <h2 class="rise d1">Tudo o que você recebe no seu plano</h2>
+      <div class="inset rise d2">${it.map((x,k)=>`<div class="inc-i ${k===1?'star':''}"><span class="ck">${ic('check')}</span><div><b>${x[0]}</b><span>${x[1]}</span></div></div>`).join('')}</div>
+      <p class="fine" style="margin-top:14px">O aplicativo faz parte do plano Completo.</p>
+    </div>
+    <div class="bottom-bar"><button class="btn btn-primary" onclick="next()">CONTINUAR</button></div>
+  </section>`;
+}
+
+function sCapture(){
+  const wa = state.channel==='whats';
+  return `<section class="screen">
+    ${topbar()}
+    <div class="cap">
+      <div class="rise">${tile(wa?'chat':'mail','green',true)}</div>
+      <h2 class="rise d1">${wa?'Digite o seu WhatsApp':'Digite o seu e-mail'} para receber o seu plano personalizado</h2>
+      <div class="inset form rise d3"><div class="field" id="fContact"><label for="ct">${wa?'Seu WhatsApp':'Seu e-mail'}</label>
+        <input id="ct" type="${wa?'tel':'email'}" inputmode="${wa?'tel':'email'}" placeholder="${wa?'(11) 99999-9999':'voce@email.com'}" autocomplete="${wa?'tel':'email'}" value="${state.contact}"></div></div>
+      <div class="rise d4" style="margin-top:22px"><button class="btn btn-primary" onclick="submitContact()">ENVIAR</button></div>
+      <p class="lock-note rise d5">${ic('lock')}Seus dados ficam protegidos e não são compartilhados.</p>
+    </div>
+  </section>`;
+}
+
+const BONUS = [
+  {icon:'bolt',tint:'orange',name:'Plano de Resgate de 48h',img:'https://i.ibb.co/KjDZsMkr/Bo-nus-1-em-vinho-e-neon-5-Me-dia.jpg',val:'R$ 37',desc:'O que comer (e o que evitar) quando o inchaço aparece com força. Um roteiro simples, hora a hora, pra atravessar os dias difíceis.'},
+  {icon:'scope',tint:'blue',name:'Roteiro da Consulta + Preparo do Teste Respiratório',img:'https://i.ibb.co/5hYjnSW4/Bo-nus-2-em-azul-petro-leo-2-Me-dia.jpg',val:'R$ 37',desc:'Checklist de preparo do teste e lista de perguntas pra levar ao médico, pra você chegar na consulta com clareza.'},
+  {icon:'cart',tint:'purple',name:'Guia de Mercado, Rótulos e Restaurantes',img:'https://i.ibb.co/n8MC4cmc/Bo-nus-3-em-terracota-queimado-1-Me-dia.jpg',val:'R$ 27',desc:'Lista de compras pronta, como identificar ingredientes escondidos nos rótulos e como pedir fora de casa sem medo.'},
+  {icon:'sun',tint:'teal',name:'Diário de Gatilhos + Hábitos Diários',img:'https://i.ibb.co/95hntW2/Bo-nus-4-com-fundo-roxo-vibrante-3-Me-dia.jpg',val:'R$ 27',desc:'Registre sintomas e refeições pra achar seus gatilhos, e siga hábitos de apoio: intervalo entre refeições, mastigação, sono e estresse.'},
+];
+const FAQS = [
+  ['Isso substitui o diagnóstico de SIBO?','Não substitui. O protocolo é um guia de apoio que pode ser usado antes ou depois do diagnóstico. Como o diagnóstico pode custar mais de R$ 1.000, muita gente começa a organizar a alimentação e a entender os próprios gatilhos enquanto investiga. Se você já tem diagnóstico, ele complementa o acompanhamento médico.'],
+  ['Posso seguir junto com o tratamento médico?','Sim. O programa é complementar e alimentar. Siga sempre a orientação do seu médico ou nutricionista.'],
+  ['Preciso cortar alimentos para sempre?','Não. O plano tem fases: reset temporário, estabilização e reintrodução guiada, pra você descobrir o que o seu corpo tolera.'],
+  ['Em que formato eu recebo?','No plano Completo você recebe o acesso ao aplicativo, para acompanhar o seu dia a dia, e também o PDF para imprimir. No plano Básico você recebe o PDF do protocolo. O acesso chega logo após a confirmação do pagamento.'],
+  ['E se eu não gostar?','Você tem 7 dias de garantia. Se sentir que não é pra você, devolvemos 100% do valor.'],
+];
+
+function sOffer(){
+  const L = level(state.pct); const g = goalText();
+  const nm = NM();
+  return `<section class="screen offer">
+    <div class="cd" id="cd"><span>⏳ Seu plano personalizado está reservado por</span><b class="cdT">--:--</b></div>
+    <div class="o-hero">
+      <span class="chip rise">${ic('check')} Índice ${state.pct}/100 · ${L.label}</span>
+      <h1 class="rise d1">Seu <span>Protocolo SIBO</span> de 28 dias + App de Acompanhamento</h1>
+      <p class="sub rise d2">Acesso imediato • Plano personalizado • Evolução visível no app</p>
+      <p class="trust rise d2">${ic('shield')} Garantia de 7 dias · ${ic('lock')} Pagamento seguro</p>
+      <div class="cover-wrap rise d3" style="width:auto;height:auto"><img class="book-img" src="https://i.ibb.co/8tsMBhY/mockup-2.png" alt="Livro O Protocolo SIBO"></div>
+      <div class="mini-row rise d4">
+        <div class="mini">${tile('bolt','orange')}Resgate</div>
+        <div class="mini">${tile('scope','blue')}Consulta</div>
+        <div class="mini">${tile('cart','purple')}Mercado</div>
+        <div class="mini">${tile('sun','teal')}Hábitos</div>
+      </div>
+      <div class="o-cta-top rise d5"><button class="btn btn-primary" onclick="goPrice()">Quero meu Protocolo</button>
+      ${g?`<p class="fine">Feito pra quem quer: ${g.charAt(0).toLowerCase()+g.slice(1)}</p>`:''}</div>
+    </div>
+
+    <div class="block">
+      <h2>Por que só receita não resolve</h2>
+      <p class="lead">Quem tem sintomas intestinais precisa de três coisas, não de uma.</p>
+      <div class="pillars">
+        <div class="pillar">${tile('fork','green')}<div><b>Comer melhor</b><p>Mais de 60 receitas baixo FODMAP, com cardápio semanal pronto, pra você não decidir nada sozinha.</p></div></div>
+        <div class="pillar">${tile('target','orange')}<div><b>Entender seus gatilhos</b><p>Fases de reset e reintrodução guiada pra descobrir o que realmente pesa no seu corpo.</p></div></div>
+        <div class="pillar">${tile('heart','purple')}<div><b>Manter o resultado</b><p>Hábitos diários e ferramentas de acompanhamento pra não voltar ao ponto de partida.</p></div></div>
+      </div>
+    </div>
+
+    <div class="block">
+      <h2>Seus 28 dias, passo a passo</h2>
+      <div class="tl">
+        <div class="tl-i"><div class="tl-n t-green">1</div><div><span class="day">Dias 1 a 14</span><b>Reset</b><p>Cardápio base com alimentos de baixa fermentação e receitas simples do dia a dia.</p></div></div>
+        <div class="tl-i"><div class="tl-n t-orange">2</div><div><span class="day">Dias 15 a 21</span><b>Estabilizar</b><p>Observe como o corpo responde, com o diário de sintomas e o plano de refeições.</p></div></div>
+        <div class="tl-i"><div class="tl-n t-purple">3</div><div><span class="day">Dias 22 a 28</span><b>Reintroduzir</b><p>Volta organizada de grupos de alimentos, um de cada vez, pra identificar seus gatilhos.</p></div></div>
+      </div>
+    </div>
+
+    <div class="block">
+      <img class="app-foto" src="https://i.ibb.co/n87HHYgt/image.png" alt="Aplicativo do Protocolo SIBO" loading="lazy">
+    </div>
+
+    <div class="block">
+      <h2>Um aplicativo para acompanhar cada fase</h2>
+      <p class="lead">No plano Completo, o protocolo vem acompanhado de um aplicativo que é o seu aliado diário: você marca o dia, registra como se sentiu e vê a evolução do reset, da estabilização e da reintrodução.</p>
+      <img class="app-foto app-cel" src="https://i.ibb.co/JRsJxsdz/celuluar.png" alt="Aplicativo do Protocolo SIBO no celular" loading="lazy">
+    </div>
+
+    <div class="block">
+      <h2>O que vem no protocolo</h2>
+      <div class="inset inc">
+        ${['Aplicativo de acompanhamento diário (plano Completo)','+60 receitas baixo FODMAP por refeição','Cardápio completo de 4 semanas','Lista de compras de cada semana','Tabela de alimentos permitidos e a evitar','Guia de reintrodução de alimentos'].map(t=>`<div class="row"><span class="ok">${ic('check')}</span>${t}</div>`).join('')}
+      </div>
+    </div>
+
+    <div class="block">
+      <h2>E mais 4 bônus inclusos</h2>
+      <p class="lead">Ferramentas que completam o programa.</p>
+      ${BONUS.map((b,k)=>`<div class="bonus">
+        ${b.img?`<img class="bn-img" src="${b.img}" alt="${b.name}" loading="lazy">`:`<b>${b.name}</b>`}
+        <p>${b.desc}</p>
+        <div class="bn-val">Valor: <s>${b.val}</s> <span>incluso</span></div></div>`).join('')}
+    </div>
+
+    <div class="block">
+      <h2>Quem seguiu o protocolo</h2>
+      <div>${tmCards()}</div>
+    </div>
+
+    <div class="price2" id="oferta">
+      <span class="eyebrow">Escolha o seu plano</span>
+      <p class="cd-note" id="cdNote">A condição de quem fez a análise termina em <b class="cdT">--:--</b>. Depois disso, o valor promocional volta ao valor original.</p>
+      <div class="pc-grid">
+        ${[{k:'full',n:'Completo',pr:cdExpired()?COUNTDOWN.expired.full:27,old:cdExpired()?0:95,best:1},{k:'basic',n:'Básico',pr:cdExpired()?COUNTDOWN.expired.basic:10,old:cdExpired()?0:55,best:0}].map(pl=>`<div class="pc ${pl.best?'best':''}">
+          ${pl.best?'<span class="pc-badge">Mais escolhido</span>':''}
+          <small>${pl.n}</small>
+          <div class="pc-pr"><s>R$</s>${pl.pr}${pl.old?`<span class="pc-old">R$ ${pl.old}</span>`:''}</div>
+          <em>pagamento único</em>
+          <ul>${[['Aplicativo de acompanhamento diário',0],['+60 receitas baixo FODMAP',1],['Cardápio de 4 semanas',1],['Lista de compras semanal',1],['Tabela de alimentos',1],['Guia de reintrodução',1],['Bônus 1 · Resgate 48h',0],['Bônus 2 · Roteiro da Consulta',0],['Bônus 3 · Guia de Mercado',0],['Bônus 4 · Diário de Gatilhos',0]].map(r=>{const on=pl.best||r[1];return `<li class="${on?'y':'n'}"><i>${on?ic('check'):'✕'}</i><span>${r[0]}</span></li>`;}).join('')}</ul>
+          <button class="btn ${pl.best?'btn-primary':'btn-alt'}" onclick="buy('${pl.k}')">COMPRAR AGORA</button>
+        </div>`).join('')}
+      </div>
+      <p class="fine">Completo: aplicativo + PDF para imprimir · Básico: PDF · Garantia de 7 dias</p>
+    </div>
+
+    <div class="guar">${tile('shield','green')}<div><b>Garantia de 7 dias</b></div></div>
+
+    <div class="block"><h2>Perguntas frequentes</h2></div>
+    <div class="faq">${FAQS.map((f,k)=>`<div class="fq" id="fq${k}"><button class="fq-q" onclick="toggleFq(${k})"><span>${f[0]}</span>${ic('plus')}</button><div class="fq-a"><div>${f[1]}</div></div></div>`).join('')}</div>
+
+    <p class="legal">Este material é um guia alimentar educativo e não substitui consulta, diagnóstico ou tratamento médico. SIBO e outras condições intestinais devem ser investigadas por um profissional de saúde qualificado.<br><br>© O Protocolo SIBO: Receitas Estratégicas para a Saúde Intestinal — Infinite Hub</p>
+
+</section>`;
+}
+
+
+/* =========================================================
+   RENDER / NAVEGAÇÃO
+========================================================= */
+let timers=[];
+function clearTimers(){ timers.forEach(clearTimeout); timers=[]; }
+function after(ms,fn){ timers.push(setTimeout(fn,ms)); }
+
+/* ===== funil: registro por etapa (sem nome, e-mail ou telefone) ===== */
+const trk=(function(){
+  const sid=Math.random().toString(36).slice(2,10)+Date.now().toString(36);
+  const p=new URLSearchParams(location.search);
+  const meta={c:p.get('utm_campaign')||'',a:p.get('utm_content')||'',s:p.get('utm_source')||'',d:/Mobi|Android|iPhone/i.test(navigator.userAgent)?'m':'d',t0:Date.now()};
+  const test=true||!!p.get('step')||/localhost|127\.0\.0\.1|^$/.test(location.hostname);
+  const path=[]; let sent=0;
+  function add(k,i){ path.push([i,k,Date.now()-meta.t0]); }
+  function flush(){ if(test||path.length===sent) return; sent=path.length;
+    try{ const b=JSON.stringify({sid:sid,m:meta,p:path}); if(!(navigator.sendBeacon&&navigator.sendBeacon('/api/t',b))) fetch('/api/t',{method:'POST',body:b,keepalive:true}); }catch(e){} }
+  addEventListener('visibilitychange',function(){ if(document.visibilityState==='hidden') flush(); });
+  addEventListener('pagehide',flush);
+  return {add:add,flush:flush};
+})();
+function stepKey(s){ return s.type==='q'?('q_'+s.q.id):(s.type==='img'?('img_'+s.id):s.type); }
+
+function render(){
+  clearTimers();
+  window.removeEventListener('scroll',onScroll);
+  const s = FLOW[state.i];
+  trk.add(stepKey(s),state.i); if(s.type==='vsl'||s.type==='offer'||s.type==='result') trk.flush();
+  const m = {cover:sCover,q:()=>sQuestion(s.q),img:()=>sImg(s),map:sMap,info:()=>sInfo(s),example:sExample,name:sName,vsl:sVsl,auth:sAuth,commit:sCommit,mech:sMech,incl:sIncl,
+    testimonials:sTestimonials,analyzing:sAnalyzing,result:sResult,capture:sCapture,offer:sOffer};
+  $app.innerHTML = m[s.type]();
+  window.scrollTo(0,0);
+  if(s.type==='analyzing') runAnalyzing();
+  if(s.type==='result') runResult();
+  
+  if(s.type==='testimonials') runTm();
+  if(s.type==='name'){ const e=document.getElementById('nm'); if(e && !('ontouchstart' in window)) e.focus(); }
+  if(DEV_SKIP && s.type!=='offer'){
+    const btn=document.createElement('button'); btn.className='dev-skip'; btn.textContent='Ir direto para a oferta (temporário)';
+    btn.onclick=()=>{ state.i=FLOW.findIndex(x=>x.type==='offer'); try{compute();}catch(e){} render(); };
+    const bar=document.querySelector('.bottom-bar'); if(bar) bar.appendChild(btn); else { btn.classList.add('float'); document.body.appendChild(btn); }
+  }
+  document.querySelectorAll('.dev-skip.float').forEach(b=>{ if(s.type==='offer') b.remove(); });
+  if(s.type==='offer'){ window.addEventListener('scroll',onScroll,{passive:true}); onScroll(); runCountdown(); if(cdExpired()) applyExpired(); }
+}
+
+function next(){ if(state.i<FLOW.length-1){ state.i++; render(); } }
+function back(){
+  let t=state.i-1;
+  while(t>0 && FLOW[t].type==='analyzing') t--;
+  state.i=Math.max(0,t); render();
+}
+
+function pick(id,k,el){
+  const q=Object.values(Q).find(x=>x.id===id);
+  let cur=state.ans[id]||[];
+  if(q.multi){
+    const p=cur.indexOf(k); if(p>-1) cur.splice(p,1); else { if(q.options[k].x) cur=[]; else cur=cur.filter(i=>!q.options[i].x); cur.push(k); }
+    state.ans[id]=cur; document.querySelectorAll('#opts .opt').forEach((o,i)=>o.classList.toggle('sel',cur.includes(i)));
+    const b=document.getElementById('goBtn'); if(b) b.disabled = cur.length===0;
+  } else {
+    state.ans[id]=[k];
+    document.querySelectorAll('#opts .opt').forEach(o=>o.classList.remove('sel'));
+    el.classList.add('sel');
+    if(q.id==='chan') state.channel = k===0 ? 'whats' : 'email';
+    if(navigator.vibrate) try{navigator.vibrate(8);}catch(e){}
+    after(320,next);
+  }
+}
+function pickImg(id,k,el){
+  state.ans[id]=[k];
+  document.querySelectorAll('#opts .imgcard').forEach(o=>o.classList.remove('sel'));
+  el.classList.add('sel');
+  after(320,next);
+}
+function zone(k){
+  if(k==='all') state.zones = state.zones.length===4 ? [] : ZONES.map(z=>z.k);
+  else { const p=state.zones.indexOf(k); if(p>-1) state.zones.splice(p,1); else state.zones.push(k); }
+  render();
+}
+
+function submitName(){
+  const v=document.getElementById('nm').value.trim();
+  const bad = v.length<2;
+  document.getElementById('fName').classList.toggle('err',bad);
+  if(bad){ document.getElementById('nm').focus(); return; }
+  state.name=v; next();
+}
+function submitContact(){
+  const v=document.getElementById('ct').value.trim();
+  const ok = state.channel==='whats' ? v.replace(/\D/g,'').length>=10 : /^\S+@\S+\.\S+$/.test(v);
+  document.getElementById('fContact').classList.toggle('err',!ok);
+  if(!ok){ document.getElementById('ct').focus(); return; }
+  state.contact=v;
+  if(WEBHOOK_URL){
+    try{ fetch(WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'application/json'},keepalive:true,
+      body:JSON.stringify({name:state.name,channel:state.channel,contact:v,score:state.pct,level:level(state.pct).k,
+        goal:goalText(),cats:state.cats,zones:pickedList('sint').map(o=>o.t),answers:state.ans,qs:location.search})}); }catch(e){}
+  }
+  next();
+}
+
+function runAnalyzing(){
+  compute();
+  const dur = ANA.length*850+700, t0=performance.now(), el=document.getElementById('anaPct');
+  (function tick(t){ if(!el||!el.isConnected) return;
+    const p=Math.min(1,(t-t0)/dur); el.textContent=Math.round(98*p)+'%'; if(p<1) requestAnimationFrame(tick); })(t0);
+  ANA.forEach((_,k)=>{
+    after(250+k*850,()=>{ const e=document.getElementById('ck'+k); if(e) e.classList.add('on'); });
+    after(250+k*850+650,()=>{ const e=document.getElementById('ck'+k); if(e) e.classList.add('done'); });
+  });
+  after(dur+500,()=>next());
+}
+
+function runResult(){
+  const R=78, C=2*Math.PI*R;
+  after(250,()=>{
+    const fg=document.getElementById('ringFg'); if(fg) fg.style.strokeDashoffset = C*(1-state.pct/100);
+    document.querySelectorAll('.bar i').forEach(b=>b.style.width=b.dataset.w+'%');
+    const t0=performance.now(), dur=1500, el=document.getElementById('numTxt');
+    (function tick(t){ if(!el||!el.isConnected) return;
+      const p=Math.min(1,(t-t0)/dur), e=1-Math.pow(1-p,3);
+      el.textContent=Math.round(state.pct*e); if(p<1) requestAnimationFrame(tick); })(t0);
+  });
+}
+
+function runTm(){
+  let i=0;
+  (function loop(){ after(3000,()=>{
+    const c=document.querySelector('.tm-sl'); if(!c) return;
+    const cards=c.querySelectorAll('.tm-card'); if(cards.length<2) return;
+    i=(i+1)%cards.length; const el=cards[i];
+    c.scrollTo({left:el.offsetLeft-(c.clientWidth-el.offsetWidth)/2,behavior:'smooth'}); loop(); }); })();
+}
+function onScroll(){
+  const st=document.getElementById('sticky'); if(!st) return;
+  const price=document.getElementById('oferta');
+  const pr=price?price.getBoundingClientRect():null;
+  const nearPrice = pr && pr.top<window.innerHeight*0.85 && pr.bottom>0;
+  st.classList.toggle('show', window.scrollY>520 && !nearPrice);
+}
+let CD_END=0;
+function cdExpired(){ return CD_END>0 && Date.now()>=CD_END; }
+function runCountdown(){
+  const KEY='sibo_cd_end'; let end=0;
+  try{ end=+localStorage.getItem(KEY)||0; }catch(e){}
+  if(!end||end<Date.now()-86400000){ end=Date.now()+COUNTDOWN.minutes*60000; try{localStorage.setItem(KEY,end);}catch(e){} }
+  CD_END=end;
+  (function tick(){
+    const els=document.querySelectorAll('.cdT'); if(!els.length) return;
+    const ms=Math.max(0,CD_END-Date.now()), m=Math.floor(ms/60000), sc=Math.floor(ms%60000/1000);
+    els.forEach(e=>e.textContent=String(m).padStart(2,'0')+':'+String(sc).padStart(2,'0'));
+    if(ms>0) after(1000,tick); else applyExpired();
+  })();
+}
+function applyExpired(){
+  const cd=document.getElementById('cd'); if(cd) cd.innerHTML='<span>A condição especial do seu plano terminou</span>';
+  const n=document.getElementById('cdNote'); if(n) n.innerHTML='A condição de quem fez a análise terminou. O valor promocional voltou ao valor original.';
+  const pf=document.querySelector('.pc.best .pc-pr'); if(pf) pf.innerHTML='<s>R$</s>'+COUNTDOWN.expired.full;
+  const pb=document.querySelector('.pc:not(.best) .pc-pr'); if(pb) pb.innerHTML='<s>R$</s>'+COUNTDOWN.expired.basic;
+}
+function goPrice(){ trk.add('cta_price',98); const e=document.getElementById('oferta'); if(e) e.scrollIntoView({behavior:'smooth',block:'start'}); }
+function toggleFq(k){ document.getElementById('fq'+k).classList.toggle('open'); }
+
+function buy(plan){
+  trk.add('buy_'+plan,99); trk.flush();
+  const base = plan==='basic'?(cdExpired()&&CHECKOUT_URL_BASIC_EXPIRED!=='#'?CHECKOUT_URL_BASIC_EXPIRED:CHECKOUT_URL_BASIC):(cdExpired()&&CHECKOUT_URL_FULL_EXPIRED!=='#'?CHECKOUT_URL_FULL_EXPIRED:CHECKOUT_URL);
+  if(base==='#'){ console.warn('Defina CHECKOUT_URL e CHECKOUT_URL_BASIC no topo do script.'); return; }
+  const q=location.search.replace(/^\?/,'');
+  const url=base+(q?(base.includes('?')?'&':'?')+q:'');
+  window.location.href=url;
+}
+
+/* atalho para testes: ?step=NOME pula direto (ex.: ?step=offer) */
+(function(){
+  const p=new URLSearchParams(location.search).get('step');
+  if(p){ const i=FLOW.findIndex(s=>s.type===p); if(i>-1){ state.name='Ana'; state.ans={obj:[0],sint:[0,1,2,6],trig:[0,2,3],tempo:[3],tried:[0,1]}; compute(); state.i=i; } }
+})();
+render();
+</script>
+</body>
+</html>
