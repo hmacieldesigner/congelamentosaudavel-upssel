@@ -926,7 +926,7 @@ function sVsl(){
     <div class="bottom-bar" id="vslBtn" style="display:none"><button class="btn btn-primary" onclick="next()">CONTINUAR</button></div>
   </section>`;
 }
-function vslSound(){
+function vslSound(){ trk.add('vsl_sound',97);
   const v=document.getElementById('vslVid'), b=document.getElementById('vslSnd'); if(!v) return;
   v.loop=false; v.muted=false; v.currentTime=0; v.controls=false;
   const pr=v.play(); if(pr&&pr.catch) pr.catch(()=>{ v.muted=true; v.play(); });
@@ -1140,10 +1140,27 @@ let timers=[];
 function clearTimers(){ timers.forEach(clearTimeout); timers=[]; }
 function after(ms,fn){ timers.push(setTimeout(fn,ms)); }
 
+/* ===== funil: registro por etapa (sem nome, e-mail ou telefone) ===== */
+const trk=(function(){
+  const sid=Math.random().toString(36).slice(2,10)+Date.now().toString(36);
+  const p=new URLSearchParams(location.search);
+  const meta={c:p.get('utm_campaign')||'',a:p.get('utm_content')||'',s:p.get('utm_source')||'',d:/Mobi|Android|iPhone/i.test(navigator.userAgent)?'m':'d',t0:Date.now()};
+  const test=!!p.get('step')||/localhost|127\.0\.0\.1|^$/.test(location.hostname);
+  const path=[]; let sent=0;
+  function add(k,i){ path.push([i,k,Date.now()-meta.t0]); }
+  function flush(){ if(test||path.length===sent) return; sent=path.length;
+    try{ const b=JSON.stringify({sid:sid,m:meta,p:path}); if(!(navigator.sendBeacon&&navigator.sendBeacon('/api/t',b))) fetch('/api/t',{method:'POST',body:b,keepalive:true}); }catch(e){} }
+  addEventListener('visibilitychange',function(){ if(document.visibilityState==='hidden') flush(); });
+  addEventListener('pagehide',flush);
+  return {add:add,flush:flush};
+})();
+function stepKey(s){ return s.type==='q'?('q_'+s.q.id):(s.type==='img'?('img_'+s.id):s.type); }
+
 function render(){
   clearTimers();
   window.removeEventListener('scroll',onScroll);
   const s = FLOW[state.i];
+  trk.add(stepKey(s),state.i); if(s.type==='vsl'||s.type==='offer'||s.type==='result') trk.flush();
   const m = {cover:sCover,q:()=>sQuestion(s.q),img:()=>sImg(s),map:sMap,info:()=>sInfo(s),example:sExample,name:sName,vsl:sVsl,
     testimonials:sTestimonials,analyzing:sAnalyzing,result:sResult,capture:sCapture,offer:sOffer};
   $app.innerHTML = m[s.type]();
@@ -1277,10 +1294,11 @@ function applyExpired(){
   const pf=document.querySelector('.pc.best .pc-pr'); if(pf) pf.innerHTML='<s>R$</s>'+COUNTDOWN.expired.full;
   const pb=document.querySelector('.pc:not(.best) .pc-pr'); if(pb) pb.innerHTML='<s>R$</s>'+COUNTDOWN.expired.basic;
 }
-function goPrice(){ const e=document.getElementById('oferta'); if(e) e.scrollIntoView({behavior:'smooth',block:'start'}); }
+function goPrice(){ trk.add('cta_price',98); const e=document.getElementById('oferta'); if(e) e.scrollIntoView({behavior:'smooth',block:'start'}); }
 function toggleFq(k){ document.getElementById('fq'+k).classList.toggle('open'); }
 
 function buy(plan){
+  trk.add('buy_'+plan,99); trk.flush();
   const base = plan==='basic'?(cdExpired()&&CHECKOUT_URL_BASIC_EXPIRED!=='#'?CHECKOUT_URL_BASIC_EXPIRED:CHECKOUT_URL_BASIC):(cdExpired()&&CHECKOUT_URL_FULL_EXPIRED!=='#'?CHECKOUT_URL_FULL_EXPIRED:CHECKOUT_URL);
   if(base==='#'){ console.warn('Defina CHECKOUT_URL e CHECKOUT_URL_BASIC no topo do script.'); return; }
   const q=location.search.replace(/^\?/,'');
