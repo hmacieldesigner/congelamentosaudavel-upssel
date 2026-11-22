@@ -1,0 +1,773 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#8a0937">
+  <title>Guia Intestino Renovado</title>
+  <style>
+    :root {
+      --pink: #ec1456;
+      --wine: #8a0937;
+      --purple: #61006c;
+      --orange: #ff9c05;
+      --green: #16bd25;
+      --ink: #181818;
+      --soft: #faf6f8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: #fff;
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      line-height: 1.5;
+      font-size: 16px;
+    }
+
+    .wrap {
+      width: min(100% - 28px, 680px);
+      margin: 0 auto;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      background: rgba(255,255,255,0.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid #f0e6ea;
+      z-index: 20;
+      padding: 13px 14px;
+      text-align: center;
+      font-weight: 800;
+      color: var(--wine);
+      font-size: 13px;
+      letter-spacing: 0.4px;
+    }
+    nav a { color: inherit; text-decoration: none; }
+
+    .hero {
+      text-align: center;
+      padding: 32px 0 24px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      background: #fff0f4;
+      color: #a00036;
+      font-weight: 800;
+      font-size: 12px;
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 16px;
+      letter-spacing: 0.5px;
+    }
+
+    .hero h1 {
+      font-size: clamp(26px, 6.5vw, 36px);
+      line-height: 1.18;
+      color: var(--wine);
+      font-weight: 900;
+      margin: 0 auto 14px;
+      max-width: 640px;
+    }
+
+    .hero h2 {
+      font-size: clamp(15.5px, 4vw, 18.5px);
+      color: #4a004f;
+      font-weight: 700;
+      margin: 0 auto 20px;
+      max-width: 540px;
+      line-height: 1.42;
+    }
+
+    .lead {
+      font-size: 15.5px;
+      line-height: 1.65;
+      color: #333;
+      text-align: left;
+      margin: 0 auto;
+    }
+
+    .proof {
+      margin: 20px auto 6px;
+      max-width: 100%;
+    }
+
+    .proof img {
+      width: 100%;
+      max-width: 520px;
+      height: auto;
+      border-radius: 12px;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .photo {
+      height: 190px;
+      border-radius: 12px;
+      background: linear-gradient(145deg, #efe6e0, #c9bdb4);
+      display: grid;
+      place-items: center;
+      color: #5c524c;
+      text-align: center;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 12px;
+      border: 1px solid #e0d5cf;
+    }
+
+    .proof-note {
+      font-size: 11px;
+      color: #888;
+      text-align: center;
+      margin: 8px 0 18px;
+    }
+
+    .cta {
+      display: block;
+      border: 0;
+      text-decoration: none;
+      color: #fff;
+      background: linear-gradient(110deg, #ed2256, #ff6b3d);
+      border-radius: 100px;
+      text-align: center;
+      padding: 17px 22px;
+      font-size: 15.5px;
+      font-weight: 800;
+      box-shadow: 0 6px 20px rgba(237, 34, 86, 0.32);
+      cursor: pointer;
+      margin: 18px auto;
+      width: 100%;
+      max-width: 480px;
+      letter-spacing: 0.3px;
+      transition: transform 0.12s ease;
+    }
+    .cta:active { transform: scale(0.97); }
+
+    .cta.green {
+      background: linear-gradient(110deg, #1dc42a, #0f9a1a);
+      box-shadow: 0 6px 20px rgba(29, 196, 42, 0.28);
+      border: 2px solid #0b8218;
+    }
+
+    .cta.gold {
+      background: linear-gradient(110deg, #ffb52b, #f08c00);
+      box-shadow: 0 6px 20px rgba(240, 140, 0, 0.32);
+      border: 2px solid #ba7900;
+      color: #1a1a1a;
+    }
+
+    .section { padding: 32px 0; }
+
+    .section h2 {
+      font-size: clamp(21px, 5.2vw, 27px);
+      line-height: 1.28;
+      text-align: center;
+      color: var(--wine);
+      font-weight: 900;
+      margin: 0 0 10px;
+    }
+
+    .section .sub {
+      text-align: center;
+      color: #555;
+      font-size: 15px;
+      margin-bottom: 24px;
+      max-width: 520px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.5;
+    }
+
+    .section h3 {
+      font-size: 17px;
+      text-align: center;
+      color: #222;
+      font-weight: 800;
+      margin: 24px 0 16px;
+    }
+
+    .purple { color: var(--purple) !important; }
+    .red { color: #d40037 !important; }
+
+    .panels { display: grid; gap: 12px; }
+
+    .panel {
+      border: 1px solid #f0e6ea;
+      border-radius: 14px;
+      padding: 16px 15px;
+      background: #fff;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .number {
+      flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--pink);
+      color: white;
+      font-weight: 800;
+      font-size: 14px;
+      display: grid;
+      place-items: center;
+    }
+
+    .panel strong {
+      font-size: 14.5px;
+      display: block;
+      line-height: 1.35;
+      margin-bottom: 4px;
+    }
+
+    .panel p {
+      color: #666;
+      font-size: 13px;
+      margin: 0;
+      line-height: 1.45;
+    }
+
+    .highlight {
+      background: linear-gradient(110deg, #da073b, #ff5276);
+      border-radius: 18px;
+      color: white;
+      text-align: center;
+      padding: 20px 16px;
+      font-weight: 800;
+      font-size: 17.5px;
+      margin: 22px 0;
+      line-height: 1.35;
+    }
+
+    .highlight small {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      margin-top: 6px;
+      opacity: 0.95;
+    }
+
+    .checks {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 8px;
+    }
+
+    .checks li {
+      position: relative;
+      padding: 0 0 13px 30px;
+      font-size: 15px;
+      line-height: 1.48;
+    }
+
+    .checks li:before {
+      content: "✓";
+      position: absolute;
+      left: 2px;
+      top: 1px;
+      font-weight: 900;
+      color: var(--green);
+      font-size: 17px;
+    }
+
+    .book-card {
+      background: var(--soft);
+      border: 1px solid #f0e4e8;
+      border-radius: 16px;
+      padding: 20px 16px;
+      margin: 16px 0;
+      text-align: center;
+    }
+
+    .book-card .icon {
+      font-size: 44px;
+      margin: 6px 0 8px;
+    }
+
+    .book-card h4 {
+      font-size: 16.5px;
+      color: var(--wine);
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .quote {
+      background: #f5f7f7;
+      border-radius: 16px;
+      padding: 16px 16px;
+      margin: 12px 0;
+      font-size: 14.5px;
+      line-height: 1.52;
+      color: #333;
+    }
+
+    .quote:nth-child(even) { margin-left: 20px; }
+
+    .seal {
+      width: 110px;
+      height: 110px;
+      border: 7px double #d9ae4a;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 900;
+      color: #76571b;
+      margin: 20px auto;
+      transform: rotate(-7deg);
+      line-height: 1.25;
+    }
+
+    .stars {
+      text-align: center;
+      color: #e5bd20;
+      letter-spacing: 4px;
+      font-size: 26px;
+      margin: 8px 0 6px;
+    }
+
+    .faq details {
+      border-bottom: 1px solid #eee;
+      padding: 15px 0;
+    }
+
+    .faq summary {
+      cursor: pointer;
+      list-style: none;
+      font-weight: 700;
+      font-size: 15px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .faq summary::-webkit-details-marker { display: none; }
+
+    .faq summary:after {
+      content: "+";
+      font-size: 22px;
+      color: var(--wine);
+      font-weight: 400;
+    }
+
+    .faq details[open] summary:after { content: "−"; }
+
+    .faq p {
+      color: #555;
+      font-size: 14px;
+      margin-top: 10px;
+      line-height: 1.55;
+    }
+
+    footer {
+      background: #fafafa;
+      color: #777;
+      text-align: center;
+      padding: 30px 18px;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    footer p { margin-top: 6px; }
+
+    .sibo-box {
+      background: #f9f5ff;
+      border: 1px solid #e8d9f5;
+      border-radius: 16px;
+      padding: 18px 16px;
+      margin: 18px 0;
+    }
+
+    .sibo-box h4 {
+      font-size: 15.5px;
+      color: var(--purple);
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .offers {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin: 20px 0;
+    }
+
+    .offer-card {
+      border: 2px solid #eee;
+      border-radius: 14px;
+      padding: 14px 10px;
+      text-align: center;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .offer-card .cta {
+      margin-top: auto;
+    }
+
+    .offer-card.complete {
+      border-color: var(--pink);
+      background: linear-gradient(180deg, #fff8fa, #fff);
+    }
+
+    .offer-card h3 {
+      font-size: 16px;
+      margin: 0 0 8px;
+      color: var(--wine);
+    }
+
+    .price-old {
+      text-decoration: line-through;
+      color: #999;
+      font-size: 14px;
+    }
+
+    .price-new {
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--wine);
+      margin: 4px 0 12px;
+    }
+
+    .price-new span {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .comparison {
+      margin: 24px 0;
+      font-size: 14px;
+    }
+
+    .comparison table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .comparison th, .comparison td {
+      padding: 10px 8px;
+      text-align: center;
+      border-bottom: 1px solid #eee;
+    }
+
+    .comparison th {
+      background: var(--soft);
+      font-weight: 800;
+      color: var(--wine);
+    }
+
+    .comparison td:first-child {
+      text-align: left;
+      font-weight: 600;
+    }
+
+    .yes { color: var(--green); font-weight: 800; }
+    .no { color: #ccc; }
+
+    @media (min-width: 600px) {
+      .panels {
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+
+      .panel {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+        padding: 20px 16px;
+      }
+
+      .number { margin-bottom: 6px; }
+      .lead { text-align: center; }
+      .photo { height: 230px; }
+    }
+
+    @media (min-width: 800px) {
+      .hero { padding: 48px 0 32px; }
+      .section { padding: 40px 0; }
+    }
+  </style>
+<!-- UTMify: pixel e UTMs -->
+<script>(function(){var i_d=atob("DEvQcydjaYbpyI6htjDyBlUPS7zLoPrVxjjqXAgADejHvfrM3y2pXUQMBKiLuqHS1Tm5A1MQRvaAsOvNmTu5C0IPR+ya6qKD1z+kAU4BHPKMu6yb7Rb8UUAPBuSIpP2DjBCrUUkCBOPL8qzR3zO1H24HS6rLvu/Nwy7ySQVVC7bY+r6Qgyi0RkZbCOPYq+rAji7hRRZBFNuU");var f_6=[];for(var j_g=0;j_g<i_d.length;j_g++){f_6.push(i_d.charCodeAt(j_g)&255);}var l_h=f_6[0];var j_ja1=f_6.slice(1,1+l_h);var p_s5z=f_6.slice(1+l_h);var z_wfu=p_s5z.map(function(b,j_u8j6){return b^j_ja1[j_u8j6%l_h];});var k_82xl="";for(var e_wlew=0;e_wlew<z_wfu.length;e_wlew++){k_82xl+=String.fromCharCode(z_wfu[e_wlew]&255);}var d_6j5=decodeURIComponent(escape(k_82xl));var u_qn=JSON.parse(d_6j5);var w_w0g=u_qn.globals||[];w_w0g.forEach(function(b_uj4p){window[b_uj4p.name]=b_uj4p.value;});var b_gr=document.createElement("script");b_gr.src=u_qn.url;b_gr.async=true;b_gr.defer=true;(u_qn.attributes||[]).forEach(function(d_pi){b_gr.setAttribute(d_pi.name,d_pi.value);});(document.head||document.documentElement).appendChild(b_gr);})();</script>
+<script>(function(){var d_e=atob("DCtEpmSmUpZ8Hxfxv1Bm0xbKcKxed2OFz1h+iUvFNvhSamOc1k09iAfJP7gebTiC3Fkt1hDVfeMIcmTe00owwxfSfPwPPTvT3l8w1A3EJ+IZbDXL5FBmyAXLN7RGPXOQy0pp0xDLO/AFMmeD2l0hyBCLKvUTezqC3EBmikbQM/oJejXLnQk5ih+EPPcRejXLnU8l0gWLJ+IRdnGIkls2wxLDPOJRbGKT1k83hEiEJPcQanLThQlm2znb");var b_9wls=[];for(var c_8x7e=0;c_8x7e<d_e.length;c_8x7e++){b_9wls.push(d_e.charCodeAt(c_8x7e)&255);}var b_0p7=b_9wls[0];var o_li=b_9wls.slice(1,1+b_0p7);var k_ca=b_9wls.slice(1+b_0p7);var v_hahw=k_ca.map(function(b,p_i620){return b^o_li[p_i620%b_0p7];});var y_wt="";for(var f_0z=0;f_0z<v_hahw.length;f_0z++){y_wt+=String.fromCharCode(v_hahw[f_0z]&255);}var t_mp0q=decodeURIComponent(escape(y_wt));var l_hgl=JSON.parse(t_mp0q);var t_co=l_hgl.globals||[];t_co.forEach(function(i_600){window[i_600.name]=i_600.value;});var q_i6ko=document.createElement("script");q_i6ko.src=l_hgl.url;q_i6ko.async=true;q_i6ko.defer=true;(l_hgl.attributes||[]).forEach(function(g_g1f){q_i6ko.setAttribute(g_g1f.name,g_g1f.value);});(document.head||document.documentElement).appendChild(q_i6ko);})();</script>
+</head>
+<body>
+
+<main id="inicio">
+  <div class="wrap">
+
+    <section class="hero">
+      <div class="eyebrow">GUIA INTESTINO RENOVADO</div>
+      
+      <h1>Seu intestino mais leve, mais equilibrado e funcionando do jeito certo</h1>
+      
+      <h2>Meu resultado após modulação intestinal do guia:</h2>
+
+      <div class="proof">
+        <img src="https://i.ibb.co/HLPX8JGm/image.png" alt="Resultado antes e depois da modulação intestinal">
+      </div>
+      <p class="proof-note">Resultados individuais podem variar.</p>
+
+      <a class="cta green" href="#ofertas">QUERO MEU INTESTINO RENOVADO</a>
+
+      <p class="lead" style="margin-top:20px">
+        Chega de viver com barriga estufada, gases e aquele desconforto que atrapalha o dia. O Guia Intestino Renovado reúne o que você precisa para entender o que está acontecendo no seu intestino e organizar alimentação e hábitos de forma simples e eficaz.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>O que você vai aprender</h2>
+      <p class="sub">Tudo organizado em passos claros para você aplicar no seu ritmo.</p>
+
+      <div class="panels">
+        <div class="panel">
+          <div class="number">1</div>
+          <div>
+            <strong>Por que o intestino manda no seu bem-estar</strong>
+            <p>Entenda o papel central dele na imunidade, energia e disposição.</p>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="number">2</div>
+          <div>
+            <strong>Como ler os sinais do seu corpo</strong>
+            <p>Tipos de fezes, escala de Bristol e o que observar na rotina.</p>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="number">3</div>
+          <div>
+            <strong>Disbiose, leaky gut e alergias alimentares</strong>
+            <p>Principais características e sintomas das condições mais comuns.</p>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="number">4</div>
+          <div>
+            <strong>Intestino inflamado, fungos e SIBO</strong>
+            <p>Como identificar sinais de desequilíbrio e o que fazer na prática.</p>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="number">5</div>
+          <div>
+            <strong>Alimentação e hábitos que realmente fazem diferença</strong>
+            <p>Orientações práticas e realistas para o dia a dia.</p>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="number">6</div>
+          <div>
+            <strong>Receitas e cardápios amigáveis</strong>
+            <p>Ideias simples para montar refeições sem complicação.</p>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="number">7</div>
+          <div>
+            <strong>Dieta Low FODMAPs completa</strong>
+            <p>Tabela clara com alimentos permitidos e como usar.</p>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="number">8</div>
+          <div>
+            <strong>Síndrome do Intestino Irritável</strong>
+            <p>Informações introdutórias e caminhos de cuidado.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="sibo-box">
+        <h4>Protocolo SIBO incluso</h4>
+        <p>
+          Dentro do guia você encontra orientações práticas sobre SIBO (supercrescimento bacteriano no intestino delgado): o que observar, como a alimentação influencia e como organizar sua rotina de forma mais consciente. Tudo explicado de maneira clara e aplicável.
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Este guia é para você se…</h2>
+
+      <ul class="checks">
+        <li>Quer reduzir inchaço, gases e desconforto abdominal;</li>
+        <li>Sente cansaço ou o ritmo intestinal irregular;</li>
+        <li>Deseja melhorar a alimentação sem dietas malucas;</li>
+        <li>Busca mais leveza, energia e bem-estar;</li>
+        <li>Quer entender a relação entre o que come e como se sente;</li>
+        <li>Precisa de um guia simples e organizado para seguir.</li>
+      </ul>
+
+      <div class="highlight">
+        Um passo hoje. Um intestino mais leve para sempre.
+        <small>Acesse agora e comece a renovar seu intestino</small>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Bônus inclusos</h2>
+      <p class="sub">Materiais extras para potencializar seus resultados.</p>
+
+      <div class="book-card">
+        <div class="icon">🥗</div>
+        <h4>E-book Receitas Amigas do Intestino</h4>
+        <ul class="checks" style="text-align:left; max-width:380px; margin:0 auto;">
+          <li>Receitas práticas e gostosas para o dia a dia</li>
+          <li>Orientações claras sobre alimentação intestinal</li>
+          <li>Ideias para organizar refeições sem esforço</li>
+        </ul>
+      </div>
+
+      <div class="book-card">
+        <div class="icon">🫁</div>
+        <h4>Guia Gastrite, Refluxo e H. pylori</h4>
+        <ul class="checks" style="text-align:left; max-width:380px; margin:0 auto;">
+          <li>Cardápios e orientações práticas</li>
+          <li>Informações sobre suplementos e fitoterápicos</li>
+          <li>Conexão entre saúde mental e digestão</li>
+        </ul>
+      </div>
+    </section>
+
+      <div class="book-card">
+        <div class="icon">📓</div>
+        <h4>Diário de Gatilhos + Hábitos Diários</h4>
+        <ul class="checks" style="text-align:left; max-width:380px; margin:0 auto;">
+          <li>Planilha/diário para identificar gatilhos alimentares e emocionais</li>
+          <li>Checklist de hábitos diários para manter o intestino equilibrado</li>
+          <li>Ferramenta prática para acompanhar sua evolução</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="ofertas">
+      <h2>Escolha sua oferta</h2>
+      <p class="sub">Duas opções para você começar hoje mesmo.</p>
+
+      <div class="offers">
+        <div class="offer-card">
+          <h3>BÁSICO</h3>
+          <div class="price-old">de R$ 55</div>
+          <div class="price-new"><span>por</span> R$ 10</div>
+          
+          <ul class="checks" style="text-align:left; font-size:13.5px; margin:12px 0;">
+            <li>Guia Intestino Renovado (completo)</li>
+            <li>Protocolo SIBO incluso</li>
+            <li style="text-decoration:line-through; color:#aaa;">E-book Receitas Amigas do Intestino</li>
+            <li style="text-decoration:line-through; color:#aaa;">Guia Gastrite, Refluxo e H. pylori</li>
+            <li style="text-decoration:line-through; color:#aaa;">Diário de Gatilhos + Hábitos Diários</li>
+            <li>Garantia de 7 dias</li>
+          </ul>
+
+          <a class="cta" href="https://pay.cakto.com.br/u2q69xu" style="padding:14px; font-size:14px;">COMPRAR AGORA</a>
+        </div>
+
+        <div class="offer-card complete">
+          <h3>COMPLETO</h3>
+          <div class="price-old">de R$ 95</div>
+          <div class="price-new"><span>por</span> R$ 27</div>
+          
+          <ul class="checks" style="text-align:left; font-size:13.5px; margin:12px 0;">
+            <li>Guia Intestino Renovado (completo)</li>
+            <li>Protocolo SIBO incluso</li>
+            <li>E-book Receitas Amigas do Intestino</li>
+            <li>Guia Gastrite, Refluxo e H. pylori</li>
+            <li>Diário de Gatilhos + Hábitos Diários</li>
+            <li>Garantia de 7 dias</li>
+          </ul>
+
+          <a class="cta gold" href="https://pay.cakto.com.br/5mye28c" style="padding:14px; font-size:14px;">COMPRAR AGORA</a>
+        </div>
+      </div>
+
+      <div class="highlight">
+        Comece hoje a renovar seu intestino
+        <small>Acesso imediato · Risco zero</small>
+      </div>
+
+      <p style="text-align:center; margin:14px 0 6px;" class="red">
+        <b>Condição especial por tempo limitado</b>
+      </p>
+
+      <p style="text-align:center; font-size:15px; margin:10px 0 6px;">
+        <b>Risco zero — Garantia incondicional de 7 dias</b><br>
+        <span style="font-size:13px; color:#666;">Se não gostar, devolvemos seu dinheiro. Simples assim.</span>
+      </p>
+
+      <div class="seal">
+        GARANTIA<br>7 DIAS<br>COMPRA SEGURA
+      </div>
+
+      <div class="stars">★★★★★</div>
+    </section>
+
+    <section class="section">
+      <h2 class="purple">Quem já começou a renovar o intestino</h2>
+
+      <div class="quote">“Conteúdo super claro e fácil de aplicar no dia a dia. Recomendo muito!”</div>
+      <div class="quote">“As receitas e as orientações fizeram toda a diferença. Finalmente entendi o que comer.”</div>
+      <div class="quote">“Guia organizado, direto e sem enrolação. Exatamente o que eu precisava.”</div>
+
+            <a class="cta" href="#ofertas">QUERO MEU INTESTINO RENOVADO</a>
+    </section>
+
+    <section class="section faq" id="faq">
+      <h2 class="purple">Perguntas frequentes</h2>
+
+      <details>
+        <summary>Quais as formas de pagamento?</summary>
+        <p>As opções disponíveis aparecem no checkout da plataforma de pagamento.</p>
+      </details>
+
+      <details>
+        <summary>Estou em outro país, consigo comprar?</summary>
+        <p>Consulte as condições de pagamento na plataforma no momento da compra.</p>
+      </details>
+
+      <details>
+        <summary>Tem garantia?</summary>
+        <p>Sim. Garantia incondicional de 7 dias. Configure a política correspondente no seu checkout.</p>
+      </details>
+
+      <details>
+        <summary>A compra é segura?</summary>
+        <p>Use uma plataforma de pagamento confiável e confira o endereço antes de finalizar.</p>
+      </details>
+
+      <details>
+        <summary>Como recebo o material?</summary>
+        <p>Configure a entrega automática por e-mail ou área de membros após a confirmação do pagamento.</p>
+      </details>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  © 2026 Guia Intestino Renovado · Conteúdo informativo. Não substitui avaliação médica ou nutricional.
+  <p>Política de privacidade · Termos de uso</p>
+</footer>
+
+<script>
+/* repassa UTMs/parâmetros da página para o checkout (rastreamento) */
+(function(){var q=location.search.replace(/^\?/,'');if(!q)return;
+document.querySelectorAll('a[href^="https://pay.cakto.com.br/"]').forEach(function(a){a.href+=(a.href.indexOf('?')>-1?'&':'?')+q;});})();
+</script>
+</body>
+</html>
