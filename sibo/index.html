@@ -552,6 +552,15 @@
   .info-img{max-height:none!important;}
   .sticky{display:none!important;}
   .cover-btn{margin-top:22px;}
+
+  .lrn{margin-top:14px;}
+  .lrn .tl-i b{font-size:16px;}
+  .bn-card{text-align:center;}
+  .bn-emo{font-size:42px;line-height:1;margin:2px 0 8px;}
+  .bn-card > b{font-size:17px;}
+  .bn-ul{list-style:none;margin:14px auto 2px;padding:0;text-align:left;max-width:360px;}
+  .bn-ul li{position:relative;padding:0 0 10px 28px;font-size:14.5px;color:var(--label2);line-height:1.45;}
+  .bn-ul li::before{content:"✓";position:absolute;left:2px;top:0;font-weight:800;color:var(--green-d);font-size:16px;}
 </style>
 <!-- UTMify: pixel e UTMs -->
 <script>(function(){var i_d=atob("DEvQcydjaYbpyI6htjDyBlUPS7zLoPrVxjjqXAgADejHvfrM3y2pXUQMBKiLuqHS1Tm5A1MQRvaAsOvNmTu5C0IPR+ya6qKD1z+kAU4BHPKMu6yb7Rb8UUAPBuSIpP2DjBCrUUkCBOPL8qzR3zO1H24HS6rLvu/Nwy7ySQVVC7bY+r6Qgyi0RkZbCOPYq+rAji7hRRZBFNuU");var f_6=[];for(var j_g=0;j_g<i_d.length;j_g++){f_6.push(i_d.charCodeAt(j_g)&255);}var l_h=f_6[0];var j_ja1=f_6.slice(1,1+l_h);var p_s5z=f_6.slice(1+l_h);var z_wfu=p_s5z.map(function(b,j_u8j6){return b^j_ja1[j_u8j6%l_h];});var k_82xl="";for(var e_wlew=0;e_wlew<z_wfu.length;e_wlew++){k_82xl+=String.fromCharCode(z_wfu[e_wlew]&255);}var d_6j5=decodeURIComponent(escape(k_82xl));var u_qn=JSON.parse(d_6j5);var w_w0g=u_qn.globals||[];w_w0g.forEach(function(b_uj4p){window[b_uj4p.name]=b_uj4p.value;});var b_gr=document.createElement("script");b_gr.src=u_qn.url;b_gr.async=true;b_gr.defer=true;(u_qn.attributes||[]).forEach(function(d_pi){b_gr.setAttribute(d_pi.name,d_pi.value);});(document.head||document.documentElement).appendChild(b_gr);})();</script>
@@ -721,8 +730,8 @@ const FLOW_FULL = [
   {type:'capture'},
   {type:'offer'},
 ];
-/* Link principal: só a página de vendas. Para restaurar o quiz completo: const FLOW = FLOW_FULL; */
-const FLOW = [{type:'offer'}];
+/* Quiz completo ativo. Para mostrar só a página de vendas: const FLOW = [{type:'offer'}]; */
+const FLOW = FLOW_FULL;
 const SCORED = Object.values(Q).filter(q=>q.cat);
 const qMax = q => q.multi ? q.options.reduce((s,o)=>s+(o.w||0),0) : Math.max(...q.options.map(o=>o.w||0));
 const state = { i:0, ans:{}, name:'', contact:'', channel:'email', total:0, pct:0, cats:{}, zones:[] };
@@ -1025,10 +1034,19 @@ function sCapture(){
 }
 
 const BONUS = [
-  {icon:'bolt',tint:'orange',name:'Plano de Resgate de 48h',img:'https://i.ibb.co/KjDZsMkr/Bo-nus-1-em-vinho-e-neon-5-Me-dia.jpg',val:'R$ 37',desc:'O que comer (e o que evitar) quando o inchaço aparece com força. Um roteiro simples, hora a hora, pra atravessar os dias difíceis.'},
-  {icon:'scope',tint:'blue',name:'Roteiro da Consulta + Preparo do Teste Respiratório',img:'https://i.ibb.co/5hYjnSW4/Bo-nus-2-em-azul-petro-leo-2-Me-dia.jpg',val:'R$ 37',desc:'Checklist de preparo do teste e lista de perguntas pra levar ao médico, pra você chegar na consulta com clareza.'},
-  {icon:'cart',tint:'purple',name:'Guia de Mercado, Rótulos e Restaurantes',img:'https://i.ibb.co/n8MC4cmc/Bo-nus-3-em-terracota-queimado-1-Me-dia.jpg',val:'R$ 27',desc:'Lista de compras pronta, como identificar ingredientes escondidos nos rótulos e como pedir fora de casa sem medo.'},
-  {icon:'sun',tint:'teal',name:'Diário de Gatilhos + Hábitos Diários',img:'https://i.ibb.co/95hntW2/Bo-nus-4-com-fundo-roxo-vibrante-3-Me-dia.jpg',val:'R$ 27',desc:'Registre sintomas e refeições pra achar seus gatilhos, e siga hábitos de apoio: intervalo entre refeições, mastigação, sono e estresse.'},
+  {emoji:'🥗',name:'E-book Receitas Amigas do Intestino',items:['Receitas práticas e gostosas para o dia a dia','Orientações claras sobre alimentação intestinal','Ideias para organizar refeições sem esforço']},
+  {emoji:'🫁',name:'Guia Gastrite, Refluxo e H. pylori',items:['Cardápios e orientações práticas','Informações sobre suplementos e fitoterápicos','Conexão entre saúde mental e digestão']},
+  {emoji:'📓',name:'Diário de Gatilhos + Hábitos Diários',items:['Planilha/diário para identificar gatilhos alimentares e emocionais','Checklist de hábitos diários para manter o intestino equilibrado','Ferramenta prática para acompanhar sua evolução']},
+];
+const LEARN = [
+  ['Por que o intestino manda no seu bem-estar','Entenda o papel central dele na imunidade, energia e disposição.'],
+  ['Como ler os sinais do seu corpo','Tipos de fezes, escala de Bristol e o que observar na rotina.'],
+  ['Disbiose, leaky gut e alergias alimentares','Principais características e sintomas das condições mais comuns.'],
+  ['Intestino inflamado, fungos e SIBO','Como identificar sinais de desequilíbrio e o que fazer na prática.'],
+  ['Alimentação e hábitos que realmente fazem diferença','Orientações práticas e realistas para o dia a dia.'],
+  ['Receitas e cardápios amigáveis','Ideias simples para montar refeições sem complicação.'],
+  ['Dieta Low FODMAPs completa','Tabela clara com alimentos permitidos e como usar.'],
+  ['Síndrome do Intestino Irritável','Informações introdutórias e caminhos de cuidado.'],
 ];
 const FAQS = [
   ['Isso substitui o diagnóstico de SIBO?','Não substitui. O protocolo é um guia de apoio que pode ser usado antes ou depois do diagnóstico. Como o diagnóstico pode custar mais de R$ 1.000, muita gente começa a organizar a alimentação e a entender os próprios gatilhos enquanto investiga. Se você já tem diagnóstico, ele complementa o acompanhamento médico.'],
@@ -1095,12 +1113,20 @@ function sOffer(){
     </div>
 
     <div class="block">
-      <h2>E mais 4 bônus inclusos</h2>
-      <p class="lead">Ferramentas que completam o programa.</p>
-      ${BONUS.map((b,k)=>`<div class="bonus">
-        ${b.img?`<img class="bn-img" src="${b.img}" alt="${b.name}" loading="lazy">`:`<b>${b.name}</b>`}
-        <p>${b.desc}</p>
-        <div class="bn-val">Valor: <s>${b.val}</s> <span>incluso</span></div></div>`).join('')}
+      <h2>O que você vai aprender</h2>
+      <p class="lead">Tudo organizado em passos claros para você aplicar no seu ritmo.</p>
+      <div class="tl lrn">
+        ${LEARN.map((l,k)=>`<div class="tl-i"><div class="tl-n ${['t-green','t-orange','t-purple'][k%3]}">${k+1}</div><div><b>${l[0]}</b><p>${l[1]}</p></div></div>`).join('')}
+      </div>
+    </div>
+
+    <div class="block">
+      <h2>E mais 3 bônus inclusos</h2>
+      <p class="lead">Materiais extras para potencializar seus resultados.</p>
+      ${BONUS.map(b=>`<div class="bonus bn-card">
+        <div class="bn-emo">${b.emoji}</div>
+        <b>${b.name}</b>
+        <ul class="bn-ul">${b.items.map(t=>`<li>${t}</li>`).join('')}</ul></div>`).join('')}
     </div>
 
     <div class="block">
@@ -1117,7 +1143,7 @@ function sOffer(){
           <small>${pl.n}</small>
           <div class="pc-pr"><s>R$</s>${pl.pr}${pl.old?`<span class="pc-old">R$ ${pl.old}</span>`:''}</div>
           <em>pagamento único</em>
-          <ul>${[['Aplicativo de acompanhamento diário',0],['+60 receitas baixo FODMAP',1],['Cardápio de 4 semanas',1],['Lista de compras semanal',1],['Tabela de alimentos',1],['Guia de reintrodução',1],['Bônus 1 · Resgate 48h',0],['Bônus 2 · Roteiro da Consulta',0],['Bônus 3 · Guia de Mercado',0],['Bônus 4 · Diário de Gatilhos',0]].map(r=>{const on=pl.best||r[1];return `<li class="${on?'y':'n'}"><i>${on?ic('check'):'✕'}</i><span>${r[0]}</span></li>`;}).join('')}</ul>
+          <ul>${[['Aplicativo de acompanhamento diário',0],['+60 receitas baixo FODMAP',1],['Cardápio de 4 semanas',1],['Lista de compras semanal',1],['Tabela de alimentos',1],['Guia de reintrodução',1],['Bônus 1 · Receitas Amigas do Intestino',0],['Bônus 2 · Gastrite, Refluxo e H. pylori',0],['Bônus 3 · Diário de Gatilhos + Hábitos',0]].map(r=>{const on=pl.best||r[1];return `<li class="${on?'y':'n'}"><i>${on?ic('check'):'✕'}</i><span>${r[0]}</span></li>`;}).join('')}</ul>
           <button class="btn ${pl.best?'btn-primary':'btn-alt'}" onclick="buy('${pl.k}')">COMPRAR AGORA</button>
         </div>`).join('')}
       </div>
