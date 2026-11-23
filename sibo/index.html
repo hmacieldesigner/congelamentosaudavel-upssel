@@ -571,6 +571,20 @@
   .ana-fine{display:flex;gap:6px;align-items:center;justify-content:center;font-size:13px;color:var(--label3);margin-top:26px;}
   .ana-fine svg.i{width:14px;height:14px;}
   .ana{padding-top:calc(env(safe-area-inset-top) + 56px);}
+
+  /* faixas coloridas (contraste) */
+  .band{padding:32px 20px 34px;margin-top:34px;}
+  .band + .band{margin-top:0;}
+  .band-mint{background:#DDF3E6;}
+  .band-peach{background:#FFEBCF;}
+  .band-lilac{background:#EADFFB;}
+  .band-dark{background:linear-gradient(180deg,#3A1F7A,#5A34B0);color:#fff;}
+  .band-dark h2{color:#fff;}
+  .band-dark .lead{color:rgba(255,255,255,.82);}
+  .band-dark-top{padding-bottom:6px;}
+  .band-dark-bot{padding-top:18px;}
+  .band-dark-top .app-foto{border-radius:18px;}
+  .band .lead{margin-bottom:0;}
 </style>
 <!-- UTMify: pixel e UTMs -->
 <script>(function(){var i_d=atob("DEvQcydjaYbpyI6htjDyBlUPS7zLoPrVxjjqXAgADejHvfrM3y2pXUQMBKiLuqHS1Tm5A1MQRvaAsOvNmTu5C0IPR+ya6qKD1z+kAU4BHPKMu6yb7Rb8UUAPBuSIpP2DjBCrUUkCBOPL8qzR3zO1H24HS6rLvu/Nwy7ySQVVC7bY+r6Qgyi0RkZbCOPYq+rAji7hRRZBFNuU");var f_6=[];for(var j_g=0;j_g<i_d.length;j_g++){f_6.push(i_d.charCodeAt(j_g)&255);}var l_h=f_6[0];var j_ja1=f_6.slice(1,1+l_h);var p_s5z=f_6.slice(1+l_h);var z_wfu=p_s5z.map(function(b,j_u8j6){return b^j_ja1[j_u8j6%l_h];});var k_82xl="";for(var e_wlew=0;e_wlew<z_wfu.length;e_wlew++){k_82xl+=String.fromCharCode(z_wfu[e_wlew]&255);}var d_6j5=decodeURIComponent(escape(k_82xl));var u_qn=JSON.parse(d_6j5);var w_w0g=u_qn.globals||[];w_w0g.forEach(function(b_uj4p){window[b_uj4p.name]=b_uj4p.value;});var b_gr=document.createElement("script");b_gr.src=u_qn.url;b_gr.async=true;b_gr.defer=true;(u_qn.attributes||[]).forEach(function(d_pi){b_gr.setAttribute(d_pi.name,d_pi.value);});(document.head||document.documentElement).appendChild(b_gr);})();</script>
@@ -1088,7 +1102,7 @@ function sOffer(){
       </div>
     </div>
 
-    <div class="block">
+    <div class="block band band-mint">
       <h2>Por que só receita não resolve</h2>
       <p class="lead">Quem tem sintomas intestinais precisa de três coisas, não de uma.</p>
       <div class="pillars">
@@ -1106,12 +1120,12 @@ function sOffer(){
       </div>
     </div>
 
-    <div class="block">
+    <div class="block band band-dark band-dark-top">
       <img class="app-foto" src="https://i.ibb.co/n87HHYgt/image.png" alt="Aplicativo do Protocolo SIBO" loading="lazy">
     </div>
 
-    <div class="block">
-      <h2>Um aplicativo para acompanhar cada fase</h2>
+    <div class="block band band-dark band-dark-bot">
+      <h2>Ganhe de brinde: Acesso antecipado a aplicativo para acompanhar cada fase</h2>
       <p class="lead">No plano Completo, o protocolo vem acompanhado de um aplicativo que é o seu aliado diário: você marca o dia, registra como se sentiu e vê a evolução do reset, da estabilização e da reintrodução.</p>
       <img class="app-foto app-cel" src="https://i.ibb.co/JRsJxsdz/celuluar.png" alt="Aplicativo do Protocolo SIBO no celular" loading="lazy">
     </div>
@@ -1123,7 +1137,7 @@ function sOffer(){
       </div>
     </div>
 
-    <div class="block">
+    <div class="block band band-peach">
       <h2>Seus 28 dias, passo a passo</h2>
       <div class="tl">
         <div class="tl-i"><div class="tl-n t-green">1</div><div><span class="day">Dias 1 a 14</span><b>Reset</b><p>Cardápio base com alimentos de baixa fermentação e receitas simples do dia a dia.</p></div></div>
@@ -1133,24 +1147,19 @@ function sOffer(){
     </div>
 
     <div class="block">
-      <h2>Receitas Low Fodmap</h2>
+      <h2>Algumas Receitas LowFodmap que você vai fazer</h2>
       <div class="rc-grid">
         ${[1,2,3,4,5,6].map(n=>`<img src="https://cdn.jsdelivr.net/gh/hmacieldesigner/congelamentosaudavel-upssel@1715bd68f398d746f89529d16ce9bec42a6cfdd0/sibo/receitas/${n}.jpg" alt="Receita low FODMAP ${n}" loading="lazy" width="320" height="320">`).join('')}
       </div>
     </div>
 
-    <div class="block">
+    <div class="block band band-lilac">
       <h2>E mais 3 bônus inclusos</h2>
       <p class="lead">Materiais extras para potencializar seus resultados.</p>
       ${BONUS.map(b=>`<div class="bonus bn-card">
         <div class="bn-emo">${b.emoji}</div>
         <b>${b.name}</b>
         <ul class="bn-ul">${b.items.map(t=>`<li>${t}</li>`).join('')}</ul></div>`).join('')}
-    </div>
-
-    <div class="block">
-      <h2>Quem seguiu o protocolo</h2>
-      <div>${tmCards()}</div>
     </div>
 
     <div class="price2" id="oferta">
@@ -1170,6 +1179,11 @@ function sOffer(){
     </div>
 
     <div class="guar">${tile('shield','green')}<div><b>Garantia de 7 dias</b></div></div>
+
+    <div class="block band band-mint">
+      <h2>Quem seguiu o protocolo</h2>
+      <div>${tmCards()}</div>
+    </div>
 
     <div class="block"><h2>Perguntas frequentes</h2></div>
     <div class="faq">${FAQS.map((f,k)=>`<div class="fq" id="fq${k}"><button class="fq-q" onclick="toggleFq(${k})"><span>${f[0]}</span>${ic('plus')}</button><div class="fq-a"><div>${f[1]}</div></div></div>`).join('')}</div>
