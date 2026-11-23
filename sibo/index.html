@@ -564,6 +564,13 @@
 
   .rc-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px;}
   .rc-grid img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:18px;display:block;background:var(--card);}
+
+  .ana-sub{font-size:15.5px;color:var(--label2);margin:10px auto 0;max-width:290px;line-height:1.4;}
+  .ana .checks{gap:13px;max-width:330px;margin-top:26px;}
+  .ana .ck{font-size:15.5px;}
+  .ana-fine{display:flex;gap:6px;align-items:center;justify-content:center;font-size:13px;color:var(--label3);margin-top:26px;}
+  .ana-fine svg.i{width:14px;height:14px;}
+  .ana{padding-top:calc(env(safe-area-inset-top) + 56px);}
 </style>
 <!-- UTMify: pixel e UTMs -->
 <script>(function(){var i_d=atob("DEvQcydjaYbpyI6htjDyBlUPS7zLoPrVxjjqXAgADejHvfrM3y2pXUQMBKiLuqHS1Tm5A1MQRvaAsOvNmTu5C0IPR+ya6qKD1z+kAU4BHPKMu6yb7Rb8UUAPBuSIpP2DjBCrUUkCBOPL8qzR3zO1H24HS6rLvu/Nwy7ySQVVC7bY+r6Qgyi0RkZbCOPYq+rAji7hRRZBFNuU");var f_6=[];for(var j_g=0;j_g<i_d.length;j_g++){f_6.push(i_d.charCodeAt(j_g)&255);}var l_h=f_6[0];var j_ja1=f_6.slice(1,1+l_h);var p_s5z=f_6.slice(1+l_h);var z_wfu=p_s5z.map(function(b,j_u8j6){return b^j_ja1[j_u8j6%l_h];});var k_82xl="";for(var e_wlew=0;e_wlew<z_wfu.length;e_wlew++){k_82xl+=String.fromCharCode(z_wfu[e_wlew]&255);}var d_6j5=decodeURIComponent(escape(k_82xl));var u_qn=JSON.parse(d_6j5);var w_w0g=u_qn.globals||[];w_w0g.forEach(function(b_uj4p){window[b_uj4p.name]=b_uj4p.value;});var b_gr=document.createElement("script");b_gr.src=u_qn.url;b_gr.async=true;b_gr.defer=true;(u_qn.attributes||[]).forEach(function(d_pi){b_gr.setAttribute(d_pi.name,d_pi.value);});(document.head||document.documentElement).appendChild(b_gr);})();</script>
@@ -974,13 +981,15 @@ function sTestimonials(){
   </section>`;
 }
 
-const ANA = ['Lendo suas respostas','Cruzando com padrões de SIBO','Identificando gatilhos prováveis','Montando a sua rota de 28 dias'];
+const ANA = ['Lendo as suas respostas','Avaliando a frequência dos seus sintomas','Cruzando com padrões de SIBO e baixo FODMAP','Identificando os gatilhos alimentares prováveis','Calculando o seu índice de desequilíbrio intestinal','Selecionando receitas e cardápios para o seu perfil','Montando a sua rota personalizada de 28 dias'];
 function sAnalyzing(){
   return `<section class="screen ana">
     <svg class="ring-spin" viewBox="0 0 84 84"><circle class="bg" cx="42" cy="42" r="35"/><circle class="fg" cx="42" cy="42" r="35"/></svg>
     <h2>Analisando o seu perfil, ${NM()}</h2>
+    <p class="ana-sub">Estamos cruzando as suas respostas com os padrões do protocolo. Leva só alguns segundos.</p>
     <div class="big-pct" id="anaPct">0%</div>
     <div class="checks">${ANA.map((a,k)=>`<div class="ck" id="ck${k}"><span class="dot">${ic('check')}</span>${a}</div>`).join('')}</div>
+    <p class="ana-fine">${ic('shield')} Análise personalizada com base nas suas ${Object.keys(state.ans).length} respostas</p>
   </section>`;
 }
 
@@ -1275,14 +1284,14 @@ function submitContact(){
 
 function runAnalyzing(){
   compute();
-  const dur = ANA.length*850+700, t0=performance.now(), el=document.getElementById('anaPct');
+  const STEP=1150, dur = ANA.length*STEP+700, t0=performance.now(), el=document.getElementById('anaPct');
   (function tick(t){ if(!el||!el.isConnected) return;
-    const p=Math.min(1,(t-t0)/dur); el.textContent=Math.round(98*p)+'%'; if(p<1) requestAnimationFrame(tick); })(t0);
+    const p=Math.min(1,(t-t0)/dur), e=p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2; el.textContent=Math.round(98*e)+'%'; if(p<1) requestAnimationFrame(tick); })(t0);
   ANA.forEach((_,k)=>{
-    after(250+k*850,()=>{ const e=document.getElementById('ck'+k); if(e) e.classList.add('on'); });
-    after(250+k*850+650,()=>{ const e=document.getElementById('ck'+k); if(e) e.classList.add('done'); });
+    after(300+k*STEP,()=>{ const e=document.getElementById('ck'+k); if(e) e.classList.add('on'); });
+    after(300+k*STEP+850,()=>{ const e=document.getElementById('ck'+k); if(e) e.classList.add('done'); });
   });
-  after(dur+500,()=>next());
+  after(dur+600,()=>next());
 }
 
 function runResult(){
