@@ -588,6 +588,10 @@
 
   .cta-blk{margin-top:26px;}
   .cta-blk + .band{margin-top:26px;}
+
+  .caso-txt{font-size:16.5px;line-height:1.5;color:var(--label);margin:12px 0 16px;font-weight:500;}
+  .caso-img{border-radius:18px;}
+  .band-dark{padding-top:30px;}
 </style>
 <!-- UTMify: pixel e UTMs -->
 <script>(function(){var i_d=atob("DEvQcydjaYbpyI6htjDyBlUPS7zLoPrVxjjqXAgADejHvfrM3y2pXUQMBKiLuqHS1Tm5A1MQRvaAsOvNmTu5C0IPR+ya6qKD1z+kAU4BHPKMu6yb7Rb8UUAPBuSIpP2DjBCrUUkCBOPL8qzR3zO1H24HS6rLvu/Nwy7ySQVVC7bY+r6Qgyi0RkZbCOPYq+rAji7hRRZBFNuU");var f_6=[];for(var j_g=0;j_g<i_d.length;j_g++){f_6.push(i_d.charCodeAt(j_g)&255);}var l_h=f_6[0];var j_ja1=f_6.slice(1,1+l_h);var p_s5z=f_6.slice(1+l_h);var z_wfu=p_s5z.map(function(b,j_u8j6){return b^j_ja1[j_u8j6%l_h];});var k_82xl="";for(var e_wlew=0;e_wlew<z_wfu.length;e_wlew++){k_82xl+=String.fromCharCode(z_wfu[e_wlew]&255);}var d_6j5=decodeURIComponent(escape(k_82xl));var u_qn=JSON.parse(d_6j5);var w_w0g=u_qn.globals||[];w_w0g.forEach(function(b_uj4p){window[b_uj4p.name]=b_uj4p.value;});var b_gr=document.createElement("script");b_gr.src=u_qn.url;b_gr.async=true;b_gr.defer=true;(u_qn.attributes||[]).forEach(function(d_pi){b_gr.setAttribute(d_pi.name,d_pi.value);});(document.head||document.documentElement).appendChild(b_gr);})();</script>
@@ -757,8 +761,8 @@ const FLOW_FULL = [
   {type:'capture'},
   {type:'offer'},
 ];
-/* Quiz completo ativo. Para mostrar só a página de vendas: const FLOW = [{type:'offer'}]; */
-const FLOW = FLOW_FULL;
+/* Link principal: vai direto para a página de vendas. Para reativar o quiz completo: const FLOW = FLOW_FULL; */
+const FLOW = [{type:'offer'}];
 const SCORED = Object.values(Q).filter(q=>q.cat);
 const qMax = q => q.multi ? q.options.reduce((s,o)=>s+(o.w||0),0) : Math.max(...q.options.map(o=>o.w||0));
 const state = { i:0, ans:{}, name:'', contact:'', channel:'email', total:0, pct:0, cats:{}, zones:[] };
@@ -1092,7 +1096,7 @@ function sOffer(){
     <div class="cd" id="cd"><span>⏳ Seu plano personalizado está reservado por</span><b class="cdT">--:--</b></div>
     <div class="o-hero">
       ${FLOW.length>1?`<span class="chip rise">${ic('check')} Índice ${state.pct}/100 · ${L.label}</span>`:''}
-      <h1 class="rise d1">${nm?nm+', seu':'Seu'} plano de 28 dias para um <span>intestino livre de bactérias</span></h1>
+      <h1 class="rise d1">Protocolo Completo para <span>Saúde Intestinal</span></h1>
       <div class="cover-wrap rise d3" style="width:auto;height:auto"><img class="book-img" src="https://i.ibb.co/8tsMBhY/mockup-2.png" alt="Livro O Protocolo SIBO"></div>
       <div class="o-cta-top rise d5"><button class="btn btn-primary" onclick="goPrice()">Quero meu Protocolo</button>
       ${g?`<p class="fine">Feito pra quem quer: ${g.charAt(0).toLowerCase()+g.slice(1)}</p>`:''}</div>
@@ -1105,16 +1109,6 @@ function sOffer(){
       </div>
     </div>
 
-    <div class="block band band-mint">
-      <h2>Por que só receita não resolve</h2>
-      <p class="lead">Quem tem sintomas intestinais precisa de três coisas, não de uma.</p>
-      <div class="pillars">
-        <div class="pillar">${tile('fork','green')}<div><b>Comer melhor</b><p>Mais de 60 receitas baixo FODMAP, com cardápio semanal pronto, pra você não decidir nada sozinha.</p></div></div>
-        <div class="pillar">${tile('target','orange')}<div><b>Entender seus gatilhos</b><p>Fases de reset e reintrodução guiada pra descobrir o que realmente pesa no seu corpo.</p></div></div>
-        <div class="pillar">${tile('heart','purple')}<div><b>Manter o resultado</b><p>Hábitos diários e ferramentas de acompanhamento pra não voltar ao ponto de partida.</p></div></div>
-      </div>
-    </div>
-
     <div class="block">
       <h2>O que você vai aprender</h2>
       <p class="lead">Tudo organizado em passos claros para você aplicar no seu ritmo.</p>
@@ -1123,13 +1117,32 @@ function sOffer(){
       </div>
     </div>
 
-    <div class="block cta-blk"><button class="btn btn-primary" onclick="goPrice()">Quero meu Protocolo</button></div>
-
-    <div class="block band band-dark band-dark-top">
-      <img class="app-foto" src="https://i.ibb.co/n87HHYgt/image.png" alt="Aplicativo do Protocolo SIBO" loading="lazy">
+    <div class="block band band-mint">
+      <h2>Só receita não resolve</h2>
+      <p class="lead">Quem tem sintomas intestinais precisa de três coisas, não de uma.</p>
+      <div class="pillars">
+        <div class="pillar">${tile('fork','green')}<div><b>Comer melhor</b><p>Mais de 60 receitas baixo FODMAP, com cardápio semanal pronto, pra você não decidir nada sozinha.</p></div></div>
+        <div class="pillar">${tile('target','orange')}<div><b>Entender seus gatilhos</b><p>Fases de reset e reintrodução guiada pra descobrir o que realmente pesa no seu corpo.</p></div></div>
+        <div class="pillar">${tile('heart','purple')}<div><b>Manter o resultado</b><p>Hábitos diários e ferramentas de acompanhamento pra não voltar ao ponto de partida.</p></div></div>
+      </div>
     </div>
 
-    <div class="block band band-dark band-dark-bot">
+    <div class="block cta-blk"><button class="btn btn-primary" onclick="goPrice()">Quero meu Protocolo</button></div>
+
+    <div class="block">
+      <h2>Algumas Receitas LowFodmap que você vai fazer</h2>
+      <div class="rc-grid">
+        ${[1,2,3,4,5,6].map(n=>`<img src="https://cdn.jsdelivr.net/gh/hmacieldesigner/congelamentosaudavel-upssel@1715bd68f398d746f89529d16ce9bec42a6cfdd0/sibo/receitas/${n}.jpg" alt="Receita low FODMAP ${n}" loading="lazy" width="320" height="320">`).join('')}
+      </div>
+    </div>
+
+    <div class="block band band-mint">
+      <h2>Caso de Sucesso:</h2>
+      <p class="caso-txt">A Camila vivia estufada depois do almoço e achava que era normal. Com o protocolo, ela descobriu que os gatilhos dela eram cebola e leite, tirou os dois por duas semanas com o cardápio do protocolo e voltou a terminar a refeição sem desabotoar a calça.</p>
+      <img class="app-foto caso-img" src="https://i.ibb.co/n87HHYgt/image.png" alt="Aplicativo do Protocolo SIBO" loading="lazy">
+    </div>
+
+    <div class="block band band-dark">
       <h2>Ganhe de brinde: Acesso antecipado a aplicativo para acompanhar cada fase</h2>
       <p class="lead">No plano Completo, o protocolo vem acompanhado de um aplicativo que é o seu aliado diário: você marca o dia, registra como se sentiu e vê a evolução do reset, da estabilização e da reintrodução.</p>
       <img class="app-foto app-cel" src="https://i.ibb.co/JRsJxsdz/celuluar.png" alt="Aplicativo do Protocolo SIBO no celular" loading="lazy">
@@ -1152,13 +1165,6 @@ function sOffer(){
     </div>
 
     <div class="block cta-blk"><button class="btn btn-primary" onclick="goPrice()">Quero meu Protocolo</button></div>
-
-    <div class="block">
-      <h2>Algumas Receitas LowFodmap que você vai fazer</h2>
-      <div class="rc-grid">
-        ${[1,2,3,4,5,6].map(n=>`<img src="https://cdn.jsdelivr.net/gh/hmacieldesigner/congelamentosaudavel-upssel@1715bd68f398d746f89529d16ce9bec42a6cfdd0/sibo/receitas/${n}.jpg" alt="Receita low FODMAP ${n}" loading="lazy" width="320" height="320">`).join('')}
-      </div>
-    </div>
 
     <div class="block band band-lilac">
       <h2>E mais 3 bônus inclusos</h2>
