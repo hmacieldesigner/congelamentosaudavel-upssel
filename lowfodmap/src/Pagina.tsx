@@ -100,7 +100,7 @@ const Hero = () => (
           <span className="grad-texto">Receitas Low FODMAP Práticas e Deliciosas</span>
         </h1>
         <p className="mt-5 text-lg md:text-xl text-choco/75 font-medium max-w-xl mx-auto lg:mx-0">
-          Receitas deliciosas, seguras para o intestino e fáceis de fazer.
+          300 receitas de refeições saudáveis, para o intestino práticas e deliciosas para você cozinhar uma vez e comer bem a semana inteira.
         </p>
         <div className="mt-7 lg:hidden"><Banner /></div>
         <div className="mt-7 flex flex-col sm:flex-row items-center gap-4 sm:gap-6 justify-center lg:justify-start">
@@ -205,7 +205,7 @@ const Bonus = () => (
     <div className="max-w-6xl mx-auto">
       <div className="text-center">
         <span className="inline-flex items-center gap-2 bg-amarelo text-choco font-bold text-xs uppercase tracking-[0.18em] px-3 py-1.5 rounded-full"><Gift className="w-4 h-4" /> Compre e ganhe</span>
-        <h2 className="mt-4 font-display font-extrabold text-[clamp(1.9rem,5vw,3rem)] leading-tight">Bônus para quem compra <span className="text-amarelo">hoje</span></h2>
+        <h2 className="mt-4 font-display font-extrabold text-[clamp(1.9rem,5vw,3rem)] leading-tight">Compre hoje e ganhe <span className="text-amarelo">R$239 em bônus.</span></h2>
       </div>
       <div className="mt-10 grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5">
         {BONUS.map((b, i) => (
