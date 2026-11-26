@@ -4,16 +4,17 @@ import { ShieldCheck, Zap, Infinity as InfinityIcon, Plus, Minus, Check, X, Gift
 /* ================================================================
    300 RECEITAS LOW FODMAP — conteúdo e links (edite aqui)
    ================================================================ */
-const LINK_BASICO = '#LINK_BASICO';     // ← checkout da Cakto do Básico (R$ 10)
-const LINK_COMPLETO = '#LINK_COMPLETO'; // ← checkout da Cakto do Completo (R$ 17)
+const LINK_BASICO = 'https://pay.cakto.com.br/37v8dha';     // ← checkout da Cakto do Básico (R$ 10)
+const LINK_COMPLETO = 'https://pay.cakto.com.br/9r5znho'; // ← checkout da Cakto do Completo (R$ 17)
 
 const BANNER = 'https://i.ibb.co/Z32SJW6/banner.jpg';
+const IMG_INDISPENSAVEL = 'https://i.ibb.co/dJzWgbMd/capaindispensavel.jpg';
 
 const BENEFICIOS = [
   'Receitas que aliviam estufamento, gases e desconforto',
   'Opções para café da manhã, lanche, almoço e jantar',
   'Fácil de fazer, mesmo para iniciantes',
-  'Ideal para SII, SIBO e sensibilidades alimentares',
+  'Ideal para SII, SIBO e intestino irritável e microcolite',
   'Equilibra a alimentação com sabor de verdade',
   'Ajuda a melhorar a saúde intestinal de forma prática',
 ];
@@ -35,7 +36,7 @@ const GALERIA = [
   'https://i.ibb.co/mFghrhgS/receitas-saudaveis-para-congelar-08.png',
   'https://i.ibb.co/r22DGNmF/receitas-saudaveis-para-congelar-04.png',
   'https://i.ibb.co/KpkJbfXP/receitas-saudaveis-para-congelar-03.png',
-  'https://i.ibb.co/Gvj3Dgwy/receitas-saudaveis-para-congelar-02.png',
+  'https://i.ibb.co/qF060dvY/images.jpg',
   'https://i.ibb.co/gZ21bfCB/receitas-saudaveis-para-congelar-01.png',
   'https://i.ibb.co/99QZWhwY/receitas-saudaveis-para-congelar.png',
   'https://i.ibb.co/YB4xqwRB/receitas-saudaveis-para-congelar-11.png',
@@ -53,7 +54,7 @@ const BONUS = [
   { t: 'Guia de Organização do Freezer', img: 'https://i.ibb.co/twY4ZwBb/organizacaodofreezer.jpg' },
 ];
 
-const BASE = ['300 Receitas Low FODMAP', 'Suporte', 'Garantia', 'Acesso vitalício', 'Entrega imediata'];
+const BASE = ['300 Receitas Low FODMAP', 'Suporte', 'Garantia', 'Acesso vitalício', 'Entrega imediata no e-mail e WhatsApp'];
 const EXTRAS_COMPLETO = [
   'Atualizações',
   '+50 Lanches Low FODMAP',
@@ -92,12 +93,11 @@ const Tarja = () => (
 );
 
 const Hero = () => (
-  <section className="pt-16 pb-14 px-5 bg-creme">
+  <section className="pt-14 pb-14 px-5 bg-creme">
     <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-10 items-center">
       <div className="text-center lg:text-left">
-        <span className="inline-block bg-pastel text-vermelho font-bold text-xs uppercase tracking-[0.18em] px-3 py-1.5 rounded-full">Livro digital · Low FODMAP</span>
-        <h1 className="mt-5 font-display font-extrabold leading-[1.02] text-[clamp(2.6rem,8vw,4.6rem)]">
-          <span className="grad-texto">300 Receitas Low FODMAP Práticas</span>
+        <h1 className="font-display font-extrabold leading-[1.02] text-[clamp(2.6rem,8vw,4.6rem)]">
+          <span className="grad-texto">Receitas Low FODMAP Práticas e Deliciosas</span>
         </h1>
         <p className="mt-5 text-lg md:text-xl text-choco/75 font-medium max-w-xl mx-auto lg:mx-0">
           Receitas deliciosas, seguras para o intestino e fáceis de fazer.
@@ -153,6 +153,7 @@ const Beneficios = () => (
 const Indispensavel = () => (
   <section className="py-16 px-5 bg-laranja text-white">
     <div className="max-w-4xl mx-auto text-center">
+      <img src={IMG_INDISPENSAVEL} alt="Receitas Low FODMAP" className="w-full max-w-xl mx-auto rounded-3xl shadow-2xl mb-10" loading="lazy" />
       <h2 className="font-display font-extrabold text-[clamp(1.9rem,5vw,3.2rem)] leading-tight">O que torna esse livro indispensável na sua rotina?</h2>
       <p className="mt-6 text-lg md:text-xl font-medium text-white/90 max-w-2xl mx-auto">
         Se você sempre come os mesmos alimentos restritos ou tem medo de experimentar... está perdendo sabor e qualidade de vida na dieta!
@@ -244,21 +245,21 @@ const Ofertas = () => (
           </div>
         </article>
         {/* Completo */}
-        <article className="relative grad-laranja text-white rounded-2xl p-3.5 sm:p-7 flex flex-col shadow-2xl ring-4 ring-amarelo/70">
-          <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-amarelo text-choco text-[10px] sm:text-xs font-extrabold uppercase tracking-widest px-3 py-1 rounded-full whitespace-nowrap shadow">Mais escolhido</span>
-          <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-amarelo">Oferta completa</span>
+        <article className="relative bg-papel rounded-2xl p-3.5 sm:p-7 flex flex-col border-[3px] border-laranja shadow-[0_18px_40px_-18px_hsl(var(--laranja)/0.7)]">
+          <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 grad-laranja text-white text-[10px] sm:text-xs font-extrabold uppercase tracking-widest px-3 py-1 rounded-full whitespace-nowrap shadow">Mais escolhido</span>
+          <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-vermelho">Oferta completa</span>
           <h3 className="font-display font-extrabold text-xl sm:text-3xl mt-1">Completo</h3>
           <ul className="mt-4 space-y-2 text-[12.5px] sm:text-[15px] flex-1">
-            {[...BASE, ...EXTRAS_COMPLETO].map((f) => <li key={f} className="flex gap-1.5"><Check className="w-4 h-4 text-amarelo shrink-0 mt-0.5" strokeWidth={3} />{f}</li>)}
+            {[...BASE, ...EXTRAS_COMPLETO].map((f) => <li key={f} className="flex gap-1.5"><Check className="w-4 h-4 text-laranja shrink-0 mt-0.5" strokeWidth={3} />{f}</li>)}
           </ul>
-          <div className="mt-5 pt-4 border-t border-white/25 text-center">
-            <div className="text-white/70 text-xs sm:text-sm">De <s>R$ 187</s> por</div>
-            <div className="font-display font-extrabold text-4xl sm:text-5xl">R$ 17</div>
+          <div className="mt-5 pt-4 border-t border-choco/10 text-center">
+            <div className="text-choco/50 text-xs sm:text-sm">De <s>R$ 187</s> por</div>
+            <div className="font-display font-extrabold text-4xl sm:text-5xl text-vermelho">R$ 17</div>
             <a href={LINK_COMPLETO} className="mt-4 btn-cta pulsa shimmer block w-full rounded-full font-display font-bold uppercase text-[12px] sm:text-sm tracking-wide py-3.5">Comprar agora</a>
           </div>
         </article>
       </div>
-      <p className="mt-6 text-center text-xs sm:text-sm text-choco/60 font-semibold">🔒 Pagamento único · compra segura · entrega imediata no e-mail</p>
+      <p className="mt-6 text-center text-xs sm:text-sm text-choco/60 font-semibold">🔒 Pagamento único · compra segura · entrega imediata no e-mail e WhatsApp</p>
     </div>
   </section>
 );
