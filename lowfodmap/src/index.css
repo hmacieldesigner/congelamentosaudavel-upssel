@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --creme: 30 60% 97%;
+    --papel: 0 0% 100%;
+    --choco: 20 45% 14%;
+    --laranja: 24 98% 52%;
+    --vermelho: 6 82% 50%;
+    --amarelo: 44 100% 55%;
+    --verde: 145 70% 38%;
+    --pastel: 30 100% 92%;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: hsl(var(--creme)); color: hsl(var(--choco)); font-family: 'Manrope', system-ui, sans-serif; }
+  h1, h2, h3 { font-family: 'Poppins', system-ui, sans-serif; letter-spacing: -0.02em; }
+}
+
+@layer utilities {
+  .grad-texto { background: linear-gradient(95deg, hsl(var(--amarelo)) -10%, hsl(var(--laranja)) 40%, hsl(var(--vermelho)) 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .grad-laranja { background: linear-gradient(135deg, hsl(var(--laranja)), hsl(var(--vermelho))); }
+  .btn-cta {
+    background: linear-gradient(95deg, hsl(var(--verde)) 0%, hsl(84 75% 45%) 55%, hsl(var(--amarelo)) 110%);
+    color: #fff; box-shadow: 0 12px 28px -12px hsl(var(--verde) / .8);
+  }
+  .pulsa { animation: pulsa 1.8s ease-in-out infinite; }
+  @keyframes pulsa { 0%,100% { transform: scale(1); } 50% { transform: scale(1.04); } }
+  .ticker { animation: ticker 38s linear infinite; }
+  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .shimmer { position: relative; overflow: hidden; }
+  .shimmer::after { content: ''; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(110deg, transparent 30%, hsl(0 0% 100% / 0.5) 50%, transparent 70%);
+    transform: translateX(-120%); animation: shimmer 3.2s ease-in-out infinite; }
+  @keyframes shimmer { 0%, 55% { transform: translateX(-120%); } 100% { transform: translateX(120%); } }
+  .rotate-tape { transform: rotate(-3deg); }
+  .seal-spin { animation: seal-spin 24s linear infinite; }
+  @keyframes seal-spin { to { transform: rotate(360deg); } }
+}
