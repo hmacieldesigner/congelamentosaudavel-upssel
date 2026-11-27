@@ -4,7 +4,7 @@ import { ShieldCheck, Zap, Infinity as InfinityIcon, Plus, Minus, Check, X, Gift
 /* ================================================================
    300 RECEITAS LOW FODMAP — conteúdo e links (edite aqui)
    ================================================================ */
-const LINK_BASICO = 'https://pay.cakto.com.br/37v8dha';     // ← checkout da Cakto do Básico (R$ 10)
+const LINK_BASICO = 'https://pay.cakto.com.br/n2dki2v';     // ← checkout da Cakto do Básico (R$ 10)
 const LINK_COMPLETO = 'https://pay.cakto.com.br/9r5znho'; // ← checkout da Cakto do Completo (R$ 17)
 
 const BANNER = 'https://i.ibb.co/Z32SJW6/banner.jpg';
